@@ -1,4 +1,5 @@
 ﻿using Hotel.Infrastructure.Presistence;
+using Hotel.Infrastructure.Seeders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,8 @@ namespace Hotel.Infrastructure.Extensions
         {
             services.AddDbContext<HotelDbContext>(options => options.UseSqlServer(
                 configuration.GetConnectionString("Hotel")));
+
+            services.AddScoped<HotelSeder>();
         }
     }
 }

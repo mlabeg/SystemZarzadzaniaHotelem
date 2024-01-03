@@ -21,7 +21,6 @@ namespace Hotel.Infrastructure.Presistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Osoba>().HasKey(o => o.Id);
-            modelBuilder.Entity<Pokoj>().HasKey(p => p.Numer);
 
             modelBuilder.Entity<Osoba>()
                 .HasDiscriminator<string>("osoba_type")

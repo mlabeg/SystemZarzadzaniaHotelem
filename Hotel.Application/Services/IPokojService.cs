@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hotel.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,5 +10,7 @@ namespace Hotel.Application.Services
     internal interface IPokojService
     {
         public void ZmienStatus();
+
+        public Pokoj GetPokojByNumber(int number);
     }
 }

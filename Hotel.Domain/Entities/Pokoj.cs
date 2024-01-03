@@ -8,19 +8,20 @@ namespace Hotel.Domain.Entities
 {
     public class Pokoj
     {
-        public int Numer { get; set; }//-jednocześnie Id pokoju
+        public int Id { get; set; }
+        public int Numer { get; set; }
         public int LiczbaMiejsc { get; set; }
         public bool CzyWolny { get; set; }
 
         public Pokoj()
         {
+            CzyWolny = true;
         }
 
         public Pokoj(int _numer, int _liczbaMiejsc)
         {
             Numer = _numer;
             LiczbaMiejsc = _liczbaMiejsc;
-            CzyWolny = true;
         }
     }
 }

@@ -8,6 +8,22 @@ namespace Hotel.Domain.Entities
 {
     public class Rezerwacja
     {
+        private Rezerwacja()
+        {
+        }
+
+        public Rezerwacja(int id, DateTime dataOd, DateTime dataDo, int iloscOsob, bool czyZameldowano, bool czyWymeldowano, Pokoj pokoj, Osoba osoba)
+        {
+            Id = id;
+            DataOd = dataOd;
+            DataDo = dataDo;
+            IloscOsob = iloscOsob;
+            CzyZameldowano = czyZameldowano;
+            CzyWymeldowano = czyWymeldowano;
+            Pokoj = pokoj;
+            Osoba = osoba;
+        }
+
         public int Id { get; set; }
         public DateTime DataOd { get; set; }
         public DateTime DataDo { get; set; }

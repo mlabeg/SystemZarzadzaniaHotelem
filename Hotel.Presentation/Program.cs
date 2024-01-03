@@ -2,6 +2,7 @@ using Hotel.Infrastructure.Presistence;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Hotel.Infrastructure.Extensions;
+using Hotel.Infrastructure.Seeders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,12 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
+
+var scoped = app.Services.CreateScope();
+
+var seeder = scoped.ServiceProvider.GetRequiredService<HotelSeder>();
+
+await seeder.Seed();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

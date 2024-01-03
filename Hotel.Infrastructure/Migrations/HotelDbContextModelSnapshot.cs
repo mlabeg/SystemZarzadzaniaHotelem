@@ -61,11 +61,11 @@ namespace Hotel.Infrastructure.Migrations
 
             modelBuilder.Entity("Hotel.Domain.Entities.Pokoj", b =>
                 {
-                    b.Property<int>("Numer")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Numer"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("CzyWolny")
                         .HasColumnType("bit");
@@ -73,7 +73,10 @@ namespace Hotel.Infrastructure.Migrations
                     b.Property<int>("LiczbaMiejsc")
                         .HasColumnType("int");
 
-                    b.HasKey("Numer");
+                    b.Property<int>("Numer")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Pokoje");
                 });
@@ -104,14 +107,14 @@ namespace Hotel.Infrastructure.Migrations
                     b.Property<int>("OsobaId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PokojNumer")
+                    b.Property<int>("PokojId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("OsobaId");
 
-                    b.HasIndex("PokojNumer");
+                    b.HasIndex("PokojId");
 
                     b.ToTable("Rezerwacje");
                 });
@@ -158,7 +161,7 @@ namespace Hotel.Infrastructure.Migrations
 
                     b.HasOne("Hotel.Domain.Entities.Pokoj", "Pokoj")
                         .WithMany()
-                        .HasForeignKey("PokojNumer")
+                        .HasForeignKey("PokojId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

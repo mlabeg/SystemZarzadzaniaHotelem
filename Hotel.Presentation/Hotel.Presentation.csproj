@@ -6,4 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Hotel.Application\Hotel.Application.csproj" />
+    <ProjectReference Include="..\Hotel.Infrastructure\Hotel.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

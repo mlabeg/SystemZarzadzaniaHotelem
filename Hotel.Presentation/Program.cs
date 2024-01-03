@@ -1,7 +1,14 @@
+using Hotel.Infrastructure.Presistence;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Hotel.Infrastructure.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 

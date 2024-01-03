@@ -30,7 +30,7 @@ namespace Hotel.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Pokoj",
+                name: "Pokoje",
                 columns: table => new
                 {
                     Numer = table.Column<int>(type: "int", nullable: false)
@@ -40,7 +40,7 @@ namespace Hotel.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Pokoj", x => x.Numer);
+                    table.PrimaryKey("PK_Pokoje", x => x.Numer);
                 });
 
             migrationBuilder.CreateTable(
@@ -67,9 +67,9 @@ namespace Hotel.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Rezerwacje_Pokoj_PokojNumer",
+                        name: "FK_Rezerwacje_Pokoje_PokojNumer",
                         column: x => x.PokojNumer,
-                        principalTable: "Pokoj",
+                        principalTable: "Pokoje",
                         principalColumn: "Numer",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -95,7 +95,7 @@ namespace Hotel.Infrastructure.Migrations
                 name: "Osoby");
 
             migrationBuilder.DropTable(
-                name: "Pokoj");
+                name: "Pokoje");
         }
     }
 }

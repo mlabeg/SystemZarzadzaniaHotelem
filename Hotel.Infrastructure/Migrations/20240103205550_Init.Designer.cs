@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hotel.Infrastructure.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20240102213914_Init")]
+    [Migration("20240103205550_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -78,7 +78,7 @@ namespace Hotel.Infrastructure.Migrations
 
                     b.HasKey("Numer");
 
-                    b.ToTable("Pokoj");
+                    b.ToTable("Pokoje");
                 });
 
             modelBuilder.Entity("Hotel.Domain.Entities.Rezerwacja", b =>

@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Hotel.Domain.Interefaces;
+using Hotel.Infrastructure.Repositories;
 
 namespace Hotel.Infrastructure.Extensions
 {
@@ -19,6 +21,8 @@ namespace Hotel.Infrastructure.Extensions
                 configuration.GetConnectionString("Hotel")));
 
             services.AddScoped<HotelSeder>();
+
+            services.AddScoped<IRezerwacjeRepository, RezerwacjeRepository>();
         }
     }
 }

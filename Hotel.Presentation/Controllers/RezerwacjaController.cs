@@ -13,6 +13,12 @@ namespace Hotel.Presentation.Controllers
             _rezerwacjaService = rezerwacjaService;
         }
 
+        public ActionResult UtworzRezerwacje()
+
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> UtworzRezerwacje(Rezerwacja rezerwacja)
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hotel.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Hotel.Application.Services
 {
-    internal interface IRezerwacjaService
+    public interface IRezerwacjaService
     {
-        public void UtworzenieRezerwacjiUz();
+        Task UtworzenieRezerwacjiUz(Rezerwacja rezerwacja);
 
         public void UsuniecieRezerwacjiUz();
 

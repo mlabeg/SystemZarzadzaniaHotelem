@@ -8,14 +8,7 @@ using System.Threading.Tasks;
 
 namespace Hotel.Application.Services
 {
-    internal class ZapytanieODostepnosc : IZapytanieODostepnosc
+    internal class ZapytanieODostepnosc //: IZapytanieODostepnosc
     {
-        public ZapytanieODostepnosc(Hotel dbContext)
-        {
-        }
-
-        public List<Pokoj> DostepnePokoje(DateTime dataOd, DateTime dataDo, int iloscOsob)
-        {
-        }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Hotel.Domain.Entities;
-using Hotel.Domain.Interefaces;
+using Hotel.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +17,9 @@ namespace Hotel.Application.Services
             _rezerwacjeRepository = rezerwacjeRepository;
         }
 
-        public async Task UtworzenieRezerwacjiUz(Rezerwacja rezerwacja)
+        public async Task DodajRezerwacjeUz(Rezerwacja rezerwacja)
         {
-            await _rezerwacjeRepository.UtworzRezerwacje(rezerwacja);
+            await _rezerwacjeRepository.DodajRezerwacje(rezerwacja);
         }
 
         public void SprawdzenieSzczegolowRezerwacji()
@@ -33,6 +33,16 @@ namespace Hotel.Application.Services
         }
 
         public void ZmianaDanychRezerwacjiUz()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Rezerwacja> PokazAktualneRezerwacje()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Rezerwacja> PokazHistorieRezerwacji()
         {
             throw new NotImplementedException();
         }

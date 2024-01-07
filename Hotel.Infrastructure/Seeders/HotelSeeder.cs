@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace Hotel.Infrastructure.Seeders
 {
-    public class HotelSeder
+    public class HotelSeeder
     {
+        //TODO dodać seedy klas Rezerwacja i Osoba
         private readonly HotelDbContext _dbContext;
 
-        public HotelSeder(HotelDbContext dbContext)
+        public HotelSeeder(HotelDbContext dbContext)
         {
             _dbContext = dbContext;
         }

@@ -5,14 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hotel.Application.Services
+namespace Hotel.Domain.Interfaces
 {
-    internal interface IPokojService
+    public interface IPokojeRepository
     {
         Task DodajPokoj(Pokoj pokoj);
-
-        public void ZmienStatus();
-
-        public Pokoj GetPokojByNumber(int number);
     }
 }

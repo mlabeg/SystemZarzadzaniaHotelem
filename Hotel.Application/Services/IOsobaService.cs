@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace Hotel.Application.Services
 {
-    internal interface IPokojService
+    internal interface IOsobaService
     {
-        Task DodajPokoj(Pokoj pokoj);
-
-        public void ZmienStatus();
-
-        public Pokoj GetPokojByNumber(int number);
+        Task DodajOsobe(Osoba osoba);
     }
 }

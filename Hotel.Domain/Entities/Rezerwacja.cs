@@ -14,7 +14,7 @@ namespace Hotel.Domain.Entities
 
         public Rezerwacja(DateTime dataOd, DateTime dataDo, int iloscOsob, bool czyZameldowano, bool czyWymeldowano, Pokoj pokoj, Osoba osoba)
         {
-            //Id = id;
+            //Id = id;/baza danych sama nadaje Id
             DataOd = dataOd;
             DataDo = dataDo;
             IloscOsob = iloscOsob;

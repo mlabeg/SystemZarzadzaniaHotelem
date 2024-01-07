@@ -10,5 +10,7 @@ namespace Hotel.Application.Services
     internal class HotelService //: IHotelService
     {
         //public List<Pokoj> GetWolnePokojeList() => pokojList;
+
+        //wydaje mi się, że to nie jest potrzebne
     }
 }

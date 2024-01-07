@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Identity.Client.AuthScheme.PoP;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,18 +9,18 @@ using Hotel.Infrastructure.Presistence;
 
 namespace Hotel.Infrastructure.Repositories
 {
-    internal class RezerwacjeRepository : Hotel.Domain.Interfaces.IRezerwacjeRepository
+    public class PokojeRepository : Hotel.Domain.Interfaces.IPokojeRepository
     {
         private readonly HotelDbContext _dbContext;
 
-        public RezerwacjeRepository(HotelDbContext dbContext)
+        public PokojeRepository(HotelDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task DodajRezerwacje(Rezerwacja rezerwacja)
+        public async Task DodajPokoj(Pokoj pokoj)
         {
-            _dbContext.Add(rezerwacja);
+            _dbContext.Add(pokoj);
             await _dbContext.SaveChangesAsync();
         }
     }

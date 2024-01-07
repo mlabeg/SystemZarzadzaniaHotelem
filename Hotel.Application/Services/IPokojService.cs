@@ -9,6 +9,10 @@ namespace Hotel.Application.Services
 {
     internal interface IPokojService
     {
+        Task DodajPokoj(Pokoj pokoj);
+
+        //public bool CzyWolnyWTerminie(DateTime dataOd, DateTime dataDo);
+
         public void ZmienStatus();
 
         public Pokoj GetPokojByNumber(int number);

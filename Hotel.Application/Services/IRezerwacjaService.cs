@@ -9,12 +9,16 @@ namespace Hotel.Application.Services
 {
     public interface IRezerwacjaService
     {
-        Task UtworzenieRezerwacjiUz(Rezerwacja rezerwacja);
+        Task DodajRezerwacjeUz(Rezerwacja rezerwacja);
 
         public void UsuniecieRezerwacjiUz();
 
         public void SprawdzenieSzczegolowRezerwacji();
 
         public void ZmianaDanychRezerwacjiUz();
+
+        public List<Rezerwacja> PokazAktualneRezerwacje();
+
+        public List<Rezerwacja> PokazHistorieRezerwacji();
     }
 }

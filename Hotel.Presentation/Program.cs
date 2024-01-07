@@ -18,7 +18,7 @@ var app = builder.Build();
 
 var scoped = app.Services.CreateScope();
 
-var seeder = scoped.ServiceProvider.GetRequiredService<HotelSeder>();
+var seeder = scoped.ServiceProvider.GetRequiredService<HotelSeeder>();
 
 await seeder.Seed();
 

@@ -1,4 +1,5 @@
 ﻿using Hotel.Application.Services;
+using Hotel.Domain.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace Hotel.Application.Exensions
         public static void AddApplication(this IServiceCollection services)
         {
             services.AddScoped<IRezerwacjaService, RezerwacjaService>();
+            services.AddScoped<IOsobaService, OsobaService>();
+            services.AddScoped<IPokojService, PokojService>();
         }
     }
 }

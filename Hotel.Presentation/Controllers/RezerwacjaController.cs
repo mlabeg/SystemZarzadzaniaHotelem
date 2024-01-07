@@ -22,7 +22,7 @@ namespace Hotel.Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> UtworzRezerwacje(Rezerwacja rezerwacja)
         {
-            await _rezerwacjaService.UtworzenieRezerwacjiUz(rezerwacja);
+            await _rezerwacjaService.DodajRezerwacjeUz(rezerwacja);
             return RedirectToAction(nameof(UtworzRezerwacje));//refaktor
         }
     }

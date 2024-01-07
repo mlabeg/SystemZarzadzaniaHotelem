@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Hotel.Domain.Interfaces
 {
-    public interface IRezerwacjeRepository
+    public interface IPokojeRepository
     {
-        Task DodajRezerwacje(Rezerwacja rezerwacja);
+        Task DodajPokoj(Pokoj pokoj);
     }
 }

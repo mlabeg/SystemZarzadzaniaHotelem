@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hotel.Domain.Interfaces
+namespace Hotel.Application.Services
 {
-    public interface IRezerwacjeRepository
+    internal interface IOsobaService
     {
-        Task DodajRezerwacje(Rezerwacja rezerwacja);
+        Task DodajOsobe(Osoba osoba);
     }
 }

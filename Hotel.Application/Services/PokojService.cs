@@ -22,6 +22,10 @@ namespace Hotel.Application.Services
             await _pokojeRepository.DodajPokoj(pokoj);
         }
 
+        /* public bool CzyWolnyWTerminie(DateTime dataOd, DateTime dataDo)
+         {
+         }*/
+
         public Pokoj GetPokojByNumber(int number)
         {
             throw new NotImplementedException();

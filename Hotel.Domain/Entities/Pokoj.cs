@@ -8,6 +8,8 @@ namespace Hotel.Domain.Entities
 {
     public class Pokoj
     {
+        //nie wiem czy przez to nie trzeba będzie dodać nowej tabeli
+
         public enum PokojTyp
         {
             //https://www.hotelgdansk.com.pl/nasze-pokoje

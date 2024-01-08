@@ -10,16 +10,12 @@ namespace Hotel.Presentation.Controllers
 {
     public class HomeController : Controller
     {
-        public HomeController(HotelDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
         private readonly ILogger<HomeController> _logger;
         private readonly HotelDbContext _dbContext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, HotelDbContext dbContext)
         {
+            _dbContext = dbContext;
             _logger = logger;
         }
 

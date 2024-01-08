@@ -35,8 +35,10 @@ namespace Hotel.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    TypPokoju = table.Column<int>(type: "int", nullable: true),
                     Numer = table.Column<int>(type: "int", nullable: false),
                     LiczbaMiejsc = table.Column<int>(type: "int", nullable: false),
+                    CenaZaNoc = table.Column<int>(type: "int", nullable: false),
                     CzyWolny = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -55,8 +57,8 @@ namespace Hotel.Infrastructure.Migrations
                     IloscOsob = table.Column<int>(type: "int", nullable: false),
                     CzyZameldowano = table.Column<bool>(type: "bit", nullable: false),
                     CzyWymeldowano = table.Column<bool>(type: "bit", nullable: false),
-                    PokojId = table.Column<int>(type: "int", nullable: false),
-                    OsobaId = table.Column<int>(type: "int", nullable: false)
+                    PokojId = table.Column<int>(type: "int", nullable: true),
+                    OsobaId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -65,14 +67,12 @@ namespace Hotel.Infrastructure.Migrations
                         name: "FK_Rezerwacje_Osoby_OsobaId",
                         column: x => x.OsobaId,
                         principalTable: "Osoby",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Rezerwacje_Pokoje_PokojId",
                         column: x => x.PokojId,
                         principalTable: "Pokoje",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(

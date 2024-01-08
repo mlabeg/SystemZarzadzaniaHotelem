@@ -1,0 +1,101 @@
+﻿@model Hotel.Presentation.Models.Rezerwacja.ZapytanieODostepnoscModel
+@{
+    ViewData["Title"] = "SearchResult";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<div class="container-md">
+
+    <h1>Sprawdź dostępność</h1>
+
+    <div class="jumbotron text-center" style="padding-left:15%; padding-right: 15%; padding-top: 20px;">
+
+        <form asp-action="SearchOffer" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Data początkowa</label>
+                <input asp-for="DataDo" class="form-control" />
+                <span asp-validation-for="DataOd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Data końcowa</label>
+                <input asp-for="DataDo" class="form-control " />
+                <span asp-validation-for="DataDo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Ilość osób</label>
+                <input asp-for="IleOsob" class="form-control" />
+                <span asp-validation-for="IleOsob" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="Szukaj" class="btn btn-primary" />
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<div class="album py-5 bg-light">
+    <div class="container">
+        <form>
+            <input type="hidden" asp-for="DataOd" />
+            <input type="hidden" asp-for="DataDo" />
+            <input type="hidden" asp-for="IleOsob" />
+            <div class="row">
+                @if (Model != null)
+                {
+
+
+                    @foreach (var pokoj in Model.ListaPokoi)
+                    {
+                        @if (pokoj == null)
+                        {
+                            <div class="col-md-4">
+                                Brak wyników dla powyższych kryterów wyszukiwania
+                            </div>
+                        }
+
+                        <div class="col-md-4">
+                            <div class="card mb-4 shadow-sm">
+                                <!-- <img src="~/Images/@@item.RoomImage" class="card-img-top" height="225"> -->
+                                <div class="card-body">
+                                    <h5 class="card-title">@Html.DisplayFor(modelItem => pokoj.TypPokoju) </h5>
+                                    <h4 class="card-subtitle"> @Html.DisplayFor(modelItem => pokoj.CenaZaNoc) /za noc</h4>
+                                    <h6 class="small">Cena nie zawiera dodatkowego wyżywienia</h6>
+                                    <p class="card-text">Max. ilość osób: @Html.DisplayFor(modelItem => pokoj.LiczbaMiejsc)</p>
+
+                                    <div class="d-flex justify-content-between align-items-center">
+
+                                        <a type="button" class="btn btn-sm btn-outline-secondary" asp-action="Details" asp-route-id="@pokoj.Id">Szczegóły</a>
+                                        <input type="submit" value="Zarezerwuj" asp-action="CreateBooking" asp-controller="Home" class="btn btn-primary" asp-route-id="@pokoj.Id" />
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/Content/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

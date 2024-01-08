@@ -8,10 +8,9 @@ namespace Hotel.Domain.Entities
 {
     public class Pokoj
     {
-        /*
-        public enum TypPokoju
+        public enum PokojTyp
         {
-        https://www.hotelgdansk.com.pl/nasze-pokoje
+            //https://www.hotelgdansk.com.pl/nasze-pokoje
 
             Double_Twin_Prestige,
             Premium_Prestige,
@@ -19,13 +18,15 @@ namespace Hotel.Domain.Entities
             Twin_Business,
             Apartament_Yachting
         }
-        public TypPokoju typPokoju { get; set; }
-        */
+
+        public PokojTyp? TypPokoju { get; set; }
 
         public int Id { get; set; }
         public int Numer { get; set; }
         public int LiczbaMiejsc { get; set; }
-        public bool CzyWolny { get; set; }
+        public int CenaZaNoc { get; set; }
+
+        public bool CzyWolny { get; set; }//chyba do wywalenia
 
         public Pokoj()
         {

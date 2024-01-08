@@ -23,7 +23,7 @@ namespace Hotel.Presentation.Controllers
         public async Task<IActionResult> UtworzRezerwacje(Rezerwacja rezerwacja)
         {
             await _rezerwacjaService.DodajRezerwacjeUz(rezerwacja);
-            return RedirectToAction(nameof(UtworzRezerwacje));//refaktor
+            return RedirectToAction();//TODO refaktor - powrót na stronę główną
         }
     }
 }

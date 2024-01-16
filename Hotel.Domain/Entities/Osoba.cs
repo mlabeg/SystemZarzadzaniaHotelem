@@ -10,10 +10,10 @@ namespace Hotel.Domain.Entities
     public abstract class Osoba
     {
         public int Id { get; }
-        public string Imie { get; set; }
-        public string Nazwisko { get; set; }
-        public string NumerTelefonu { get; set; }
-        public string AdresEmail { get; set; }
+        public string Imie { get; set; } = string.Empty;
+        public string Nazwisko { get; set; } = string.Empty;
+        public string NumerTelefonu { get; set; } = string.Empty;
+        public string AdresEmail { get; set; } = string.Empty;
 
         public Osoba()
         {

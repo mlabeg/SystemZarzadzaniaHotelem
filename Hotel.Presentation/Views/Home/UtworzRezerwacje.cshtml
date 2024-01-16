@@ -12,9 +12,14 @@
         <div class="col-md-4">
             <form asp-action="UtworzRezerwacje">
                 <div class="form-group">
-                    <label class="control-label">Imię i Nazwisko:</label>
+                    <label class="control-label">Imię:</label>
                     <input asp-for="Osoba.Imie" class="form-control" />
                     <span asp-validation-for="Osoba.Imie" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Nazwisko:</label>
+                    <input asp-for="Osoba.Nazwisko" class="form-control" />
+                    <span asp-validation-for="Osoba.Nazwisko" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Telefon: </label>
@@ -47,7 +52,7 @@
                     <span asp-validation-for="CenaCalkowita" class="text-danger"></span>
                 </div>
 
-                <input type="hidden" asp-for="@Model.Pokoj.Id" value="@Model.Pokoj.Id" />
+                <input type="hidden" asp-for="@Model.PokojId" value="@Model.PokojId" />
                 <input type="hidden" asp-for="@Model.IloscOsob" value="@Model.IloscOsob" />
 
                 <div class="form-group">

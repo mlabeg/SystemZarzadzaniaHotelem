@@ -35,6 +35,11 @@ namespace Hotel.Presentation.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        public IActionResult Sukces()
+        {
+            return View();
+        }
+
         [HttpGet]
         public IActionResult ZapytanieODostepnosc()
         {
@@ -79,7 +84,7 @@ namespace Hotel.Presentation.Controllers
         [HttpGet]
         public IActionResult UtworzRezerwacje(int id, DateTime DataOd, DateTime DataDo, int IleOsob)
         {
-            var Pokoj = _dbContext.Pokoje.Single(model => model.Id == id);
+            var Pokoj = _dbContext.Pokoje.Single(p => p.Id == id);
             var CenaZaNoc = Pokoj.CenaZaNoc;
             int IloscDni = (int)DataDo.Subtract(DataOd).TotalDays;
 
@@ -88,12 +93,45 @@ namespace Hotel.Presentation.Controllers
                 DataOd = DataOd,
                 DataDo = DataDo,
                 IloscOsob = IleOsob,
-                Id = id,
+                PokojId = id
             };
 
             rezerwacja.CenaCalkowita = IloscDni * CenaZaNoc;
 
-            return View(rezerwacja);
+            return View(rezerwacja);//jaki jest Pokój w tej rezerwacji
+        }
+
+        [HttpPost]
+        public IActionResult UtworzRezerwacje(Rezerwacja rezerwacja)//jaki pokój tutaj jestprzekazany?
+        {
+            if (ModelState.IsValid)
+            {
+                var _rezerwacja = new Rezerwacja
+                {
+                    DataOd = rezerwacja.DataOd,
+                    DataDo = rezerwacja.DataDo,
+
+                    Osoba = new UzytkownikNiezarejestrowany
+                    {
+                        Imie = rezerwacja.Osoba.Imie,
+                        Nazwisko = rezerwacja.Osoba.Nazwisko,
+                        NumerTelefonu = rezerwacja.Osoba.NumerTelefonu,
+                        AdresEmail = rezerwacja.Osoba.AdresEmail
+                    },
+                    IloscOsob = rezerwacja.IloscOsob,
+                    CenaCalkowita = rezerwacja.CenaCalkowita,
+                    PokojId = rezerwacja.PokojId
+                };
+
+                _dbContext.Rezerwacje.Add(rezerwacja);
+                _dbContext.SaveChanges();
+
+                return RedirectToAction(nameof(Sukces));
+            }
+            else
+            {
+                return View(rezerwacja);
+            }
         }
     }
 }

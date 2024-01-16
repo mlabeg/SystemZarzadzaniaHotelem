@@ -38,6 +38,8 @@ namespace Hotel.Domain.Entities
         public bool CzyZameldowano { get; set; } = false;
         public bool CzyWymeldowano { get; set; } = false;
 
+        public int CenaCalkowita { get; set; }
+
         public Pokoj? Pokoj { get; set; }
 
         public Osoba? Osoba { get; set; }

@@ -75,5 +75,25 @@ namespace Hotel.Presentation.Controllers
 
             return View(zapytanie);
         }
+
+        [HttpGet]
+        public IActionResult UtworzRezerwacje(int id, DateTime DataOd, DateTime DataDo, int IleOsob)
+        {
+            var Pokoj = _dbContext.Pokoje.Single(model => model.Id == id);
+            var CenaZaNoc = Pokoj.CenaZaNoc;
+            int IloscDni = (int)DataDo.Subtract(DataOd).TotalDays;
+
+            Rezerwacja rezerwacja = new Rezerwacja()
+            {
+                DataOd = DataOd,
+                DataDo = DataDo,
+                IloscOsob = IleOsob,
+                Id = id,
+            };
+
+            rezerwacja.CenaCalkowita = IloscDni * CenaZaNoc;
+
+            return View(rezerwacja);
+        }
     }
 }

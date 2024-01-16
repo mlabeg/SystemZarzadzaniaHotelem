@@ -98,12 +98,12 @@ namespace Hotel.Presentation.Controllers
 
             rezerwacja.CenaCalkowita = IloscDni * CenaZaNoc;
 
-            return View(rezerwacja);//jaki jest Pokój w tej rezerwacji
+            return View(rezerwacja);
         }
 
         [HttpPost]
-        public IActionResult UtworzRezerwacje(Rezerwacja rezerwacja)//jaki pokój tutaj jestprzekazany?
-        {
+        public IActionResult UtworzRezerwacje(Rezerwacja rezerwacja)
+        {//nie mam pojęcia dlaczego Id rezerwacji zmienia się na 1 przy przekazaniu do funkcji - dlatego muszę tutaj utworzyć nowy obiekt Rezerwacja i go przekazać do BD
             if (ModelState.IsValid)
             {
                 var _rezerwacja = new Rezerwacja
@@ -122,8 +122,9 @@ namespace Hotel.Presentation.Controllers
                     CenaCalkowita = rezerwacja.CenaCalkowita,
                     PokojId = rezerwacja.PokojId
                 };
+                var rez = new Rezerwacja();
 
-                _dbContext.Rezerwacje.Add(rezerwacja);
+                _dbContext.Rezerwacje.Add(_rezerwacja);
                 _dbContext.SaveChanges();
 
                 return RedirectToAction(nameof(Sukces));

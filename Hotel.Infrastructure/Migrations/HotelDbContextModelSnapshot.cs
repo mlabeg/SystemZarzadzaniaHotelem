@@ -95,6 +95,9 @@ namespace Hotel.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CenaCalkowita")
+                        .HasColumnType("int");
+
                     b.Property<bool>("CzyWymeldowano")
                         .HasColumnType("bit");
 
@@ -113,14 +116,12 @@ namespace Hotel.Infrastructure.Migrations
                     b.Property<int?>("OsobaId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PokojId")
+                    b.Property<int>("PokojId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("OsobaId");
-
-                    b.HasIndex("PokojId");
 
                     b.ToTable("Rezerwacje");
                 });
@@ -163,13 +164,7 @@ namespace Hotel.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("OsobaId");
 
-                    b.HasOne("Hotel.Domain.Entities.Pokoj", "Pokoj")
-                        .WithMany()
-                        .HasForeignKey("PokojId");
-
                     b.Navigation("Osoba");
-
-                    b.Navigation("Pokoj");
                 });
 #pragma warning restore 612, 618
         }

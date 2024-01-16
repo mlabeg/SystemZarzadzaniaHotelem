@@ -57,7 +57,8 @@ namespace Hotel.Infrastructure.Migrations
                     IloscOsob = table.Column<int>(type: "int", nullable: false),
                     CzyZameldowano = table.Column<bool>(type: "bit", nullable: false),
                     CzyWymeldowano = table.Column<bool>(type: "bit", nullable: false),
-                    PokojId = table.Column<int>(type: "int", nullable: true),
+                    CenaCalkowita = table.Column<int>(type: "int", nullable: false),
+                    PokojId = table.Column<int>(type: "int", nullable: false),
                     OsobaId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -68,35 +69,25 @@ namespace Hotel.Infrastructure.Migrations
                         column: x => x.OsobaId,
                         principalTable: "Osoby",
                         principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Rezerwacje_Pokoje_PokojId",
-                        column: x => x.PokojId,
-                        principalTable: "Pokoje",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rezerwacje_OsobaId",
                 table: "Rezerwacje",
                 column: "OsobaId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Rezerwacje_PokojId",
-                table: "Rezerwacje",
-                column: "PokojId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Pokoje");
+
+            migrationBuilder.DropTable(
                 name: "Rezerwacje");
 
             migrationBuilder.DropTable(
                 name: "Osoby");
-
-            migrationBuilder.DropTable(
-                name: "Pokoje");
         }
     }
 }

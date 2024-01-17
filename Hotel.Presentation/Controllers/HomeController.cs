@@ -35,9 +35,10 @@ namespace Hotel.Presentation.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult Sukces()
+        [HttpGet]
+        public IActionResult Sukces(int id)
         {
-            return View();
+            return View(id);
         }
 
         [HttpGet]
@@ -122,12 +123,11 @@ namespace Hotel.Presentation.Controllers
                     CenaCalkowita = rezerwacja.CenaCalkowita,
                     PokojId = rezerwacja.PokojId
                 };
-                var rez = new Rezerwacja();
 
                 _dbContext.Rezerwacje.Add(_rezerwacja);
                 _dbContext.SaveChanges();
 
-                return RedirectToAction(nameof(Sukces));
+                return RedirectToAction("Sukces", new { id = _rezerwacja.Id });
             }
             else
             {

@@ -12,8 +12,7 @@ namespace Hotel.Domain.Entities
         {
         }
 
-        public UzytkownikNiezarejestrowany(int _id, string _imie, string _nazwisko, string _numerTelefonu, string _adresmail) : base(_id, _imie, _nazwisko, _numerTelefonu, _adresmail)
-        {
-        }
+        public UzytkownikNiezarejestrowany(int _id, string _imie, string _nazwisko, string _numerTelefonu, string _adresmail)
+            : base(_id, _imie, _nazwisko, _numerTelefonu, _adresmail) { }
     }
 }

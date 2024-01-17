@@ -24,3 +24,5 @@ namespace Hotel.Presentation.Models.Rezerwacja
         public IList<Pokoj> ListaPokoi { get; set; } = new List<Pokoj>();
     }
 }
+
+//TODO zobacz jakie klasy są w tym folderze w kursie MVC

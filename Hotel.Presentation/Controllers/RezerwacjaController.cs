@@ -13,14 +13,14 @@ namespace Hotel.Presentation.Controllers
             _rezerwacjaService = rezerwacjaService;
         }
 
-        public ActionResult UtworzRezerwacje()
+        public ActionResult UtworzRezerwacje1()
 
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> UtworzRezerwacje(Rezerwacja rezerwacja)
+        public async Task<IActionResult> UtworzRezerwacje1(Rezerwacja rezerwacja)
         {
             await _rezerwacjaService.DodajRezerwacjeUz(rezerwacja);
             return RedirectToAction();//TODO refaktor - powrót na stronę główną

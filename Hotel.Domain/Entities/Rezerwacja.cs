@@ -10,25 +10,7 @@ namespace Hotel.Domain.Entities
     {
         public Rezerwacja()
         {
-        }
-
-        public Rezerwacja(DateTime dataOd, DateTime dataDo, int iloscOsob, bool czyZameldowano, bool czyWymeldowano, Pokoj pokoj, Osoba osoba)
-        {
-            //Id = id;/baza danych sama nadaje Id
-            DataOd = dataOd;
-            DataDo = dataDo;
-            IloscOsob = iloscOsob;
-            CzyZameldowano = czyZameldowano;
-            CzyWymeldowano = czyWymeldowano;
-            Pokoj = pokoj;
-            Osoba = osoba;
-        }
-
-        public Rezerwacja(DateTime dataOd, DateTime dataDo, int iloscOsob)
-        {
-            DataOd = dataOd;
-            DataDo = dataDo;
-            IloscOsob = iloscOsob;
+            Osoba = new UzytkownikNiezarejestrowany();
         }
 
         public int Id { get; set; }
@@ -38,7 +20,9 @@ namespace Hotel.Domain.Entities
         public bool CzyZameldowano { get; set; } = false;
         public bool CzyWymeldowano { get; set; } = false;
 
-        public Pokoj? Pokoj { get; set; }
+        public int CenaCalkowita { get; set; }
+
+        public int PokojId { get; set; }
 
         public Osoba? Osoba { get; set; }
     }

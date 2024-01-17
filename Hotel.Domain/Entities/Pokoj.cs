@@ -40,5 +40,10 @@ namespace Hotel.Domain.Entities
             Numer = _numer;
             LiczbaMiejsc = _liczbaMiejsc;
         }
+
+        public Pokoj GetPokoj()
+        {
+            return this;
+        }
     }
 }

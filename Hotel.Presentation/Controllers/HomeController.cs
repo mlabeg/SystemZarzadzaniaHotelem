@@ -35,6 +35,11 @@ namespace Hotel.Presentation.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        public IActionResult Sukces()
+        {
+            return View();
+        }
+
         [HttpGet]
         public IActionResult ZapytanieODostepnosc()
         {
@@ -74,6 +79,60 @@ namespace Hotel.Presentation.Controllers
             }
 
             return View(zapytanie);
+        }
+
+        [HttpGet]
+        public IActionResult UtworzRezerwacje(int id, DateTime DataOd, DateTime DataDo, int IleOsob)
+        {
+            var Pokoj = _dbContext.Pokoje.Single(p => p.Id == id);
+            var CenaZaNoc = Pokoj.CenaZaNoc;
+            int IloscDni = (int)DataDo.Subtract(DataOd).TotalDays;
+
+            Rezerwacja rezerwacja = new Rezerwacja()
+            {
+                DataOd = DataOd,
+                DataDo = DataDo,
+                IloscOsob = IleOsob,
+                PokojId = id
+            };
+
+            rezerwacja.CenaCalkowita = IloscDni * CenaZaNoc;
+
+            return View(rezerwacja);
+        }
+
+        [HttpPost]
+        public IActionResult UtworzRezerwacje(Rezerwacja rezerwacja)
+        {//nie mam pojęcia dlaczego Id rezerwacji zmienia się na 1 przy przekazaniu do funkcji - dlatego muszę tutaj utworzyć nowy obiekt Rezerwacja i go przekazać do BD
+            if (ModelState.IsValid)
+            {
+                var _rezerwacja = new Rezerwacja
+                {
+                    DataOd = rezerwacja.DataOd,
+                    DataDo = rezerwacja.DataDo,
+
+                    Osoba = new UzytkownikNiezarejestrowany
+                    {
+                        Imie = rezerwacja.Osoba.Imie,
+                        Nazwisko = rezerwacja.Osoba.Nazwisko,
+                        NumerTelefonu = rezerwacja.Osoba.NumerTelefonu,
+                        AdresEmail = rezerwacja.Osoba.AdresEmail
+                    },
+                    IloscOsob = rezerwacja.IloscOsob,
+                    CenaCalkowita = rezerwacja.CenaCalkowita,
+                    PokojId = rezerwacja.PokojId
+                };
+                var rez = new Rezerwacja();
+
+                _dbContext.Rezerwacje.Add(_rezerwacja);
+                _dbContext.SaveChanges();
+
+                return RedirectToAction(nameof(Sukces));
+            }
+            else
+            {
+                return View(rezerwacja);
+            }
         }
     }
 }

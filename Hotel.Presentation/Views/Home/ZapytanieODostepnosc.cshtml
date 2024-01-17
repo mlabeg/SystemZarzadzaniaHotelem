@@ -49,15 +49,15 @@
                 @if (Model != null)
                 {
 
-
+                    @if (Model.ListaPokoi.Count==0)
+                    {
+                        <div class="col-md-4">
+                            Brak pokoi
+                        </div>
+                    }
                     @foreach (var pokoj in Model.ListaPokoi)
                     {
-                        @if (pokoj == null)
-                        {
-                            <div class="col-md-4">
-                                Brak wyników dla powyższych kryterów wyszukiwania
-                            </div>
-                        }
+                        
 
                         <div class="col-md-4">
                             <div class="card mb-4 shadow-sm">

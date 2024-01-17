@@ -35,7 +35,6 @@ namespace Hotel.Presentation.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        [HttpGet]
         public IActionResult Sukces(int id)
         {
             return View(id);
@@ -133,6 +132,24 @@ namespace Hotel.Presentation.Controllers
             {
                 return View(rezerwacja);
             }
+        }
+
+        public async Task<IActionResult> SzczegolyPokoju(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var room = await _dbContext.Pokoje
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (room == null)
+            {
+                return NotFound();
+            }
+
+            return View(room);
         }
     }
 }

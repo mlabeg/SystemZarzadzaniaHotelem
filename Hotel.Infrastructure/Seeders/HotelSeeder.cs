@@ -28,8 +28,8 @@ namespace Hotel.Infrastructure.Seeders
                     {
                         Numer = 1,
                         LiczbaMiejsc = 2,
-                        CzyWolny = true,
-                        CenaZaNoc=200
+                        //  CzyWolny = true,
+                        CenaZaNoc = 200
                     };
 
                     _dbContext.Pokoje.Add(pokojSeed);

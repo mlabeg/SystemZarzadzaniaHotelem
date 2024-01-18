@@ -29,11 +29,12 @@ namespace Hotel.Domain.Entities
         public int CenaZaNoc { get; set; }
         public string Opis { get; set; }
 
-        // public bool CzyWolny { get; set; }//chyba do wywalenia
+        public bool CzyWolny { get; set; }//chyba do wywalenia
 
         public Pokoj()
         {
-            //CzyWolny = true;
+            Opis = "";
+            CzyWolny = true;
         }
 
         public Pokoj(int _numer, int _liczbaMiejsc)

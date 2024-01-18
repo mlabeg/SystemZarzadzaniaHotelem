@@ -1,0 +1,38 @@
+﻿@model Hotel.Domain.Entities.Rezerwacja
+<!-- model Hotel.Presentation.Models.Rezerwacja.ZapytanieOSzczegolyRezerwacjiModel--->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Informacje o Rezerwacji</title>
+</head>
+<body>
+    <h1>Podaj dane rezerwacji do sprawdzenia:</h1>
+
+    <form method="post">
+        <label>Podaj numer rezerwacji:</label>
+        <input type="number" name="NumerRezerwacji"/> 
+        <p> </p>
+
+        <label>Podaj adres email użyty przy rezerwacji:</label>
+        <input type="text" name="AdresEmail" />
+        <p> </p>
+
+        <button type="submit">Pokaż informacje</button>
+    </form>
+
+    @if (Model != null)
+    {
+        <div style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
+            <p>Numer rezerwacji: @Model.Id</p>
+            <p>Data rezerwacji od: @Model.DataOd</p>
+            <p>Data rezerwacji do: @Model.DataDo</p>
+            <p>Ilość Osób: @Model.IloscOsob</p>
+            <p>Czy Zameldowano: @Model.CzyZameldowano</p>
+            <p>Cena Całkowita: @Model.CenaCalkowita</p>
+            <p>Imię i Nazwisko gościa: @Model.Osoba.Imie</p>
+        </div>
+    }
+</body>
+</html>

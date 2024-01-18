@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hotel.Infrastructure.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20240116232051_Init")]
+    [Migration("20240118120106_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -81,6 +81,10 @@ namespace Hotel.Infrastructure.Migrations
 
                     b.Property<int>("Numer")
                         .HasColumnType("int");
+
+                    b.Property<string>("Opis")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("TypPokoju")
                         .HasColumnType("int");

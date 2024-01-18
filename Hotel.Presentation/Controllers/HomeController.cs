@@ -68,13 +68,16 @@ namespace Hotel.Presentation.Controllers
                                ((zapytanie.DataOd <= p.DataDo) && (zapytanie.DataDo >= p.DataDo))
                                select p;
 
-            var dostepnePokoje = _dbContext.Pokoje.Where(r => !pokojeZajete.Any(b => b.Id == r.Id)).ToList();
-
-            foreach (var pokoj in dostepnePokoje)
+            if (_dbContext.Pokoje.Any())
             {
-                if (pokoj.LiczbaMiejsc >= zapytanie.IleOsob)
+                var dostepnePokoje = _dbContext.Pokoje.Where(r => !pokojeZajete.Any(b => b.Id == r.Id)).ToList();
+
+                foreach (var pokoj in dostepnePokoje)
                 {
-                    zapytanie.ListaPokoi.Add(pokoj);
+                    if (pokoj.LiczbaMiejsc >= zapytanie.IleOsob)
+                    {
+                        zapytanie.ListaPokoi.Add(pokoj);
+                    }
                 }
             }
 
@@ -150,6 +153,27 @@ namespace Hotel.Presentation.Controllers
             }
 
             return View(room);
+        }
+
+        [HttpPost]
+        public IActionResult SzczegolyRezerwacji(ZapytanieOSzczegolyRezerwacjiModel zapytanie)
+        {
+            var _rezerwacja = _dbContext.Rezerwacje.FirstOrDefault(r => r.Id == zapytanie.NumerRezerwacji);
+
+            if (_rezerwacja != null)
+            {
+                if (string.Compare(zapytanie.AdresEmail, _rezerwacja.Osoba.AdresEmail, true) > 0)
+                {
+                    return View(_rezerwacja);
+                }
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult SzczegolyRezerwacji()
+        {
+            return View();
         }
     }
 }

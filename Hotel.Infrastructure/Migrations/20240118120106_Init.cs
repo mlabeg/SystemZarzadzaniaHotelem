@@ -39,6 +39,7 @@ namespace Hotel.Infrastructure.Migrations
                     Numer = table.Column<int>(type: "int", nullable: false),
                     LiczbaMiejsc = table.Column<int>(type: "int", nullable: false),
                     CenaZaNoc = table.Column<int>(type: "int", nullable: false),
+                    Opis = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CzyWolny = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>

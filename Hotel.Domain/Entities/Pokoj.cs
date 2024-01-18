@@ -27,11 +27,13 @@ namespace Hotel.Domain.Entities
         public int Numer { get; set; }
         public int LiczbaMiejsc { get; set; }
         public int CenaZaNoc { get; set; }
+        public string Opis { get; set; }
 
         public bool CzyWolny { get; set; }//chyba do wywalenia
 
         public Pokoj()
         {
+            Opis = "";
             CzyWolny = true;
         }
 

@@ -79,6 +79,10 @@ namespace Hotel.Infrastructure.Migrations
                     b.Property<int>("Numer")
                         .HasColumnType("int");
 
+                    b.Property<string>("Opis")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("TypPokoju")
                         .HasColumnType("int");
 

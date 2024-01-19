@@ -158,11 +158,13 @@ namespace Hotel.Presentation.Controllers
         [HttpPost]
         public IActionResult SzczegolyRezerwacji(ZapytanieOSzczegolyRezerwacjiModel zapytanie)
         {
-            var _rezerwacja = _dbContext.Rezerwacje.FirstOrDefault(r => r.Id == zapytanie.NumerRezerwacji);
+            var _rezerwacja = _dbContext.Rezerwacje
+                .Include(o => o.Osoba)
+                .FirstOrDefault(r => r.Id == zapytanie.NumerRezerwacji);
 
             if (_rezerwacja != null)
             {
-                if (string.Compare(zapytanie.AdresEmail, _rezerwacja.Osoba.AdresEmail, true) > 0)
+                if (string.Compare(zapytanie.AdresEmail, _rezerwacja.Osoba.AdresEmail, true) == 0)
                 {
                     return View(_rezerwacja);
                 }

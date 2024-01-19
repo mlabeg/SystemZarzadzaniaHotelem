@@ -6,6 +6,19 @@
 <html>
 <head>
     <title>Informacje o Rezerwacji</title>
+    <script>
+        function wyswietlPotwierdzenie() {
+            var potwierdzenie = confirm("Czy na pewno chcesz anulować rezerwację?");
+
+            if (potwierdzenie) {
+                // Wywołaj kod potwierdzenia lub przekieruj do innej strony
+                alert("Potwierdzono!");
+            } else {
+                
+                //alert("Odrzucono!");
+            }
+        }
+    </script>
 </head>
 <body>
     <h1>Podaj dane rezerwacji do sprawdzenia:</h1>
@@ -29,10 +42,13 @@
             <p>Data rezerwacji od: @Model.DataOd</p>
             <p>Data rezerwacji do: @Model.DataDo</p>
             <p>Ilość Osób: @Model.IloscOsob</p>
-            <p>Czy Zameldowano: @Model.CzyZameldowano</p>
-            <p>Cena Całkowita: @Model.CenaCalkowita</p>
-            <p>Imię i Nazwisko gościa: @Model.Osoba.Imie</p>
+            <p>Czy zameldowano:  @(Model.CzyZameldowano ? "Tak":"Nie") </p>
+            <p>Cena całkowita: @Model.CenaCalkowita</p>
+            <p>Imię i nazwisko gościa: @Model.Osoba.Imie @Model.Osoba.Nazwisko </p>
         </div>
+        <p> </p>
+        <button onclick="wyswietlPotwierdzenie()">Anuluj rezerwację</button>
+    
     }
 </body>
 </html>

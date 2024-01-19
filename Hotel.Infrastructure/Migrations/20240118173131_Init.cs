@@ -39,7 +39,7 @@ namespace Hotel.Infrastructure.Migrations
                     Numer = table.Column<int>(type: "int", nullable: false),
                     LiczbaMiejsc = table.Column<int>(type: "int", nullable: false),
                     CenaZaNoc = table.Column<int>(type: "int", nullable: false),
-                    Opis = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Opis = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CzyWolny = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -60,7 +60,8 @@ namespace Hotel.Infrastructure.Migrations
                     CzyWymeldowano = table.Column<bool>(type: "bit", nullable: false),
                     CenaCalkowita = table.Column<int>(type: "int", nullable: false),
                     PokojId = table.Column<int>(type: "int", nullable: false),
-                    OsobaId = table.Column<int>(type: "int", nullable: true)
+                    OsobaId = table.Column<int>(type: "int", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

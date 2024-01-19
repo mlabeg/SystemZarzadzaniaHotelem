@@ -11,6 +11,7 @@ namespace Hotel.Domain.Entities
         public Rezerwacja()
         {
             Osoba = new UzytkownikNiezarejestrowany();
+            Status = "Oczekująca";
         }
 
         public int Id { get; set; }
@@ -25,5 +26,7 @@ namespace Hotel.Domain.Entities
         public int PokojId { get; set; }
 
         public Osoba? Osoba { get; set; }
+
+        public string Status { get; set; }//Oczekująca/W trakcie/Zakończona/Anulowana
     }
 }

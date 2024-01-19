@@ -22,8 +22,8 @@ namespace Hotel.Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> UtworzRezerwacje1(Rezerwacja rezerwacja)
         {
-            await _rezerwacjaService.DodajRezerwacjeUz(rezerwacja);
-            return RedirectToAction();//TODO refaktor - powrót na stronę główną
+            await _rezerwacjaService.DodajRezerwacje(rezerwacja);
+            return RedirectToAction(nameof(Index));//TODO dodawać nową rezerwację przez tą metodę
         }
     }
 }

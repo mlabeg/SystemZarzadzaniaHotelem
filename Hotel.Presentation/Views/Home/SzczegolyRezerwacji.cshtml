@@ -1,54 +1,50 @@
 ﻿@model Hotel.Domain.Entities.Rezerwacja
-<!-- model Hotel.Presentation.Models.Rezerwacja.ZapytanieOSzczegolyRezerwacjiModel--->
 
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Informacje o Rezerwacji</title>
-    <script>
-        function wyswietlPotwierdzenie() {
-            var potwierdzenie = confirm("Czy na pewno chcesz anulować rezerwację?");
 
-            if (potwierdzenie) {
-                // Wywołaj kod potwierdzenia lub przekieruj do innej strony
-                alert("Potwierdzono!");
-            } else {
-                
-                //alert("Odrzucono!");
-            }
-        }
-    </script>
+	<title>Informacje o Rezerwacji</title>
+
 </head>
 <body>
-    <h1>Podaj dane rezerwacji do sprawdzenia:</h1>
+	<h1>Podaj dane rezerwacji do sprawdzenia:</h1>
 
-    <form method="post">
-        <label>Podaj numer rezerwacji:</label>
-        <input type="number" name="NumerRezerwacji"/> 
-        <p> </p>
+	<form method="post">
+		<label>Podaj numer rezerwacji:</label>
+		<input type="number" name="NumerRezerwacji" />
+		<p> </p>
 
-        <label>Podaj adres email użyty przy rezerwacji:</label>
-        <input type="text" name="AdresEmail" />
-        <p> </p>
+		<label>Podaj adres email użyty przy rezerwacji:</label>
+		<input type="text" name="AdresEmail" />
+		<p> </p>
 
-        <button type="submit">Pokaż informacje</button>
-    </form>
+		<button type="submit">Pokaż informacje</button>
+	</form>
 
-    @if (Model != null)
-    {
-        <div style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
-            <p>Numer rezerwacji: @Model.Id</p>
-            <p>Data rezerwacji od: @Model.DataOd</p>
-            <p>Data rezerwacji do: @Model.DataDo</p>
-            <p>Ilość Osób: @Model.IloscOsob</p>
-            <p>Czy zameldowano:  @(Model.CzyZameldowano ? "Tak":"Nie") </p>
-            <p>Cena całkowita: @Model.CenaCalkowita</p>
-            <p>Imię i nazwisko gościa: @Model.Osoba.Imie @Model.Osoba.Nazwisko </p>
-        </div>
-        <p> </p>
-        <button onclick="wyswietlPotwierdzenie()">Anuluj rezerwację</button>
-    
-    }
+	@if (Model != null)
+	{
+
+
+
+		<div style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
+			<p>Numer rezerwacji: @Model.Id</p>
+			<p>Data rezerwacji od: @Model.DataOd</p>
+			<p>Data rezerwacji do: @Model.DataDo</p>
+			<p>Ilość Osób: @Model.IloscOsob</p>
+			<p>Czy zameldowano:  @(Model.CzyZameldowano ? "Tak" : "Nie") </p>
+			<p>Cena całkowita: @Model.CenaCalkowita</p>
+			<p>Imię i nazwisko gościa: @Model.Osoba.Imie @Model.Osoba.Nazwisko </p>
+		</div>
+		<p> </p>
+
+		<div>
+			<a type="button" class="btn btn-sm btn-outline-secondary" asp-action="AnulujRezerwacje" asp-route-id="@Model.Id">Anuluj rezerwację</a>
+
+		</div>
+
+
+	}
 </body>
 </html>

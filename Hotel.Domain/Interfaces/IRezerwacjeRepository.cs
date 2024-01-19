@@ -10,5 +10,7 @@ namespace Hotel.Domain.Interfaces
     public interface IRezerwacjeRepository
     {
         Task DodajRezerwacje(Rezerwacja rezerwacja);
+
+        Task UsunRezerwacje(int id);
     }
 }

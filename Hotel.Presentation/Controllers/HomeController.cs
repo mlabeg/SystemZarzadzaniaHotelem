@@ -5,6 +5,7 @@ using Hotel.Presentation.Models;
 using Hotel.Presentation.Models.Rezerwacja;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics;
 
 namespace Hotel.Presentation.Controllers
@@ -39,13 +40,13 @@ namespace Hotel.Presentation.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult ZapytanieODostepnosc()
+		public IActionResult SprawdzDostepnosc()
 		{
 			return View();
-		}//TODO zmień nazwę na SprawdzDostepnosc
+		}
 
 		[HttpPost]
-		public IActionResult ZapytanieODostepnosc(ZapytanieODostepnoscModel zapytanie)
+		public IActionResult SprawdzDostepnosc(SprawdzDostepnoscModel zapytanie)
 		{
 			if (zapytanie.DataOd == null || zapytanie.DataDo == null || zapytanie.IleOsob <= 0 || zapytanie.IleOsob == null)
 			{
@@ -57,6 +58,11 @@ namespace Hotel.Presentation.Controllers
 				return View();
 			}
 
+			if (!_dbContext.Pokoje.Any())
+			{
+				return View(zapytanie);
+			}
+
 			var pokojeZajete = from p in _dbContext.Rezerwacje
 							   where
 							   ((zapytanie.DataOd >= p.DataOd) && (zapytanie.DataOd <= p.DataDo)) ||
@@ -66,16 +72,22 @@ namespace Hotel.Presentation.Controllers
 							   ((zapytanie.DataOd <= p.DataDo) && (zapytanie.DataDo >= p.DataDo))
 							   select p;
 
-			if (_dbContext.Pokoje.Any())
-			{
-				var dostepnePokoje = _dbContext.Pokoje.Where(r => !pokojeZajete.Any(b => b.Id == r.Id)).ToList();
+			List<Pokoj> dostepnePokoje = new List<Pokoj>();
 
-				foreach (var pokoj in dostepnePokoje)
+			if (pokojeZajete.IsNullOrEmpty())
+			{
+				dostepnePokoje = _dbContext.Pokoje.ToList();
+			}
+			else
+			{
+				dostepnePokoje = _dbContext.Pokoje.Where(r => !pokojeZajete.Any(b => b.Id == r.Id)).ToList();
+			}
+
+			foreach (var pokoj in dostepnePokoje)
+			{
+				if (pokoj.LiczbaMiejsc >= zapytanie.IleOsob)
 				{
-					if (pokoj.LiczbaMiejsc >= zapytanie.IleOsob)
-					{
-						zapytanie.ListaPokoi.Add(pokoj);
-					}
+					zapytanie.ListaPokoi.Add(pokoj);
 				}
 			}
 
@@ -178,7 +190,7 @@ namespace Hotel.Presentation.Controllers
 
 		[HttpGet]
 		public IActionResult AnulujRezerwacje(int id)
-		{//TODO wywołać ten widok z parametrem id
+		{
 			return View(id);
 		}
 
@@ -192,6 +204,16 @@ namespace Hotel.Presentation.Controllers
 			}
 
 			return RedirectToAction(nameof(SzczegolyRezerwacji));
+		}
+
+		[HttpGet]
+		public IActionResult PulpitRezerwacji()
+		{
+			var listaRezerwacji = _dbContext.Rezerwacje
+				.Include(p => p.Pokoj)
+				.ToList();
+
+			return View(listaRezerwacji);
 		}
 	}
 }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hotel.Presentation.Models.Rezerwacja
 {
-    public class ZapytanieODostepnoscModel
+    public class SprawdzDostepnoscModel
     {
         [Required(ErrorMessage = "Podaj datę początkową")]
         [DataType(DataType.Date)]

@@ -1,0 +1,41 @@
+﻿@model List<Hotel.Domain.Entities.Rezerwacja> 
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pulpit Rezerwacji</title>
+</head>
+<body>
+
+    <h1>Pulpit Rezerwacji</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Numer rezerwacji</th>
+                <th>Data od</th>
+                <th>Data do</th>
+                <th>Typ pokoju</th>
+                <th>Numer pokoju</th>
+                <th>Imię i nazwisko gościa</th>
+                <th>Status rezerwacji</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var rezerwacja in Model)
+            {
+                <tr>
+                    <td>@rezerwacja.Id</td>
+                    <td>@rezerwacja.DataOd.ToShortDateString()</td>
+                    <td>@rezerwacja.DataDo.ToShortDateString()</td>
+                    <td>@rezerwacja.Pokoj.TypPokoju</td>
+                    <td>@rezerwacja.NumerPokoju</td>
+                    <td>@rezerwacja.Osoba.Imie @rezerwacja.Osoba.Nazwisko</td>
+                    <td>@rezerwacja.StatusRezerwacji</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</body>
+</html>

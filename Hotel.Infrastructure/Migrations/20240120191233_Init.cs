@@ -35,12 +35,12 @@ namespace Hotel.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TypPokoju = table.Column<int>(type: "int", nullable: true),
+                    TypPokoju = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Numer = table.Column<int>(type: "int", nullable: false),
                     LiczbaMiejsc = table.Column<int>(type: "int", nullable: false),
                     CenaZaNoc = table.Column<int>(type: "int", nullable: false),
-                    Opis = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CzyWolny = table.Column<bool>(type: "bit", nullable: false)
+                    Opis = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CzyWolny = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -61,7 +61,7 @@ namespace Hotel.Infrastructure.Migrations
                     CenaCalkowita = table.Column<int>(type: "int", nullable: false),
                     PokojId = table.Column<int>(type: "int", nullable: false),
                     OsobaId = table.Column<int>(type: "int", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -71,25 +71,36 @@ namespace Hotel.Infrastructure.Migrations
                         column: x => x.OsobaId,
                         principalTable: "Osoby",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Rezerwacje_Pokoje_PokojId",
+                        column: x => x.PokojId,
+                        principalTable: "Pokoje",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rezerwacje_OsobaId",
                 table: "Rezerwacje",
                 column: "OsobaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Rezerwacje_PokojId",
+                table: "Rezerwacje",
+                column: "PokojId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Pokoje");
-
-            migrationBuilder.DropTable(
                 name: "Rezerwacje");
 
             migrationBuilder.DropTable(
                 name: "Osoby");
+
+            migrationBuilder.DropTable(
+                name: "Pokoje");
         }
     }
 }

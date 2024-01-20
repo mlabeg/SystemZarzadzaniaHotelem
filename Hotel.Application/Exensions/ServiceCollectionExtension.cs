@@ -16,8 +16,6 @@ namespace Hotel.Application.Exensions
             services.AddScoped<IRezerwacjaService, RezerwacjaService>();
             services.AddScoped<IOsobaService, OsobaService>();
             services.AddScoped<IPokojService, PokojService>();
-
-            //TODO dwa zakomentowane serwisy nie pozwalają wstać BD, na razie ich nie potrzeba, więc tak zostaja
         }
     }
 }

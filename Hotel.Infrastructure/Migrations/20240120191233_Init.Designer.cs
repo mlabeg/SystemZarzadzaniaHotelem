@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hotel.Infrastructure.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20240118173131_Init")]
+    [Migration("20240120191233_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -86,8 +86,9 @@ namespace Hotel.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TypPokoju")
-                        .HasColumnType("int");
+                    b.Property<string>("TypPokoju")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -134,6 +135,8 @@ namespace Hotel.Infrastructure.Migrations
 
                     b.HasIndex("OsobaId");
 
+                    b.HasIndex("PokojId");
+
                     b.ToTable("Rezerwacje");
                 });
 
@@ -175,7 +178,15 @@ namespace Hotel.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("OsobaId");
 
+                    b.HasOne("Hotel.Domain.Entities.Pokoj", "Pokoj")
+                        .WithMany()
+                        .HasForeignKey("PokojId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Osoba");
+
+                    b.Navigation("Pokoj");
                 });
 #pragma warning restore 612, 618
         }

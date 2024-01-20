@@ -26,7 +26,7 @@ namespace Hotel.Infrastructure.Seeders
                 {
                     var pokojSeed = new Pokoj()
                     {
-                        Numer = 1,
+                        Numer = 100,
                         LiczbaMiejsc = 2,
                         //CzyWolny = true,
                         CenaZaNoc = 200

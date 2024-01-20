@@ -19,10 +19,6 @@ namespace Hotel.Presentation.Models.Rezerwacja
         [Range(1, 8, ErrorMessage = "Podaj wartość między 1 a 8")]
         public int? IleOsob { get; set; }
 
-        //public bool Dinner { get; set; }
-
         public IList<Pokoj> ListaPokoi { get; set; } = new List<Pokoj>();
     }
 }
-
-//TODO zobacz jakie klasy są w tym folderze w kursie MVC

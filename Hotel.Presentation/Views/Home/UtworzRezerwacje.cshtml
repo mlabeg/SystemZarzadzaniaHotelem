@@ -16,27 +16,34 @@
                     <input asp-for="Osoba.Imie" class="form-control" />
                     <span asp-validation-for="Osoba.Imie" class="text-danger"></span>
                 </div>
+                <p></p>
                 <div class="form-group">
                     <label class="control-label">Nazwisko:</label>
                     <input asp-for="Osoba.Nazwisko" class="form-control" />
                     <span asp-validation-for="Osoba.Nazwisko" class="text-danger"></span>
                 </div>
+                <p></p>
                 <div class="form-group">
                     <label class="control-label">Telefon: </label>
                     <input asp-for="Osoba.NumerTelefonu" type="tel" placeholder="+11-111-111-111" class="form-control" />
                     <span asp-validation-for="Osoba.NumerTelefonu" class="text-danger"></span>
                 </div>
+                <p></p>
                 <div class="form-group">
                     <label class="control-label">E-mail:</label>
                     <input asp-for="Osoba.AdresEmail" placeholder="example@email.com" class="form-control" />
                     <span asp-validation-for="Osoba.AdresEmail" class="text-danger"></span>
                 </div>
+                <p></p>
+                <hr />
+
                <div class="form-group">
                     <label class="control-label">Rozpoczęcie pobytu:</label>
                     <h3>@Model.DataOd.ToShortDateString()</h3>
                     <input type="hidden" asp-for="DataOd" class="form-control" />
                     <span asp-validation-for="DataOd" class="text-danger"></span>
                 </div>
+                <p></p>
                 <div class="form-group">
                     <label class="control-label">Zakończenie pobytu:</label>
                     <h3>@Model.DataDo.ToShortDateString()</h3>
@@ -54,6 +61,7 @@
 
                 <input type="hidden" asp-for="@Model.PokojId" value="@Model.PokojId" />
                 <input type="hidden" asp-for="@Model.IloscOsob" value="@Model.IloscOsob" />
+                <input type="hidden" asp-for="@Model.Pokoj" value="@Model.Pokoj" />
 
                 <div class="form-group">
                     <input type="submit" value="Zarezerwuj" class="btn btn-primary" />

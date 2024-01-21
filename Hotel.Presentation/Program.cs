@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Hotel.Infrastructure.Extensions;
 using Hotel.Infrastructure.Seeders;
+using Hotel.Application.Exensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,11 +12,13 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddInfrastructure(builder.Configuration);
 
+builder.Services.AddApplication();
+
 var app = builder.Build();
 
 var scoped = app.Services.CreateScope();
 
-var seeder = scoped.ServiceProvider.GetRequiredService<HotelSeder>();
+var seeder = scoped.ServiceProvider.GetRequiredService<HotelSeeder>();
 
 await seeder.Seed();
 
@@ -36,6 +39,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=PulpitRezerwacji}/{id?}");
 
 app.Run();

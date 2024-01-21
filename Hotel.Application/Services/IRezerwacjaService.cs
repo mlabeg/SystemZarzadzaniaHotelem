@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hotel.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,14 +7,18 @@ using System.Threading.Tasks;
 
 namespace Hotel.Application.Services
 {
-    internal interface IRezerwacjaService
+    public interface IRezerwacjaService
     {
-        public void UtworzenieRezerwacjiUz();
+        Task DodajRezerwacje(Hotel.Domain.Entities.Rezerwacja rezerwacja);
 
-        public void UsuniecieRezerwacjiUz();
+        public Task UsunRezerwacje(int id);
 
         public void SprawdzenieSzczegolowRezerwacji();
 
         public void ZmianaDanychRezerwacjiUz();
+
+        public List<Hotel.Domain.Entities.Rezerwacja> PokazAktualneRezerwacje();
+
+        public List<Hotel.Domain.Entities.Rezerwacja> PokazHistorieRezerwacji();
     }
 }

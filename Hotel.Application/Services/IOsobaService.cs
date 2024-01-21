@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace Hotel.Application.Services
 {
-    internal class HotelService //: IHotelService
+    internal interface IOsobaService
     {
-        //public List<Pokoj> GetWolnePokojeList() => pokojList;
-
-        //wydaje mi się, że to nie jest potrzebne
+        Task DodajOsobe(Osoba osoba);
     }
 }

@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace Hotel.Application.Services
 {
-    internal class HotelService //: IHotelService
+    internal interface IZapytanieODostepnosc
     {
-        //public List<Pokoj> GetWolnePokojeList() => pokojList;
-
-        //wydaje mi się, że to nie jest potrzebne
+        public List<Pokoj> DostepnePokoje(DateTime dataOd, DateTime dataDo, int iloscOsob);
     }
 }

@@ -8,31 +8,26 @@ namespace Hotel.Domain.Entities
 {
     public class Rezerwacja
     {
-        private Rezerwacja()
+        public Rezerwacja()
         {
-        }
-
-        public Rezerwacja(int id, DateTime dataOd, DateTime dataDo, int iloscOsob, bool czyZameldowano, bool czyWymeldowano, Pokoj pokoj, Osoba osoba)
-        {
-            Id = id;
-            DataOd = dataOd;
-            DataDo = dataDo;
-            IloscOsob = iloscOsob;
-            CzyZameldowano = czyZameldowano;
-            CzyWymeldowano = czyWymeldowano;
-            Pokoj = pokoj;
-            Osoba = osoba;
+            Osoba = new UzytkownikNiezarejestrowany();
+            Status = "Oczekująca";
         }
 
         public int Id { get; set; }
         public DateTime DataOd { get; set; }
         public DateTime DataDo { get; set; }
         public int IloscOsob { get; set; }
-        public bool CzyZameldowano { get; set; }
-        public bool CzyWymeldowano { get; set; }
+        public bool CzyZameldowano { get; set; } = false;
+        public bool CzyWymeldowano { get; set; } = false;
 
-        public Pokoj Pokoj { get; set; }
+        public int CenaCalkowita { get; set; }
 
-        public Osoba Osoba { get; set; }
+        public int PokojId { get; set; }
+        public Pokoj? Pokoj { get; set; }
+
+        public Osoba? Osoba { get; set; }
+
+        public string Status { get; set; }//Oczekująca/W trakcie/Zakończona/Anulowana
     }
 }

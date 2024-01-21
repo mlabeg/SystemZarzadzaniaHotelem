@@ -35,9 +35,12 @@ namespace Hotel.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    TypPokoju = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Numer = table.Column<int>(type: "int", nullable: false),
                     LiczbaMiejsc = table.Column<int>(type: "int", nullable: false),
-                    CzyWolny = table.Column<bool>(type: "bit", nullable: false)
+                    CenaZaNoc = table.Column<int>(type: "int", nullable: false),
+                    Opis = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CzyWolny = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -55,8 +58,10 @@ namespace Hotel.Infrastructure.Migrations
                     IloscOsob = table.Column<int>(type: "int", nullable: false),
                     CzyZameldowano = table.Column<bool>(type: "bit", nullable: false),
                     CzyWymeldowano = table.Column<bool>(type: "bit", nullable: false),
+                    CenaCalkowita = table.Column<int>(type: "int", nullable: false),
                     PokojId = table.Column<int>(type: "int", nullable: false),
-                    OsobaId = table.Column<int>(type: "int", nullable: false)
+                    OsobaId = table.Column<int>(type: "int", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -65,8 +70,7 @@ namespace Hotel.Infrastructure.Migrations
                         name: "FK_Rezerwacje_Osoby_OsobaId",
                         column: x => x.OsobaId,
                         principalTable: "Osoby",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Rezerwacje_Pokoje_PokojId",
                         column: x => x.PokojId,

@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace Hotel.Infrastructure.Seeders
 {
-    public class HotelSeder
+    public class HotelSeeder
     {
+        //TODO dodać seedy klas Rezerwacja i Osoba
         private readonly HotelDbContext _dbContext;
 
-        public HotelSeder(HotelDbContext dbContext)
+        public HotelSeeder(HotelDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -25,9 +26,10 @@ namespace Hotel.Infrastructure.Seeders
                 {
                     var pokojSeed = new Pokoj()
                     {
-                        Numer = 1,
+                        Numer = 100,
                         LiczbaMiejsc = 2,
-                        CzyWolny = true
+                        //CzyWolny = true,
+                        CenaZaNoc = 200
                     };
 
                     _dbContext.Pokoje.Add(pokojSeed);
@@ -37,3 +39,17 @@ namespace Hotel.Infrastructure.Seeders
         }
     }
 }
+
+//TODO Przenieść poniższe do seederay
+
+/*
+
+SET IDENTITY_INSERT dbo.pokoje ON;
+  insert into dbo.Pokoje(Id,Numer,LiczbaMiejsc,CenaZaNoc,CzyWolny)
+  VALUEs(2,105,5,500,1),
+  (3,106,1,150, 1),
+  (4,107,3,250, 1),
+  (5,108,4,500, 1),
+  (6,109,5,550, 1)
+SET IDENTITY_INSERT dbo.pokoje OFF
+*/

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hotel.Infrastructure.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20240103221409_Init")]
+    [Migration("20240120191233_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -70,6 +70,9 @@ namespace Hotel.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CenaZaNoc")
+                        .HasColumnType("int");
+
                     b.Property<bool>("CzyWolny")
                         .HasColumnType("bit");
 
@@ -78,6 +81,14 @@ namespace Hotel.Infrastructure.Migrations
 
                     b.Property<int>("Numer")
                         .HasColumnType("int");
+
+                    b.Property<string>("Opis")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TypPokoju")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -91,6 +102,9 @@ namespace Hotel.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CenaCalkowita")
+                        .HasColumnType("int");
 
                     b.Property<bool>("CzyWymeldowano")
                         .HasColumnType("bit");
@@ -107,11 +121,15 @@ namespace Hotel.Infrastructure.Migrations
                     b.Property<int>("IloscOsob")
                         .HasColumnType("int");
 
-                    b.Property<int>("OsobaId")
+                    b.Property<int?>("OsobaId")
                         .HasColumnType("int");
 
                     b.Property<int>("PokojId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -158,9 +176,7 @@ namespace Hotel.Infrastructure.Migrations
                 {
                     b.HasOne("Hotel.Domain.Entities.Osoba", "Osoba")
                         .WithMany()
-                        .HasForeignKey("OsobaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OsobaId");
 
                     b.HasOne("Hotel.Domain.Entities.Pokoj", "Pokoj")
                         .WithMany()

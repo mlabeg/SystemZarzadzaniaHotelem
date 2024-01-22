@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hotel.Infrastructure.Repositories
 {
-	public class PokojeRepository : Hotel.Domain.Interfaces.IPokojeRepository
+	public class PokojeRepository : Domain.Interfaces.IPokojeRepository
 	{
 		private readonly HotelDbContext _dbContext;
 

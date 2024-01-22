@@ -11,8 +11,6 @@ namespace Hotel.Application.Services
 	{
 		Task DodajPokoj(Pokoj pokoj);
 
-		//public bool CzyWolnyWTerminie(DateTime dataOd, DateTime dataDo);
-
 		public void ZmienStatus();
 
 		public Task<Pokoj?> WyszukajPoId(int number);

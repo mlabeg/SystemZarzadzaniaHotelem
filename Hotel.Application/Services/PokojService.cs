@@ -22,10 +22,6 @@ namespace Hotel.Application.Services
 			await _pokojeRepository.DodajPokoj(pokoj);
 		}
 
-		/* public bool CzyWolnyWTerminie(DateTime dataOd, DateTime dataDo)
-         {
-         }*/
-
 		public async Task<Pokoj?> WyszukajPoId(int id)
 		{
 			return await _pokojeRepository.WyszukajPoId(id);

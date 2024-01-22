@@ -122,7 +122,7 @@ namespace Hotel.Presentation.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult UtworzRezerwacje(Rezerwacja rezerwacja)
+		public async Task<IActionResult> UtworzRezerwacje(Rezerwacja rezerwacja)
 		{
 			if (ModelState.IsValid)
 			{
@@ -144,8 +144,7 @@ namespace Hotel.Presentation.Controllers
 					Pokoj = rezerwacja.Pokoj
 				};
 
-				_dbContext.Rezerwacje.Add(_rezerwacja);
-				_dbContext.SaveChanges();
+				await _rezerwacjaService.DodajRezerwacje(_rezerwacja);
 
 				return RedirectToAction("Sukces", new { id = _rezerwacja.Id });
 			}

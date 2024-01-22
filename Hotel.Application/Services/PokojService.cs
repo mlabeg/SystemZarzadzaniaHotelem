@@ -8,32 +8,32 @@ using System.Threading.Tasks;
 
 namespace Hotel.Application.Services
 {
-    internal class PokojService : IPokojService
-    {
-        private readonly IPokojeRepository _pokojeRepository;
+	internal class PokojService : IPokojService
+	{
+		private readonly IPokojeRepository _pokojeRepository;
 
-        public PokojService(IPokojeRepository pokojeRepository)
-        {
-            _pokojeRepository = pokojeRepository;
-        }
+		public PokojService(IPokojeRepository pokojeRepository)
+		{
+			_pokojeRepository = pokojeRepository;
+		}
 
-        public async Task DodajPokoj(Pokoj pokoj)
-        {
-            await _pokojeRepository.DodajPokoj(pokoj);
-        }
+		public async Task DodajPokoj(Pokoj pokoj)
+		{
+			await _pokojeRepository.DodajPokoj(pokoj);
+		}
 
-        /* public bool CzyWolnyWTerminie(DateTime dataOd, DateTime dataDo)
+		/* public bool CzyWolnyWTerminie(DateTime dataOd, DateTime dataDo)
          {
          }*/
 
-        public Pokoj GetPokojByNumber(int number)
-        {
-            throw new NotImplementedException();
-        }
+		public async Task<Pokoj?> WyszukajPoId(int id)
+		{
+			return await _pokojeRepository.WyszukajPoId(id);
+		}
 
-        public void ZmienStatus()
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public void ZmienStatus()
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

@@ -17,15 +17,19 @@ namespace Hotel.Presentation.Controllers
 		private readonly ILogger<HomeController> _logger;
 		private readonly HotelDbContext _dbContext;
 		private readonly IRezerwacjaService _rezerwacjaService;
+		private readonly IPokojService _pokojService;
+
 		//private readonly IAnulujRezerwacje _anulujRezerwacje;
 
 		public HomeController(ILogger<HomeController> logger,
 			HotelDbContext dbContext,
-			IRezerwacjaService rezerwacjaService/*,
+			IRezerwacjaService rezerwacjaService,
+			IPokojService pokojService/*,
 			IAnulujRezerwacje anulujRezerwacje*/)
 		{
 			_dbContext = dbContext;
 			_rezerwacjaService = rezerwacjaService;
+			_pokojService = pokojService;
 			//_anulujRezerwacje = anulujRezerwacje;
 			_logger = logger;
 		}
@@ -102,9 +106,9 @@ namespace Hotel.Presentation.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult UtworzRezerwacje(int id, DateTime DataOd, DateTime DataDo, int IleOsob)
+		public async Task<IActionResult> UtworzRezerwacje(int id, DateTime DataOd, DateTime DataDo, int IleOsob)
 		{
-			var Pokoj = _dbContext.Pokoje.Single(p => p.Id == id);
+			var Pokoj = await _pokojService.WyszukajPoId(id);
 			var CenaZaNoc = Pokoj.CenaZaNoc;
 			int IloscDni = (int)DataDo.Subtract(DataOd).TotalDays;
 

@@ -159,15 +159,9 @@ namespace Hotel.Presentation.Controllers
 			}
 		}
 
-		public async Task<IActionResult> SzczegolyPokoju(int? id)
+		public async Task<IActionResult> SzczegolyPokoju(int id)
 		{
-			if (id == null)
-			{
-				return NotFound();
-			}
-
-			var room = await _dbContext.Pokoje
-				.FirstOrDefaultAsync(m => m.Id == id);
+			var room = await _pokojService.WyszukajPoId(id);
 
 			if (room == null)
 			{

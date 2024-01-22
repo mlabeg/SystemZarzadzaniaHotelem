@@ -30,8 +30,8 @@
         {
             <div class="border p-3 mt-4">
                 <p>Numer rezerwacji: @Model.Id</p>
-                <p>Data rezerwacji od: @Model.DataOd.ToShortDateString</p>
-                <p>Data rezerwacji do: @Model.DataDo.ToShortDateString</p>
+                <p>Data rezerwacji od: @Model.DataOd.ToShortDateString()</p>
+                <p>Data rezerwacji do: @Model.DataDo.ToShortDateString()</p>
                 <p>Ilość Osób: @Model.IloscOsob</p>
                 <p>Czy zameldowano: @(Model.CzyZameldowano ? "Tak" : "Nie")</p>
                 <p>Cena całkowita: @Model.CenaCalkowita</p>

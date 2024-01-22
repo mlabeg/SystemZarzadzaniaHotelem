@@ -13,18 +13,18 @@ using Hotel.Infrastructure.Repositories;
 
 namespace Hotel.Infrastructure.Extensions
 {
-    public static class ServiceCollectionExtencion
-    {
-        public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddDbContext<HotelDbContext>(options => options.UseSqlServer(
-                configuration.GetConnectionString("Hotel")));
+	public static class ServiceCollectionExtencion
+	{
+		public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+		{
+			services.AddDbContext<HotelDbContext>(options => options.UseSqlServer(
+				configuration.GetConnectionString("Hotel")));
 
-            services.AddScoped<HotelSeeder>();
+			services.AddScoped<HotelSeeder>();
 
-            services.AddScoped<IRezerwacjeRepository, RezerwacjeRepository>();
-            services.AddScoped<IOsobyRepository, OsobyRepository>();
-            services.AddScoped<IPokojeRepository, PokojeRepository>();
-        }
-    }
+			services.AddScoped<IRezerwacjeRepository, RezerwacjeRepository>();
+			services.AddScoped<IOsobyRepository, OsobyRepository>();
+			services.AddScoped<IPokojeRepository, PokojeRepository>();
+		}
+	}
 }

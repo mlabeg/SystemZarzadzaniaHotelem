@@ -38,9 +38,9 @@ namespace Hotel.Application.Services
 			return rezerwacjeList;
 		}
 
-		public void SprawdzenieSzczegolowRezerwacji()
+		public async Task<Domain.Entities.Rezerwacja?> WyszukajPoId(int id)
 		{
-			throw new NotImplementedException();
+			return await _rezerwacjeRepository.WyszukajPoId(id);
 		}
 
 		public void ZmianaDanychRezerwacjiUz()

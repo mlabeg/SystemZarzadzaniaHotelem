@@ -9,11 +9,12 @@ using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics;
 using System.Security.Cryptography.Xml;
 using Hotel.Application.Services.Rezerwacja;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Hotel.Presentation.Controllers
 {
 	public class HomeController : Controller
-	{
+	{//TODO ujednolicić nazwy wszystkich funkcji
 		private readonly ILogger<HomeController> _logger;
 		private readonly HotelDbContext _dbContext;
 		private readonly IRezerwacjaService _rezerwacjaService;
@@ -177,20 +178,20 @@ namespace Hotel.Presentation.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult SzczegolyRezerwacji(ZapytanieOSzczegolyRezerwacjiModel zapytanie)
+		public async Task<IActionResult> SzczegolyRezerwacji(ZapytanieOSzczegolyRezerwacjiModel zapytanie)
 		{
-			var _rezerwacja = _dbContext.Rezerwacje
-				.Include(o => o.Osoba)
-				.FirstOrDefault(r => r.Id == zapytanie.NumerRezerwacji);
+			var rezerwacja = await _rezerwacjaService.WyszukajPoId(zapytanie.NumerRezerwacji);
 
-			if (_rezerwacja != null)
+			if (rezerwacja != null)
 			{
-				if (string.Compare(zapytanie.AdresEmail, _rezerwacja.Osoba.AdresEmail, true) == 0)
+				if (string.Compare(zapytanie.AdresEmail, rezerwacja.Osoba.AdresEmail, true) == 0)
 				{
-					return View(_rezerwacja);
+					return View(rezerwacja);
 				}
 			}
+
 			return View();//TODO zwracać informację o błędzie
+						  //w projekcie CarWorkshop jest dodana klasa ControllerExtensions, sprawdzić
 		}
 
 		[HttpGet]

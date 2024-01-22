@@ -14,5 +14,7 @@ namespace Hotel.Domain.Interfaces
 		Task UsunRezerwacje(int id);
 
 		Task<IEnumerable<Rezerwacja>> PokazWszystkieRezerwacje();
+
+		Task<Rezerwacja?> WyszukajPoId(int id);
 	}
 }

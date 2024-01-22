@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Hotel.Application.Services.Rezerwacja
 {
-    internal interface IAnulowanieRezerwacji
-    {
-    }
+	public interface IAnulujRezerwacje
+	{
+		public Task AnulowanieRezerwacji(int id);
+	}
 }

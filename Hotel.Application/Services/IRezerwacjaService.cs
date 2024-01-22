@@ -7,18 +7,20 @@ using System.Threading.Tasks;
 
 namespace Hotel.Application.Services
 {
-    public interface IRezerwacjaService
-    {
-        Task DodajRezerwacje(Hotel.Domain.Entities.Rezerwacja rezerwacja);
+	public interface IRezerwacjaService
+	{
+		Task DodajRezerwacje(Hotel.Domain.Entities.Rezerwacja rezerwacja);
 
-        public Task UsunRezerwacje(int id);
+		public Task UsunRezerwacje(int id);
 
-        public void SprawdzenieSzczegolowRezerwacji();
+		public void SprawdzenieSzczegolowRezerwacji();
 
-        public void ZmianaDanychRezerwacjiUz();
+		public void ZmianaDanychRezerwacjiUz();
 
-        public List<Hotel.Domain.Entities.Rezerwacja> PokazAktualneRezerwacje();
+		public Task<IEnumerable<Hotel.Domain.Entities.Rezerwacja>> PokazWszystkieRezerwacje();
 
-        public List<Hotel.Domain.Entities.Rezerwacja> PokazHistorieRezerwacji();
-    }
+		//TODO dodać poniższe
+		//public List<Hotel.Domain.Entities.Rezerwacja> PokazHistorieRezerwacji();
+		//public List<Hotel.Domain.Entities.Rezerwacja> PokazAktualneRezerwacje();
+	}
 }

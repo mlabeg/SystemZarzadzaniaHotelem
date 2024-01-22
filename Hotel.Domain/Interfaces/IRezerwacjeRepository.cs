@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace Hotel.Domain.Interfaces
 {
-    public interface IRezerwacjeRepository
-    {
-        Task DodajRezerwacje(Rezerwacja rezerwacja);
+	public interface IRezerwacjeRepository
+	{
+		Task DodajRezerwacje(Rezerwacja rezerwacja);
 
-        Task UsunRezerwacje(int id);
-    }
+		Task UsunRezerwacje(int id);
+
+		Task<IEnumerable<Rezerwacja>> PokazWszystkieRezerwacje();
+	}
 }

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics;
 using System.Security.Cryptography.Xml;
+using Hotel.Application.Services.Rezerwacja;
 
 namespace Hotel.Presentation.Controllers
 {
@@ -16,11 +17,16 @@ namespace Hotel.Presentation.Controllers
 		private readonly ILogger<HomeController> _logger;
 		private readonly HotelDbContext _dbContext;
 		private readonly IRezerwacjaService _rezerwacjaService;
+		//private readonly IAnulujRezerwacje _anulujRezerwacje;
 
-		public HomeController(ILogger<HomeController> logger, HotelDbContext dbContext, IRezerwacjaService rezerwacjaService)
+		public HomeController(ILogger<HomeController> logger,
+			HotelDbContext dbContext,
+			IRezerwacjaService rezerwacjaService/*,
+			IAnulujRezerwacje anulujRezerwacje*/)
 		{
 			_dbContext = dbContext;
 			_rezerwacjaService = rezerwacjaService;
+			//_anulujRezerwacje = anulujRezerwacje;
 			_logger = logger;
 		}
 
@@ -201,27 +207,21 @@ namespace Hotel.Presentation.Controllers
 		{
 			if (potwierdzenie)
 			{
-				_rezerwacjaService.UsunRezerwacje(rezerwacjaId);
+				//_anulujRezerwacje.AnulowanieRezerwacji(rezerwacjaId);
 				return Json(new { success = true, message = "Rezerwacja została anulowana" });
 			}
 
 			return RedirectToAction(nameof(SzczegolyRezerwacji));
+			//TODO sprawdz czy nie usuwa dwóch pozycji rezerwacji TEST?
+			//sprawdziłem i nic takiego nie widzę, może tylko sie pomyliłem
 		}
 
 		[HttpGet]
-		public IActionResult PulpitRezerwacji()
+		public async Task<IActionResult> PulpitRezerwacji()
 		{
-			List<Rezerwacja> listaRezerwacji = new List<Rezerwacja>();
+			var rezerwacje = await _rezerwacjaService.PokazWszystkieRezerwacje();
 
-			if (_dbContext.Rezerwacje.Any())
-			{
-				listaRezerwacji = _dbContext.Rezerwacje
-					.Include(p => p.Pokoj)
-					.Include(o => o.Osoba)
-					.ToList();
-			}
-
-			return View(listaRezerwacji);
+			return View(rezerwacje);
 		}
 	}
 }

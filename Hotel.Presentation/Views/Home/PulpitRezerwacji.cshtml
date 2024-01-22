@@ -1,4 +1,4 @@
-﻿@model List<Hotel.Domain.Entities.Rezerwacja>
+﻿@model IEnumerable<Hotel.Domain.Entities.Rezerwacja>
 
 
 <!DOCTYPE html>
@@ -13,7 +13,7 @@
 	<div class="container mt-5">
 		<h1>Pulpit rezerwacji</h1>
 
-		@if (Model != null && Model.Count > 0)
+		@if (Model != null && Model.Any())
 		{
 
 			<table class="table">

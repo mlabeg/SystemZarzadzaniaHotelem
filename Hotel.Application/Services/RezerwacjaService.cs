@@ -2,6 +2,7 @@
 using Hotel.Domain.Entities;
 using Hotel.Domain.Interfaces;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,17 +29,21 @@ namespace Hotel.Application.Services
 			await _rezerwacjeRepository.UsunRezerwacje(id);
 		}
 
+		public async Task<IEnumerable<Hotel.Domain.Entities.Rezerwacja>> PokazWszystkieRezerwacje()
+		{
+			var rezerwacje = await _rezerwacjeRepository.PokazWszystkieRezerwacje();
+
+			var rezerwacjeList = rezerwacje.ToList();
+
+			return rezerwacjeList;
+		}
+
 		public void SprawdzenieSzczegolowRezerwacji()
 		{
 			throw new NotImplementedException();
 		}
 
 		public void ZmianaDanychRezerwacjiUz()
-		{
-			throw new NotImplementedException();
-		}
-
-		public List<Hotel.Domain.Entities.Rezerwacja> PokazAktualneRezerwacje()
 		{
 			throw new NotImplementedException();
 		}

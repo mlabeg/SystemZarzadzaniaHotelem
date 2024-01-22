@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace Hotel.Domain.Interfaces
 {
-    public interface IPokojeRepository
-    {
-        Task DodajPokoj(Pokoj pokoj);
-    }
+	public interface IPokojeRepository
+	{
+		Task DodajPokoj(Pokoj pokoj);
+
+		Task<Pokoj?> WyszukajPoId(int id);
+	}
 }

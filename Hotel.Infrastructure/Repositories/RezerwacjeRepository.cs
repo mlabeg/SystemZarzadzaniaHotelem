@@ -30,19 +30,6 @@ namespace Hotel.Infrastructure.Repositories
 			.Include(o => o.Osoba)
 			.ToListAsync();
 
-		/*{
-			/*List<Rezerwacja> listaRezerwacji = new List<Rezerwacja>();
-
-			if (_dbContext.Rezerwacje.Any(r=>r.Id))
-			{
-				listaRezerwacji = _dbContext.Rezerwacje
-					.Include(p => p.Pokoj)
-					.Include(o => o.Osoba)
-					.ToList();
-			}
-			return await _dbContext.Rezerwacje.ToListAsync();
-		}*/
-
 		public async Task UsunRezerwacje(int id)
 		{//TODO zmiana usuwania rezerwacji na zmianę jej statusu
 			var rezerwacja = _dbContext.Rezerwacje.FirstOrDefault(x => x.Id == id);
@@ -52,6 +39,13 @@ namespace Hotel.Infrastructure.Repositories
 				_dbContext.Rezerwacje.Remove(rezerwacja);
 				await _dbContext.SaveChangesAsync();
 			}
+		}
+
+		public async Task<Rezerwacja?> WyszukajPoId(int id)
+		{
+			return await _dbContext.Rezerwacje
+				.Include(o => o.Osoba)
+				.FirstOrDefaultAsync(r => r.Id == id);
 		}
 	}
 }

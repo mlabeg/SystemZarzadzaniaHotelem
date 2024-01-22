@@ -13,11 +13,11 @@ namespace Hotel.Application.Services
 
 		public Task UsunRezerwacje(int id);
 
-		public void SprawdzenieSzczegolowRezerwacji();
-
 		public void ZmianaDanychRezerwacjiUz();
 
 		public Task<IEnumerable<Hotel.Domain.Entities.Rezerwacja>> PokazWszystkieRezerwacje();
+
+		public Task<Domain.Entities.Rezerwacja?> WyszukajPoId(int id);
 
 		//TODO dodać poniższe
 		//public List<Hotel.Domain.Entities.Rezerwacja> PokazHistorieRezerwacji();

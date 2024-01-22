@@ -9,23 +9,28 @@ using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics;
 using System.Security.Cryptography.Xml;
 using Hotel.Application.Services.Rezerwacja;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Hotel.Presentation.Controllers
 {
 	public class HomeController : Controller
-	{
+	{//TODO ujednolicić nazwy wszystkich funkcji
 		private readonly ILogger<HomeController> _logger;
 		private readonly HotelDbContext _dbContext;
 		private readonly IRezerwacjaService _rezerwacjaService;
+		private readonly IPokojService _pokojService;
+
 		//private readonly IAnulujRezerwacje _anulujRezerwacje;
 
 		public HomeController(ILogger<HomeController> logger,
 			HotelDbContext dbContext,
-			IRezerwacjaService rezerwacjaService/*,
+			IRezerwacjaService rezerwacjaService,
+			IPokojService pokojService/*,
 			IAnulujRezerwacje anulujRezerwacje*/)
 		{
 			_dbContext = dbContext;
 			_rezerwacjaService = rezerwacjaService;
+			_pokojService = pokojService;
 			//_anulujRezerwacje = anulujRezerwacje;
 			_logger = logger;
 		}
@@ -102,9 +107,9 @@ namespace Hotel.Presentation.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult UtworzRezerwacje(int id, DateTime DataOd, DateTime DataDo, int IleOsob)
+		public async Task<IActionResult> UtworzRezerwacje(int id, DateTime DataOd, DateTime DataDo, int IleOsob)
 		{
-			var Pokoj = _dbContext.Pokoje.Single(p => p.Id == id);
+			var Pokoj = await _pokojService.WyszukajPoId(id);
 			var CenaZaNoc = Pokoj.CenaZaNoc;
 			int IloscDni = (int)DataDo.Subtract(DataOd).TotalDays;
 
@@ -122,7 +127,7 @@ namespace Hotel.Presentation.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult UtworzRezerwacje(Rezerwacja rezerwacja)
+		public async Task<IActionResult> UtworzRezerwacje(Rezerwacja rezerwacja)
 		{
 			if (ModelState.IsValid)
 			{
@@ -144,8 +149,7 @@ namespace Hotel.Presentation.Controllers
 					Pokoj = rezerwacja.Pokoj
 				};
 
-				_dbContext.Rezerwacje.Add(_rezerwacja);
-				_dbContext.SaveChanges();
+				await _rezerwacjaService.DodajRezerwacje(_rezerwacja);
 
 				return RedirectToAction("Sukces", new { id = _rezerwacja.Id });
 			}
@@ -155,15 +159,9 @@ namespace Hotel.Presentation.Controllers
 			}
 		}
 
-		public async Task<IActionResult> SzczegolyPokoju(int? id)
+		public async Task<IActionResult> SzczegolyPokoju(int id)
 		{
-			if (id == null)
-			{
-				return NotFound();
-			}
-
-			var room = await _dbContext.Pokoje
-				.FirstOrDefaultAsync(m => m.Id == id);
+			var room = await _pokojService.WyszukajPoId(id);
 
 			if (room == null)
 			{
@@ -174,20 +172,20 @@ namespace Hotel.Presentation.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult SzczegolyRezerwacji(ZapytanieOSzczegolyRezerwacjiModel zapytanie)
+		public async Task<IActionResult> SzczegolyRezerwacji(ZapytanieOSzczegolyRezerwacjiModel zapytanie)
 		{
-			var _rezerwacja = _dbContext.Rezerwacje
-				.Include(o => o.Osoba)
-				.FirstOrDefault(r => r.Id == zapytanie.NumerRezerwacji);
+			var rezerwacja = await _rezerwacjaService.WyszukajPoId(zapytanie.NumerRezerwacji);
 
-			if (_rezerwacja != null)
+			if (rezerwacja != null)
 			{
-				if (string.Compare(zapytanie.AdresEmail, _rezerwacja.Osoba.AdresEmail, true) == 0)
+				if (string.Compare(zapytanie.AdresEmail, rezerwacja.Osoba.AdresEmail, true) == 0)
 				{
-					return View(_rezerwacja);
+					return View(rezerwacja);
 				}
 			}
+
 			return View();//TODO zwracać informację o błędzie
+						  //w projekcie CarWorkshop jest dodana klasa ControllerExtensions, sprawdzić
 		}
 
 		[HttpGet]

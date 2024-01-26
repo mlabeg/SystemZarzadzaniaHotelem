@@ -15,6 +15,8 @@ namespace Hotel.Presentation.Controllers
 {
 	public class HomeController : Controller
 	{//TODO ujednolicić nazwy wszystkich funkcji
+	 //TODO przenieść wsztskie akcje kontrolera do RezerwacjaController
+
 		private readonly ILogger<HomeController> _logger;
 		private readonly HotelDbContext _dbContext;
 		private readonly IRezerwacjaService _rezerwacjaService;
@@ -59,7 +61,7 @@ namespace Hotel.Presentation.Controllers
 
 		[HttpPost]
 		public IActionResult SprawdzDostepnosc(SprawdzDostepnoscModel zapytanie)
-		{
+		{//TODO przenieść logikę sprawdź dostęnosć do Hotel.Application
 			if (zapytanie.DataOd == null || zapytanie.DataDo == null || zapytanie.IleOsob <= 0 || zapytanie.IleOsob == null)
 			{
 				return View();//TODO wysłać komunikat o błędzie
@@ -200,6 +202,7 @@ namespace Hotel.Presentation.Controllers
 			return View(id);
 		}
 
+		//TODO przenieść wykonywanie AnulujRezerwację do Hotel.Applicationa
 		[HttpPost]
 		public IActionResult AnulujRezerwacje(bool potwierdzenie, int rezerwacjaId)
 		{

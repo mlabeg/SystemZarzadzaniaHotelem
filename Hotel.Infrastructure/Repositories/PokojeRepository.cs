@@ -27,7 +27,9 @@ namespace Hotel.Infrastructure.Repositories
 
 		public async Task<Pokoj?> WyszukajPoId(int id)
 		{
-			return await _dbContext.Pokoje.FirstOrDefaultAsync(p => p.Id == id);
+			return await _dbContext.Pokoje
+				.Include(t => t.PokojTyp)
+				.FirstOrDefaultAsync(p => p.Id == id);
 		}
 	}
 }

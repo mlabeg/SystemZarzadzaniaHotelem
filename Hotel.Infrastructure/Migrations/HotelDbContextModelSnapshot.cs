@@ -70,9 +70,6 @@ namespace Hotel.Infrastructure.Migrations
                     b.Property<int>("CenaZaNoc")
                         .HasColumnType("int");
 
-                    b.Property<bool>("CzyWolny")
-                        .HasColumnType("bit");
-
                     b.Property<int>("LiczbaMiejsc")
                         .HasColumnType("int");
 
@@ -83,13 +80,31 @@ namespace Hotel.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TypPokoju")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PokojTypId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("PokojTypId");
+
                     b.ToTable("Pokoje");
+                });
+
+            modelBuilder.Entity("Hotel.Domain.Entities.PokojTyp", b =>
+                {
+                    b.Property<int>("IdPokojTyp")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdPokojTyp"));
+
+                    b.Property<string>("NazwaTypuPokoju")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdPokojTyp");
+
+                    b.ToTable("PokojTyp");
                 });
 
             modelBuilder.Entity("Hotel.Domain.Entities.Rezerwacja", b =>
@@ -167,6 +182,17 @@ namespace Hotel.Infrastructure.Migrations
                     b.HasBaseType("Hotel.Domain.Entities.UzytkownikNiezarejestrowany");
 
                     b.HasDiscriminator().HasValue("uzytkownikZarejestrowany");
+                });
+
+            modelBuilder.Entity("Hotel.Domain.Entities.Pokoj", b =>
+                {
+                    b.HasOne("Hotel.Domain.Entities.PokojTyp", "PokojTyp")
+                        .WithMany()
+                        .HasForeignKey("PokojTypId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PokojTyp");
                 });
 
             modelBuilder.Entity("Hotel.Domain.Entities.Rezerwacja", b =>

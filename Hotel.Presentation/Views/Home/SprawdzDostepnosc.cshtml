@@ -64,7 +64,7 @@
                             <div class="card mb-4 shadow-sm">
                                 <!-- <img src="~/Images/@@item.RoomImage" class="card-img-top" height="225"> -->
                                 <div class="card-body">
-                                    <h5 class="card-title">@Html.DisplayFor(modelItem => pokoj.TypPokoju) </h5>
+                                    <h5 class="card-title">@Html.DisplayFor(modelItem => pokoj.PokojTyp.NazwaTypuPokoju) </h5>
                                     <h4 class="card-subtitle"> @Html.DisplayFor(modelItem => pokoj.CenaZaNoc) zł/noc</h4>
                                     <h6 class="small">Cena nie zawiera dodatkowego wyżywienia</h6>
                                     <p class="card-text">Max. ilość osób: @Html.DisplayFor(modelItem => pokoj.LiczbaMiejsc)</p>

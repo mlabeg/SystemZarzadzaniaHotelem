@@ -30,21 +30,39 @@ namespace Hotel.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PokojTyp",
+                columns: table => new
+                {
+                    IdPokojTyp = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NazwaTypuPokoju = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PokojTyp", x => x.IdPokojTyp);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Pokoje",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TypPokoju = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Numer = table.Column<int>(type: "int", nullable: false),
                     LiczbaMiejsc = table.Column<int>(type: "int", nullable: false),
                     CenaZaNoc = table.Column<int>(type: "int", nullable: false),
                     Opis = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CzyWolny = table.Column<bool>(type: "bit", nullable: true)
+                    PokojTypId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pokoje", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Pokoje_PokojTyp_PokojTypId",
+                        column: x => x.PokojTypId,
+                        principalTable: "PokojTyp",
+                        principalColumn: "IdPokojTyp",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -80,6 +98,11 @@ namespace Hotel.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Pokoje_PokojTypId",
+                table: "Pokoje",
+                column: "PokojTypId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Rezerwacje_OsobaId",
                 table: "Rezerwacje",
                 column: "OsobaId");
@@ -101,6 +124,9 @@ namespace Hotel.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Pokoje");
+
+            migrationBuilder.DropTable(
+                name: "PokojTyp");
         }
     }
 }

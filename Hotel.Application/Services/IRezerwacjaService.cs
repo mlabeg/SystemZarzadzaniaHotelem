@@ -19,6 +19,11 @@ namespace Hotel.Application.Services
 
 		public Task<Domain.Entities.Rezerwacja?> WyszukajPoId(int id);
 
+		public Task<IQueryable<Domain.Entities.Rezerwacja>> GetRezerwacjeWTermminie(DateTime dataOd, DateTime dataDo)
+		{
+			var rezerwacjeWTerminie =
+		}
+
 		//TODO dodać poniższe
 		//public List<Hotel.Domain.Entities.Rezerwacja> PokazHistorieRezerwacji();
 		//public List<Hotel.Domain.Entities.Rezerwacja> PokazAktualneRezerwacje();

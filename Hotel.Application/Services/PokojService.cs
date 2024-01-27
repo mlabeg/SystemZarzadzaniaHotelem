@@ -22,6 +22,11 @@ namespace Hotel.Application.Services
 			await _pokojeRepository.DodajPokoj(pokoj);
 		}
 
+		public async Task<bool> PokojeAny()
+		{
+			return await _pokojeRepository.PokojeAny();
+		}
+
 		public async Task<Pokoj?> WyszukajPoId(int id)
 		{
 			return await _pokojeRepository.WyszukajPoId(id);

@@ -12,5 +12,7 @@ namespace Hotel.Domain.Interfaces
 		Task DodajPokoj(Pokoj pokoj);
 
 		Task<Pokoj?> WyszukajPoId(int id);
+
+		Task<bool> PokojeAny();
 	}
 }

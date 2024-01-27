@@ -60,7 +60,7 @@ namespace Hotel.Presentation.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult SprawdzDostepnosc(SprawdzDostepnoscModel zapytanie)
+		public async Task<IActionResult> SprawdzDostepnosc(SprawdzDostepnoscModel zapytanie)
 		{//TODO przenieść logikę sprawdź dostęnosć do Hotel.Application
 			if (zapytanie.DataOd == null || zapytanie.DataDo == null || zapytanie.IleOsob <= 0 || zapytanie.IleOsob == null)
 			{
@@ -72,7 +72,7 @@ namespace Hotel.Presentation.Controllers
 				return View();//TODO wysłać komunikat o błędzie
 			}
 
-			if (!_dbContext.Pokoje.Any())
+			if (!await _pokojService.PokojeAny())
 			{
 				return View(zapytanie);
 			}
@@ -93,7 +93,7 @@ namespace Hotel.Presentation.Controllers
 				dostepnePokoje = _dbContext.Pokoje.ToList();
 			}
 			else
-			{
+			{//w IPokojService pobierz pokoje wg poniższego, ale z już odfltrowaną ilością osób
 				dostepnePokoje = _dbContext.Pokoje.Where(r => !pokojeZajete.Any(b => b.Id == r.Id)).ToList();
 			}
 

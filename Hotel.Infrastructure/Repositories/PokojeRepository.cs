@@ -25,6 +25,11 @@ namespace Hotel.Infrastructure.Repositories
 			await _dbContext.SaveChangesAsync();
 		}
 
+		public async Task<bool> PokojeAny()
+		{
+			return await _dbContext.Pokoje.AnyAsync();
+		}
+
 		public async Task<Pokoj?> WyszukajPoId(int id)
 		{
 			return await _dbContext.Pokoje

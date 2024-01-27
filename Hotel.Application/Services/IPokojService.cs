@@ -14,5 +14,8 @@ namespace Hotel.Application.Services
 		public void ZmienStatus();
 
 		public Task<Pokoj?> WyszukajPoId(int number);
+
+		//TODO zmień nazwę tej metody:
+		public Task<bool> PokojeAny();
 	}
 }

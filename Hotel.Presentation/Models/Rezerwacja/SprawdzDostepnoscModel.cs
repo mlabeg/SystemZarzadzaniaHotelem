@@ -17,7 +17,7 @@ namespace Hotel.Presentation.Models.Rezerwacja
 
 		[Required(ErrorMessage = "Podaj liczbę osób")]
 		[Range(1, 8, ErrorMessage = "Podaj wartość między 1 a 8")]
-		public int? IleOsob { get; set; }
+		public int IleOsob { get; set; }
 
 		public IList<Pokoj> ListaPokoi { get; set; } = new List<Pokoj>();
 	}

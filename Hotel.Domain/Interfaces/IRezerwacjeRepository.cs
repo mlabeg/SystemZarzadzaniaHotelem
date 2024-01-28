@@ -13,7 +13,7 @@ namespace Hotel.Domain.Interfaces
 
 		Task UsunRezerwacje(int id);
 
-		Task<IEnumerable<Rezerwacja>> PokazWszystkieRezerwacje();
+		Task<IEnumerable<Rezerwacja>> ZwrocWszystkieRezerwacje();
 
 		Task<Rezerwacja?> WyszukajPoId(int id);
 

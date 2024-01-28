@@ -24,7 +24,7 @@ namespace Hotel.Infrastructure.Repositories
 			await _dbContext.SaveChangesAsync();
 		}
 
-		public async Task<IEnumerable<Rezerwacja>> PokazWszystkieRezerwacje()
+		public async Task<IEnumerable<Rezerwacja>> ZwrocWszystkieRezerwacje()
 			=> await _dbContext.Rezerwacje
 			.Include(p => p.Pokoj)
 			.Include(p => p.Pokoj.PokojTyp)

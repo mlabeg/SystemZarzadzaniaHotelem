@@ -72,7 +72,7 @@ namespace Hotel.Presentation.Controllers
 				return View(zapytanie);//TODO wysłać komunikat o błędzie
 			}
 
-			var rezerwacje = await _rezerwacjaService.WyszukajWTermminie(zapytanie.DataOd, zapytanie.DataDo);
+			var rezerwacje = await _rezerwacjaService.ZwrocZajetePokojIdWTermminie(zapytanie.DataOd, zapytanie.DataDo);
 
 			IEnumerable<Pokoj> dostepnePokoje = new List<Pokoj>();
 

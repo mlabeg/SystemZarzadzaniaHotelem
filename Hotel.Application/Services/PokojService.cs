@@ -41,5 +41,10 @@ namespace Hotel.Application.Services
 		{
 			return await _pokojeRepository.ZwrocDostepne(rezerwacje, iloscOsob);
 		}
+
+		public Task<IEnumerable<Pokoj>> ZwrocDostepne(List<int> zarezerwowanePokojId, int iloscOsob)
+		{
+			return null;
+		}
 	}
 }

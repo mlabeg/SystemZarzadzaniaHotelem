@@ -18,5 +18,7 @@ namespace Hotel.Domain.Interfaces
 		Task<Rezerwacja?> WyszukajPoId(int id);
 
 		public Task<IEnumerable<Rezerwacja>> WyszukajWTermminie(DateTime dataOd, DateTime dataDo);
+
+		public Task<List<int>>? WyszukajPokojIdWTermminie(DateTime dataOd, DateTime dataDo);
 	}
 }

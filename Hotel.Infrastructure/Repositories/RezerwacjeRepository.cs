@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Hotel.Domain.Entities;
 using Hotel.Infrastructure.Presistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Hotel.Infrastructure.Repositories
 {
@@ -59,6 +60,25 @@ namespace Hotel.Infrastructure.Repositories
 				(r.DataDo >= dataOd && r.DataDo <= dataDo)).ToListAsync();
 
 			return rezerwacje;
+		}
+
+		public async Task<List<int>>? WyszukajPokojIdWTermminie(DateTime dataOd, DateTime dataDo)
+		{
+			var rezerwacje = await _dbContext.Rezerwacje.Where(r =>
+				(r.DataOd <= dataOd && r.DataDo >= dataOd) ||
+				(r.DataOd <= dataDo && r.DataDo >= dataDo) ||
+				(r.DataDo >= dataOd && r.DataDo <= dataDo && r.DataDo >= dataDo) ||
+				(r.DataDo <= dataOd && r.DataDo >= dataOd && r.DataDo <= dataDo) ||
+				(r.DataDo >= dataOd && r.DataDo <= dataDo)).ToListAsync();
+
+			List<int> pokojeId = new List<int>();
+
+			if (!rezerwacje.IsNullOrEmpty())
+			{
+				pokojeId = rezerwacje.Select(p => p.PokojId).ToList();
+			}
+
+			return pokojeId;
 		}
 	}
 }

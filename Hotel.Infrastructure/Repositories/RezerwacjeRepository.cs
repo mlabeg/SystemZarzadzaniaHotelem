@@ -48,5 +48,17 @@ namespace Hotel.Infrastructure.Repositories
 				.Include(o => o.Osoba)
 				.FirstOrDefaultAsync(r => r.Id == id);
 		}
+
+		public async Task<IEnumerable<Rezerwacja>> WyszukajWTermminie(DateTime dataOd, DateTime dataDo)
+		{//TODO zobaczyć czy nie zwrócić tu tylko listy pokoi
+			var rezerwacje = await _dbContext.Rezerwacje.Where(r =>
+				(r.DataOd <= dataOd && r.DataDo >= dataOd) ||
+				(r.DataOd <= dataDo && r.DataDo >= dataDo) ||
+				(r.DataDo >= dataOd && r.DataDo <= dataDo && r.DataDo >= dataDo) ||
+				(r.DataDo <= dataOd && r.DataDo >= dataOd && r.DataDo <= dataDo) ||
+				(r.DataDo >= dataOd && r.DataDo <= dataDo)).ToListAsync();
+
+			return rezerwacje;
+		}
 	}
 }

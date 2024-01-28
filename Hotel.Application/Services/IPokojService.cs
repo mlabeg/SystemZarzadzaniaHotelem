@@ -11,11 +11,11 @@ namespace Hotel.Application.Services
 	{
 		Task DodajPokoj(Pokoj pokoj);
 
-		public void ZmienStatus();
-
 		public Task<Pokoj?> WyszukajPoId(int number);
 
 		//TODO zmień nazwę tej metody:
 		public Task<bool> PokojeAny();
+
+		public Task<IEnumerable<Pokoj>> ZwwrocWszystkiePokoje();
 	}
 }

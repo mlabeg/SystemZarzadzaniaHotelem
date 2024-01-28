@@ -14,5 +14,7 @@ namespace Hotel.Domain.Interfaces
 		Task<Pokoj?> WyszukajPoId(int id);
 
 		Task<bool> PokojeAny();
+
+		Task<IEnumerable<Pokoj>> ZwrocWszystkiePokoje();
 	}
 }

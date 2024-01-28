@@ -32,9 +32,9 @@ namespace Hotel.Application.Services
 			return await _pokojeRepository.WyszukajPoId(id);
 		}
 
-		public void ZmienStatus()
+		public async Task<IEnumerable<Pokoj>> ZwwrocWszystkiePokoje()
 		{
-			throw new NotImplementedException();
+			return await _pokojeRepository.ZwrocWszystkiePokoje();
 		}
 	}
 }

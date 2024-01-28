@@ -36,5 +36,10 @@ namespace Hotel.Infrastructure.Repositories
 				.Include(t => t.PokojTyp)
 				.FirstOrDefaultAsync(p => p.Id == id);
 		}
+
+		public async Task<IEnumerable<Pokoj>> ZwrocWszystkiePokoje()
+		{
+			return await _dbContext.Pokoje.ToListAsync();
+		}
 	}
 }

@@ -31,7 +31,7 @@ namespace Hotel.Application.Services
 
 		public async Task<IEnumerable<Hotel.Domain.Entities.Rezerwacja>> PokazWszystkieRezerwacje()
 		{
-			var rezerwacje = await _rezerwacjeRepository.PokazWszystkieRezerwacje();
+			var rezerwacje = await _rezerwacjeRepository.ZwrocWszystkieRezerwacje();
 
 			var rezerwacjeList = rezerwacje.ToList();
 

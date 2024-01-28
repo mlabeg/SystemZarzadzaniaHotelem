@@ -52,5 +52,10 @@ namespace Hotel.Application.Services
 		{
 			throw new NotImplementedException();
 		}
+
+		public async Task<IEnumerable<Domain.Entities.Rezerwacja>> WyszukajWTermminie(DateTime dataOd, DateTime dataDo)
+		{
+			return await _rezerwacjeRepository.WyszukajWTermminie(dataOd, dataDo);
+		}
 	}
 }

@@ -32,9 +32,14 @@ namespace Hotel.Application.Services
 			return await _pokojeRepository.WyszukajPoId(id);
 		}
 
-		public async Task<IEnumerable<Pokoj>> ZwwrocWszystkiePokoje()
+		public async Task<IEnumerable<Pokoj>> ZwwrocWszystkie()
 		{
-			return await _pokojeRepository.ZwrocWszystkiePokoje();
+			return await _pokojeRepository.ZwrocWszystkie();
+		}
+
+		public async Task<IEnumerable<Pokoj>> ZwrocDostepne(IEnumerable<Hotel.Domain.Entities.Rezerwacja> rezerwacje, int iloscOsob)
+		{
+			return await _pokojeRepository.ZwrocDostepne(rezerwacje, iloscOsob);
 		}
 	}
 }

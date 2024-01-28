@@ -16,6 +16,8 @@ namespace Hotel.Application.Services
 		//TODO zmień nazwę tej metody:
 		public Task<bool> PokojeAny();
 
-		public Task<IEnumerable<Pokoj>> ZwwrocWszystkiePokoje();
+		public Task<IEnumerable<Pokoj>> ZwwrocWszystkie();
+
+		public Task<IEnumerable<Pokoj>> ZwrocDostepne(IEnumerable<Domain.Entities.Rezerwacja> rezerwacje, int iloscOsob);
 	}
 }

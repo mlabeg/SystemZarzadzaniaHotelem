@@ -61,13 +61,7 @@ namespace Hotel.Presentation.Controllers
 
 		[HttpPost]
 		public async Task<IActionResult> SprawdzDostepnosc(SprawdzDostepnoscModel zapytanie)
-		{//TODO przenieść logikę sprawdź dostęnosć do Hotel.Application
-		 //TODO chyba nie jest to potrzebne, bo jest zapewnniane przez requesty w definicji klasy SprawdzDostepnoscModel
-			/*if (zapytanie.DataOd == null || zapytanie.DataDo == null || zapytanie.IleOsob <= 0 || zapytanie.IleOsob == null)
-			{
-				return View();//TODO wysłać komunikat o błędzie
-			}*/
-
+		{
 			if (zapytanie.DataOd >= zapytanie.DataDo)
 			{
 				return View();//TODO wysłać komunikat o błędzie
@@ -84,20 +78,14 @@ namespace Hotel.Presentation.Controllers
 
 			if (rezerwacje.IsNullOrEmpty())
 			{
-				dostepnePokoje = await _pokojService.ZwwrocWszystkiePokoje();
+				dostepnePokoje = await _pokojService.ZwwrocWszystkie();
 			}
 			else
-			{//w IPokojService pobierz pokoje wg poniższego, ale z już odfltrowaną ilością osób
-				dostepnePokoje = _dbContext.Pokoje.Where(r => !rezerwacje.Any(b => b.Id == r.Id)).ToList();
+			{
+				dostepnePokoje = await _pokojService.ZwrocDostepne(rezerwacje, zapytanie.IleOsob);
 			}
 
-			foreach (var pokoj in dostepnePokoje)
-			{
-				if (pokoj.LiczbaMiejsc >= zapytanie.IleOsob)
-				{
-					zapytanie.ListaPokoi.Add(pokoj);
-				}
-			}
+			zapytanie.ListaPokoi = dostepnePokoje.ToList();
 
 			return View(zapytanie);
 		}

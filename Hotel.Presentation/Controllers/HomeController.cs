@@ -72,7 +72,7 @@ namespace Hotel.Presentation.Controllers
 				return View(zapytanie);//TODO wysłać komunikat o błędzie
 			}
 
-			var rezerwacje = await _rezerwacjaService.ZwrocZajetePokojIdWTermminie(zapytanie.DataOd, zapytanie.DataDo);
+			var rezerwacje = await _rezerwacjaService.ZwrocRezerwacjeWTermminie(zapytanie.DataOd, zapytanie.DataDo);
 
 			IEnumerable<Pokoj> dostepnePokoje = new List<Pokoj>();
 
@@ -184,27 +184,42 @@ namespace Hotel.Presentation.Controllers
 			return View(id);
 		}
 
-		//TODO przenieść wykonywanie AnulujRezerwację do Hotel.Applicationa
 		[HttpPost]
-		public IActionResult AnulujRezerwacje(bool potwierdzenie, int rezerwacjaId)
+		public async Task<IActionResult> AnulujRezerwacje(bool potwierdzenie, int rezerwacjaId)
 		{
 			if (potwierdzenie)
 			{
-				//_anulujRezerwacje.AnulowanieRezerwacji(rezerwacjaId);
-				return Json(new { success = true, message = "Rezerwacja została anulowana" });
+				if (await _rezerwacjaService.UsunRezerwacje(rezerwacjaId))
+				{
+					return RedirectToAction("SukcesAnulujRezerwacje", new { id = rezerwacjaId });
+				}
 			}
 
 			return RedirectToAction(nameof(SzczegolyRezerwacji));
-			//TODO sprawdz czy nie usuwa dwóch pozycji rezerwacji TEST?
-			//sprawdziłem i nic takiego nie widzę, może tylko sie pomyliłem
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> PulpitRezerwacji()
-		{
-			var rezerwacje = await _rezerwacjaService.PokazWszystkieRezerwacje();
+		{//TODO naprawić sortowanie
+			string sortowanie = "DataOd";
+			var rezerwacje = await _rezerwacjaService.PokazWszystkieRezerwacje(sortowanie);
 
 			return View(rezerwacje);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> PulpitRezerwacji(string sortowanie)
+		{//TODO naprawić sortowanie
+			
+			var rezerwacje = await _rezerwacjaService.PokazWszystkieRezerwacje(sortowanie);
+
+			return View(rezerwacje);
+		}
+
+
+		public IActionResult SukcesAnulujRezerwacje(int id)
+		{
+			return View(id);
 		}
 	}
 }

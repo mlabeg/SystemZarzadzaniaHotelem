@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Hotel.Application.Services.Rezerwacja
 {
-	//TODO zammień na to, żeby to nie usuwało wpisu w BD, ale zmieniało status na "Anulowane"
+	//TODO ANULOWANIE zammień na to, żeby to nie usuwało wpisu w BD, ale zmieniało status na "Anulowane"
 
 	internal class AnulujRezerwacje : IAnulujRezerwacje
 	{

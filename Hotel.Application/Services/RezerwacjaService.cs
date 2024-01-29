@@ -24,14 +24,14 @@ namespace Hotel.Application.Services
 			await _rezerwacjeRepository.DodajRezerwacje(rezerwacja);
 		}
 
-		public async Task UsunRezerwacje(int id)
+		public async Task<bool> UsunRezerwacje(int id)
 		{
-			await _rezerwacjeRepository.UsunRezerwacje(id);
+			return await _rezerwacjeRepository.UsunRezerwacje(id);
 		}
 
-		public async Task<IEnumerable<Hotel.Domain.Entities.Rezerwacja>> PokazWszystkieRezerwacje()
+		public async Task<IEnumerable<Domain.Entities.Rezerwacja>> PokazWszystkieRezerwacje(string? wybor)
 		{
-			var rezerwacje = await _rezerwacjeRepository.ZwrocWszystkieRezerwacje();
+			var rezerwacje = await _rezerwacjeRepository.ZwrocWszystkieRezerwacje(wybor);
 
 			var rezerwacjeList = rezerwacje.ToList();
 
@@ -43,17 +43,12 @@ namespace Hotel.Application.Services
 			return await _rezerwacjeRepository.WyszukajPoId(id);
 		}
 
-		public void ZmianaDanychRezerwacjiUz()
-		{
-			throw new NotImplementedException();
-		}
-
 		public List<Hotel.Domain.Entities.Rezerwacja> PokazHistorieRezerwacji()
 		{
 			throw new NotImplementedException();
 		}
 
-		public async Task<IEnumerable<Domain.Entities.Rezerwacja>> ZwrocZajetePokojIdWTermminie(DateTime dataOd, DateTime dataDo)
+		public async Task<IEnumerable<Domain.Entities.Rezerwacja>> ZwrocRezerwacjeWTermminie(DateTime dataOd, DateTime dataDo)
 		{
 			return await _rezerwacjeRepository.WyszukajWTermminie(dataOd, dataDo);
 		}

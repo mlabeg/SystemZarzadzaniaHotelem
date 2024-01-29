@@ -9,17 +9,17 @@ namespace Hotel.Application.Services
 {
 	public interface IRezerwacjaService
 	{
-		Task DodajRezerwacje(Hotel.Domain.Entities.Rezerwacja rezerwacja);
+		public Task DodajRezerwacje(Domain.Entities.Rezerwacja rezerwacja);
 
-		public Task UsunRezerwacje(int id);
+		public Task<bool> UsunRezerwacje(int id);
 
-		public void ZmianaDanychRezerwacjiUz();
-
-		public Task<IEnumerable<Hotel.Domain.Entities.Rezerwacja>> PokazWszystkieRezerwacje();
+		public Task<IEnumerable<Domain.Entities.Rezerwacja>> PokazWszystkieRezerwacje(string? wybor);
 
 		public Task<Domain.Entities.Rezerwacja?> WyszukajPoId(int id);
 
-		public Task<IEnumerable<Domain.Entities.Rezerwacja>> WyszukajWTermminie(DateTime dataOd, DateTime dataDo);
+		public Task<IEnumerable<Domain.Entities.Rezerwacja>> ZwrocRezerwacjeWTermminie(DateTime dataOd, DateTime dataDo);
+
+		public Task<List<int>>? WyszukajPokojIdWTermminie(DateTime dataOd, DateTime dataDo);
 
 		//TODO dodać poniższe
 		//public List<Hotel.Domain.Entities.Rezerwacja> PokazHistorieRezerwacji();

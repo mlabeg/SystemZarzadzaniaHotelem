@@ -11,12 +11,14 @@ namespace Hotel.Domain.Interfaces
 	{
 		Task DodajRezerwacje(Rezerwacja rezerwacja);
 
-		Task UsunRezerwacje(int id);
+		public Task<bool> UsunRezerwacje(int id);
 
-		Task<IEnumerable<Rezerwacja>> ZwrocWszystkieRezerwacje();
+		Task<IEnumerable<Rezerwacja>> ZwrocWszystkieRezerwacje(string? wybor);
 
 		Task<Rezerwacja?> WyszukajPoId(int id);
 
 		public Task<IEnumerable<Rezerwacja>> WyszukajWTermminie(DateTime dataOd, DateTime dataDo);
+
+		public Task<List<int>>? WyszukajPokojIdWTermminie(DateTime dataOd, DateTime dataDo);
 	}
 }

@@ -46,7 +46,16 @@ namespace Hotel.Infrastructure.Repositories
 		{
 			var pokojePoIlosc = _dbContext.Pokoje.Where(p => p.LiczbaMiejsc >= iloscOsob).AsAsyncEnumerable();
 
-			var dostepnePokoje = await pokojePoIlosc.Where(r => !rezerwacje.Any(b => b.Id == r.Id)).ToListAsync();
+			var dostepnePokoje = await pokojePoIlosc.Where(p => !rezerwacje.Any(r => r.PokojId == p.Id)).ToListAsync();
+
+			return dostepnePokoje;
+		}
+
+		public async Task<IEnumerable<Pokoj>> ZwrocDostepne(List<int> zarezerwowanePokojId, int iloscOsob)
+		{
+			var pokojePoIlosc = _dbContext.Pokoje.Where(p => p.LiczbaMiejsc >= iloscOsob).AsAsyncEnumerable();
+
+			var dostepnePokoje = await pokojePoIlosc.Where(p => !zarezerwowanePokojId.Any(r => r.Equals(p.Id))).ToListAsync();
 
 			return dostepnePokoje;
 		}

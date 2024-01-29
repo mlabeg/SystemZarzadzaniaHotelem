@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Hotel.Domain.Entities;
 using Hotel.Infrastructure.Presistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Hotel.Infrastructure.Repositories
 {
@@ -24,22 +25,33 @@ namespace Hotel.Infrastructure.Repositories
 			await _dbContext.SaveChangesAsync();
 		}
 
-		public async Task<IEnumerable<Rezerwacja>> ZwrocWszystkieRezerwacje()
-			=> await _dbContext.Rezerwacje
-			.Include(p => p.Pokoj)
-			.Include(p => p.Pokoj.PokojTyp)
-			.Include(o => o.Osoba)
-			.ToListAsync();
-
-		public async Task UsunRezerwacje(int id)
-		{//TODO zmiana usuwania rezerwacji na zmianę jej statusu
-			var rezerwacja = _dbContext.Rezerwacje.FirstOrDefault(x => x.Id == id);
-
-			if (rezerwacja != null)
+		public async Task<IEnumerable<Rezerwacja>> ZwrocWszystkieRezerwacje(string? wybor)
+		{//TODO poprawić sortowanie
+			if (wybor.IsNullOrEmpty())
 			{
-				_dbContext.Rezerwacje.Remove(rezerwacja);
-				await _dbContext.SaveChangesAsync();
+				wybor = "DataOd";
 			}
+
+			return await _dbContext.Rezerwacje
+				.Include(p => p.Pokoj)
+				.Include(p => p.Pokoj.PokojTyp)
+				.Include(o => o.Osoba)
+				.OrderBy(r => r.DataOd)
+				.ToListAsync();
+		}
+
+		public async Task<bool> UsunRezerwacje(int id)
+		{//TODO ANULOWANIE zmiana usuwania rezerwacji na zmianę jej statusu
+			var rezerwacja = await _dbContext.Rezerwacje.FirstOrDefaultAsync(x => x.Id == id);
+
+			if (rezerwacja == null)
+			{
+				return false;
+			}
+
+			_dbContext.Rezerwacje.Remove(rezerwacja);
+			await _dbContext.SaveChangesAsync();
+			return true;
 		}
 
 		public async Task<Rezerwacja?> WyszukajPoId(int id)
@@ -50,7 +62,7 @@ namespace Hotel.Infrastructure.Repositories
 		}
 
 		public async Task<IEnumerable<Rezerwacja>> WyszukajWTermminie(DateTime dataOd, DateTime dataDo)
-		{//TODO zobaczyć czy nie zwrócić tu tylko listy pokoi
+		{
 			var rezerwacje = await _dbContext.Rezerwacje.Where(r =>
 				(r.DataOd <= dataOd && r.DataDo >= dataOd) ||
 				(r.DataOd <= dataDo && r.DataDo >= dataDo) ||
@@ -59,6 +71,25 @@ namespace Hotel.Infrastructure.Repositories
 				(r.DataDo >= dataOd && r.DataDo <= dataDo)).ToListAsync();
 
 			return rezerwacje;
+		}
+
+		public async Task<List<int>>? WyszukajPokojIdWTermminie(DateTime dataOd, DateTime dataDo)
+		{
+			var rezerwacje = await _dbContext.Rezerwacje.Where(r =>
+				(r.DataOd <= dataOd && r.DataDo >= dataOd) ||
+				(r.DataOd <= dataDo && r.DataDo >= dataDo) ||
+				(r.DataDo >= dataOd && r.DataDo <= dataDo && r.DataDo >= dataDo) ||
+				(r.DataDo <= dataOd && r.DataDo >= dataOd && r.DataDo <= dataDo) ||
+				(r.DataDo >= dataOd && r.DataDo <= dataDo)).ToListAsync();
+
+			List<int> pokojeId = new List<int>();
+
+			if (!rezerwacje.IsNullOrEmpty())
+			{
+				pokojeId = rezerwacje.Select(p => p.PokojId).ToList();
+			}
+
+			return pokojeId;
 		}
 	}
 }

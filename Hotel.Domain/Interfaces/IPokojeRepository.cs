@@ -18,5 +18,7 @@ namespace Hotel.Domain.Interfaces
 		Task<IEnumerable<Pokoj>> ZwrocWszystkie();
 
 		public Task<IEnumerable<Pokoj>> ZwrocDostepne(IEnumerable<Rezerwacja> rezerwacje, int iloscOsob);
+
+		public Task<IEnumerable<Pokoj>> ZwrocDostepne(List<int> zarezerwowanePokojId, int iloscOsob);
 	}
 }

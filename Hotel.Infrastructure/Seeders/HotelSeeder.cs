@@ -8,39 +8,39 @@ using System.Threading.Tasks;
 
 namespace Hotel.Infrastructure.Seeders
 {
-    public class HotelSeeder
-    {
-        //TODO dodać seedy klas Rezerwacja i Osoba
-        private readonly HotelDbContext _dbContext;
+	public class HotelSeeder
+	{
+		//TODO SEEDER dodać seedy klas Rezerwacja i Osoba
+		private readonly HotelDbContext _dbContext;
 
-        public HotelSeeder(HotelDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+		public HotelSeeder(HotelDbContext dbContext)
+		{
+			_dbContext = dbContext;
+		}
 
-        public async Task Seed()
-        {
-            if (await _dbContext.Database.CanConnectAsync())
-            {
-                if (!_dbContext.Pokoje.Any())
-                {
-                    var pokojSeed = new Pokoj()
-                    {
-                        Numer = 100,
-                        LiczbaMiejsc = 2,
-                        //CzyWolny = true,
-                        CenaZaNoc = 200
-                    };
+		public async Task Seed()
+		{
+			if (await _dbContext.Database.CanConnectAsync())
+			{
+				if (!_dbContext.Pokoje.Any())
+				{
+					var pokojSeed = new Pokoj()
+					{
+						Numer = 100,
+						LiczbaMiejsc = 2,
+						//CzyWolny = true,
+						CenaZaNoc = 200
+					};
 
-                    _dbContext.Pokoje.Add(pokojSeed);
-                    await _dbContext.SaveChangesAsync();
-                }
-            }
-        }
-    }
+					_dbContext.Pokoje.Add(pokojSeed);
+					await _dbContext.SaveChangesAsync();
+				}
+			}
+		}
+	}
 }
 
-//TODO Przenieść poniższe do seederay
+//TODO SEEDER Przenieść poniższe do seederay
 
 /*
 

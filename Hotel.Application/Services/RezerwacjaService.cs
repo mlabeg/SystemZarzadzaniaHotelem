@@ -29,13 +29,12 @@ namespace Hotel.Application.Services
 			return await _rezerwacjeRepository.UsunRezerwacje(id);
 		}
 
-		public async Task<IEnumerable<Domain.Entities.Rezerwacja>> PokazWszystkieRezerwacje(string? wybor)
+		public async Task<IEnumerable<Domain.Entities.Rezerwacja>> ZwrocWszystkie(string? wybor)
 		{
-			var rezerwacje = await _rezerwacjeRepository.ZwrocWszystkieRezerwacje(wybor);
+			var rezerwacje = await _rezerwacjeRepository.ZwrocWszystkie(wybor);
 
-			var rezerwacjeList = rezerwacje.ToList();
+			return rezerwacje;
 
-			return rezerwacjeList;
 		}
 
 		public async Task<Domain.Entities.Rezerwacja?> WyszukajPoId(int id)

@@ -200,22 +200,19 @@ namespace Hotel.Presentation.Controllers
 
 		[HttpGet]
 		public async Task<IActionResult> PulpitRezerwacji()
-		{//TODO naprawić sortowanie
-			string sortowanie = "DataOd";
-			var rezerwacje = await _rezerwacjaService.PokazWszystkieRezerwacje(sortowanie);
+		{
+			var rezerwacje = await _rezerwacjaService.ZwrocWszystkie("DataOd");
 
 			return View(rezerwacje);
 		}
 
 		[HttpPost]
 		public async Task<IActionResult> PulpitRezerwacji(string sortowanie)
-		{//TODO naprawić sortowanie
-			
-			var rezerwacje = await _rezerwacjaService.PokazWszystkieRezerwacje(sortowanie);
+		{
+			var rezerwacje = await _rezerwacjaService.ZwrocWszystkie(sortowanie);
 
 			return View(rezerwacje);
 		}
-
 
 		public IActionResult SukcesAnulujRezerwacje(int id)
 		{

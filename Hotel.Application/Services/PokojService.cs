@@ -43,7 +43,7 @@ namespace Hotel.Application.Services
 		}
 
 		public Task<IEnumerable<Pokoj>> ZwrocDostepne(List<int> zarezerwowanePokojId, int iloscOsob)
-		{
+		{//TODO ???
 			return null;
 		}
 	}

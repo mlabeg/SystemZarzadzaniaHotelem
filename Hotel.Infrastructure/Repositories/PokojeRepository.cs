@@ -38,7 +38,7 @@ namespace Hotel.Infrastructure.Repositories
 		}
 
 		public async Task<IEnumerable<Pokoj>> ZwrocWszystkie()
-		{//TODO zastanowic się czy ta metoda nie powinna zwracać IQueryable
+		{
 			return await _dbContext.Pokoje.ToListAsync();
 		}
 
@@ -53,11 +53,10 @@ namespace Hotel.Infrastructure.Repositories
 
 		public async Task<IEnumerable<Pokoj>> ZwrocDostepne(List<int> zarezerwowanePokojId, int iloscOsob)
 		{
-			var pokojePoIlosc = _dbContext.Pokoje.Where(p => p.LiczbaMiejsc >= iloscOsob).AsAsyncEnumerable();
-
-			var dostepnePokoje = await pokojePoIlosc.Where(p => !zarezerwowanePokojId.Any(r => r.Equals(p.Id))).ToListAsync();
-
-			return dostepnePokoje;
+			return await _dbContext.Pokoje
+				.Where(p => p.LiczbaMiejsc >= iloscOsob)
+				.Where(p => !zarezerwowanePokojId.Any(r => r.Equals(p.Id)))
+				.ToListAsync();
 		}
 	}
 }

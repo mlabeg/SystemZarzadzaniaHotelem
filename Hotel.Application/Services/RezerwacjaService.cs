@@ -34,17 +34,11 @@ namespace Hotel.Application.Services
 			var rezerwacje = await _rezerwacjeRepository.ZwrocWszystkie(wybor);
 
 			return rezerwacje;
-
 		}
 
 		public async Task<Domain.Entities.Rezerwacja?> WyszukajPoId(int id)
 		{
 			return await _rezerwacjeRepository.WyszukajPoId(id);
-		}
-
-		public List<Hotel.Domain.Entities.Rezerwacja> PokazHistorieRezerwacji()
-		{
-			throw new NotImplementedException();
 		}
 
 		public async Task<IEnumerable<Domain.Entities.Rezerwacja>> ZwrocRezerwacjeWTermminie(DateTime dataOd, DateTime dataDo)

@@ -42,9 +42,9 @@ namespace Hotel.Application.Services
 			return await _pokojeRepository.ZwrocDostepne(rezerwacje, iloscOsob);
 		}
 
-		public Task<IEnumerable<Pokoj>> ZwrocDostepne(List<int> zarezerwowanePokojId, int iloscOsob)
-		{//TODO ???
-			return null;
+		public async Task<IEnumerable<Pokoj>> ZwrocDostepne(List<int> zarezerwowanePokojId, int iloscOsob)
+		{
+			return await _pokojeRepository.ZwrocDostepne(zarezerwowanePokojId, iloscOsob);
 		}
 	}
 }

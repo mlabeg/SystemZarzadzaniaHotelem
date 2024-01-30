@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Hotel.Domain.Entities;
@@ -25,19 +26,36 @@ namespace Hotel.Infrastructure.Repositories
 			await _dbContext.SaveChangesAsync();
 		}
 
-		public async Task<IEnumerable<Rezerwacja>> ZwrocWszystkieRezerwacje(string? wybor)
+		public async Task<IEnumerable<Rezerwacja>> ZwrocWszystkie(string? sortowanie)
 		{//TODO poprawić sortowanie
-			if (wybor.IsNullOrEmpty())
-			{
-				wybor = "DataOd";
-			}
-
-			return await _dbContext.Rezerwacje
+			IQueryable<Rezerwacja> rezerwacje = _dbContext.Rezerwacje
 				.Include(p => p.Pokoj)
 				.Include(p => p.Pokoj.PokojTyp)
-				.Include(o => o.Osoba)
-				.OrderBy(r => r.DataOd)
-				.ToListAsync();
+				.Include(o => o.Osoba);
+
+			switch (sortowanie)
+			{
+				case "DataOd":
+					rezerwacje = rezerwacje.OrderBy(r => r.DataOd);
+					break;
+
+				case "DataDo":
+					rezerwacje = rezerwacje.OrderBy(r => r.DataDo);
+					break;
+
+				case "Id":
+					rezerwacje = rezerwacje.OrderBy(r => r.Id);
+					break;
+
+				case "Ststus":
+					rezerwacje = rezerwacje.OrderBy(r => r.Status);
+					break;
+
+				default:
+					rezerwacje =rezerwacje.OrderBy(r => r.DataOd);
+					break;
+			}
+			return await rezerwacje.ToListAsync();
 		}
 
 		public async Task<bool> UsunRezerwacje(int id)

@@ -22,18 +22,14 @@ namespace Hotel.Presentation.Controllers
 		private readonly IRezerwacjaService _rezerwacjaService;
 		private readonly IPokojService _pokojService;
 
-		//private readonly IAnulujRezerwacje _anulujRezerwacje;
-
 		public HomeController(ILogger<HomeController> logger,
 			HotelDbContext dbContext,
 			IRezerwacjaService rezerwacjaService,
-			IPokojService pokojService/*,
-			IAnulujRezerwacje anulujRezerwacje*/)
+			IPokojService pokojService)
 		{
 			_dbContext = dbContext;
 			_rezerwacjaService = rezerwacjaService;
 			_pokojService = pokojService;
-			//_anulujRezerwacje = anulujRezerwacje;
 			_logger = logger;
 		}
 
@@ -72,17 +68,19 @@ namespace Hotel.Presentation.Controllers
 				return View(zapytanie);//TODO wysłać komunikat o błędzie
 			}
 
-			var rezerwacje = await _rezerwacjaService.ZwrocRezerwacjeWTermminie(zapytanie.DataOd, zapytanie.DataDo);
+			//TODO sprawzić czy nie wyrzuci błędu przy pustej bazie rezerwacji
+			var rezerwacjeWTerminie = await _rezerwacjaService.ZwrocRezerwacjeWTermminie(zapytanie.DataOd, zapytanie.DataDo);
 
 			IEnumerable<Pokoj> dostepnePokoje = new List<Pokoj>();
 
-			if (rezerwacje.IsNullOrEmpty())
+			if (rezerwacjeWTerminie.IsNullOrEmpty())
 			{
 				dostepnePokoje = await _pokojService.ZwwrocWszystkie();
 			}
 			else
 			{
-				dostepnePokoje = await _pokojService.ZwrocDostepne(rezerwacje, zapytanie.IleOsob);
+				var zajetePokoje = rezerwacjeWTerminie.Select(r => r.PokojId).ToList();
+				dostepnePokoje = await _pokojService.ZwrocDostepne(zajetePokoje, zapytanie.IleOsob);
 			}
 
 			zapytanie.ListaPokoi = dostepnePokoje.ToList();

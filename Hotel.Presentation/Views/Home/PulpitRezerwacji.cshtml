@@ -13,19 +13,18 @@
 		<div class="d-flex justify-content-between align-items-center mb-3">
 			<h1>Pulpit rezerwacji</h1>
 
-			<div class="mb-3">
-				<form method="post" action="PulpitRezerwacji">
-				<label for="sortowanie" class="form-label">Sortuj według:</label>
-				<select class="form-select" name="sortowanie" id="sortowanie">
-					<option value="Id">Numer rezerwacji</option>
-					<option value="DataOd">Data od</option>
-					<option value="DataDo">Data do</option>
-					<option value="Status">Status</option>
-					
-				</select>
+			<form method="post" action="/Home/PulpitRezerwacji" class="d-flex">
+				<div class="mb-3 me-2">
+					<label for="sortowanie" class="form-label">Sortuj według:</label>
+					<select class="form-select" name="sortowanie" id="sortowanie">
+						<option value="Id">Numer rezerwacji</option>
+						<option value="DataOd">Data od</option>
+						<option value="DataDo">Data do</option>
+						<option value="Status">Status</option>
+					</select>
+				</div>
 				<button type="submit" class="btn btn-primary">Sortuj</button>
 			</form>
-			</div>
 		</div>
 
 

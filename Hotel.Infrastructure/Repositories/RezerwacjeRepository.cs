@@ -19,7 +19,7 @@ namespace Hotel.Infrastructure.Repositories
 		{
 			_dbContext = dbContext;
 		}
-
+			
 		public async Task DodajRezerwacje(Rezerwacja rezerwacja)
 		{
 			_dbContext.Add(rezerwacja);
@@ -27,7 +27,7 @@ namespace Hotel.Infrastructure.Repositories
 		}
 
 		public async Task<IEnumerable<Rezerwacja>> ZwrocWszystkie(string? sortowanie)
-		{//TODO poprawić sortowanie
+		{
 			IQueryable<Rezerwacja> rezerwacje = _dbContext.Rezerwacje
 				.Include(p => p.Pokoj)
 				.Include(p => p.Pokoj.PokojTyp)

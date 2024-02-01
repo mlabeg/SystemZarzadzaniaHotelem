@@ -42,11 +42,11 @@ namespace Hotel.Infrastructure.Repositories
 			return await _dbContext.Pokoje.ToListAsync();
 		}
 
-		public async Task<IEnumerable<Room>> GetAvailable(IEnumerable<Rezerwacja> rezerwacje, int iloscOsob)
+		public async Task<IEnumerable<Room>> GetAvailable(IEnumerable<Reservation> rezerwacje, int iloscOsob)
 		{
 			var pokojePoIlosc = _dbContext.Pokoje.Where(p => p.Capacity >= iloscOsob).AsAsyncEnumerable();
 
-			var dostepnePokoje = await pokojePoIlosc.Where(p => !rezerwacje.Any(r => r.PokojId == p.Id)).ToListAsync();
+			var dostepnePokoje = await pokojePoIlosc.Where(p => !rezerwacje.Any(r => r.RoomId == p.Id)).ToListAsync();
 
 			return dostepnePokoje;
 		}

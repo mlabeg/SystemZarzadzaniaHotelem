@@ -18,7 +18,7 @@ namespace Hotel.Application.Services
             _rezerwacjeRepository = rezerwacjeRepository;
         }
 
-        public async Task AddReservation(Rezerwacja rezerwacja)
+        public async Task AddReservation(Reservation rezerwacja)
         {
             await _rezerwacjeRepository.DodajRezerwacje(rezerwacja);
         }
@@ -28,19 +28,19 @@ namespace Hotel.Application.Services
             return await _rezerwacjeRepository.UsunRezerwacje(id);
         }
 
-        public async Task<IEnumerable<Rezerwacja>> GetAll(string? wybor)
+        public async Task<IEnumerable<Reservation>> GetAll(string? wybor)
         {
             var rezerwacje = await _rezerwacjeRepository.ZwrocWszystkie(wybor);
 
             return rezerwacje;
         }
 
-        public async Task<Rezerwacja?> GetById(int id)
+        public async Task<Reservation?> GetById(int id)
         {
             return await _rezerwacjeRepository.WyszukajPoId(id);
         }
 
-        public async Task<IEnumerable<Rezerwacja>> GetByDate(DateTime dataOd, DateTime dataDo)
+        public async Task<IEnumerable<Reservation>> GetByDate(DateTime dataOd, DateTime dataDo)
         {
             return await _rezerwacjeRepository.WyszukajWTermminie(dataOd, dataDo);
         }

@@ -2,22 +2,22 @@
 
 namespace Hotel.Domain.Entities.Models
 {
-    public class SprawdzDostepnoscModel
+    public class CheckAvailabilityModel
     {
         [Required(ErrorMessage = "Podaj datę początkową")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime DataOd { get; set; }
+        public DateTime DateFrom { get; set; }
 
         [Required(ErrorMessage = "Podaj datę końcową")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime DataDo { get; set; }
+        public DateTime DateTo { get; set; }
 
         [Required(ErrorMessage = "Podaj liczbę osób")]
         [Range(1, 8, ErrorMessage = "Podaj wartość między 1 a 8")]
-        public int IleOsob { get; set; }
+        public int NumberOfGuests { get; set; }
 
-        public IList<Room> ListaPokoi { get; set; } = new List<Room>();
+        public IList<Room> ListOfRooms { get; set; } = new List<Room>();
     }
 }

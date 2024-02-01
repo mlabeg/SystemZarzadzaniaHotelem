@@ -9,7 +9,7 @@ namespace Hotel.Application.Services
 {
     internal interface IOsobaService
     {
-        Task DodajOsobe(Osoba osoba);
+        Task DodajOsobe(Person osoba);
 
         public void ZmianaImienia();
 

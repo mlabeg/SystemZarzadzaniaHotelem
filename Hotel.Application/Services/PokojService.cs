@@ -37,7 +37,7 @@ namespace Hotel.Application.Services
 			return await _pokojeRepository.GetAll();
 		}
 
-		public async Task<IEnumerable<Room>> ZwrocDostepne(IEnumerable<Hotel.Domain.Entities.Rezerwacja> rezerwacje, int iloscOsob)
+		public async Task<IEnumerable<Room>> ZwrocDostepne(IEnumerable<Hotel.Domain.Entities.Reservation> rezerwacje, int iloscOsob)
 		{
 			return await _pokojeRepository.GetAvailable(rezerwacje, iloscOsob);
 		}

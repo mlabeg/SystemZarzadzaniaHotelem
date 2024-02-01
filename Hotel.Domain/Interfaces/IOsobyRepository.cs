@@ -9,6 +9,6 @@ namespace Hotel.Domain.Interfaces
 {
     public interface IOsobyRepository
     {
-        Task DodajOsobe(Osoba osoba);
+        Task DodajOsobe(Person osoba);
     }
 }

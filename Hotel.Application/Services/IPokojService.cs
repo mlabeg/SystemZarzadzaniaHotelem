@@ -18,7 +18,7 @@ namespace Hotel.Application.Services
 
 		public Task<IEnumerable<Room>> ZwwrocWszystkie();
 
-		public Task<IEnumerable<Room>> ZwrocDostepne(IEnumerable<Domain.Entities.Rezerwacja> rezerwacje, int iloscOsob);
+		public Task<IEnumerable<Room>> ZwrocDostepne(IEnumerable<Domain.Entities.Reservation> rezerwacje, int iloscOsob);
 
 		public Task<IEnumerable<Room>> ZwrocDostepne(List<int> zarezerwowanePokojId, int iloscOsob);
 	}

@@ -17,7 +17,7 @@ namespace Hotel.Domain.Interfaces
 
 		Task<IEnumerable<Room>> GetAll();
 
-		public Task<IEnumerable<Room>> GetAvailable(IEnumerable<Rezerwacja> rezerwacje, int iloscOsob);
+		public Task<IEnumerable<Room>> GetAvailable(IEnumerable<Reservation> rezerwacje, int iloscOsob);
 
 		public Task<IEnumerable<Room>> GetAvailable(List<int> zarezerwowanePokojId, int iloscOsob);
 	}

@@ -17,7 +17,7 @@ namespace Hotel.Application.Services
             _osobyRepository = osobyRepository;
         }
 
-        public async Task DodajOsobe(Osoba osoba)
+        public async Task DodajOsobe(Person osoba)
         {
             await _osobyRepository.DodajOsobe(osoba);
         }

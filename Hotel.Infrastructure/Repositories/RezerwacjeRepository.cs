@@ -20,27 +20,27 @@ namespace Hotel.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task DodajRezerwacje(Rezerwacja rezerwacja)
+        public async Task DodajRezerwacje(Reservation rezerwacja)
         {
             _dbContext.Add(rezerwacja);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Rezerwacja>> ZwrocWszystkie(string? sortowanie)
+        public async Task<IEnumerable<Reservation>> ZwrocWszystkie(string? sortowanie)
         {
-            IQueryable<Rezerwacja> rezerwacje = _dbContext.Rezerwacje
-                .Include(p => p.Pokoj)
-                .Include(p => p.Pokoj.Type)
-                .Include(o => o.Osoba);
+            IQueryable<Reservation> rezerwacje = _dbContext.Rezerwacje
+                .Include(p => p.Room)
+                .Include(p => p.Room.Type)
+                .Include(o => o.Person);
 
             switch (sortowanie)
             {
                 case "DataOd":
-                    rezerwacje = rezerwacje.OrderBy(r => r.DataOd);
+                    rezerwacje = rezerwacje.OrderBy(r => r.DateFrom);
                     break;
 
                 case "DataDo":
-                    rezerwacje = rezerwacje.OrderBy(r => r.DataDo);
+                    rezerwacje = rezerwacje.OrderBy(r => r.DateTo);
                     break;
 
                 case "Id":
@@ -52,7 +52,7 @@ namespace Hotel.Infrastructure.Repositories
                     break;
 
                 default:
-                    rezerwacje = rezerwacje.OrderBy(r => r.DataOd);
+                    rezerwacje = rezerwacje.OrderBy(r => r.DateFrom);
                     break;
             }
             return await rezerwacje.ToListAsync();
@@ -72,21 +72,21 @@ namespace Hotel.Infrastructure.Repositories
             return true;
         }
 
-        public async Task<Rezerwacja?> WyszukajPoId(int id)
+        public async Task<Reservation?> WyszukajPoId(int id)
         {
             return await _dbContext.Rezerwacje
-                .Include(o => o.Osoba)
+                .Include(o => o.Person)
                 .FirstOrDefaultAsync(r => r.Id == id);
         }
 
-        public async Task<IEnumerable<Rezerwacja>> WyszukajWTermminie(DateTime dataOd, DateTime dataDo)
+        public async Task<IEnumerable<Reservation>> WyszukajWTermminie(DateTime dataOd, DateTime dataDo)
         {
             var rezerwacje = await _dbContext.Rezerwacje.Where(r =>
-                (r.DataOd <= dataOd && r.DataDo >= dataOd) ||
-                (r.DataOd <= dataDo && r.DataDo >= dataDo) ||
-                (r.DataDo >= dataOd && r.DataDo <= dataDo && r.DataDo >= dataDo) ||
-                (r.DataDo <= dataOd && r.DataDo >= dataOd && r.DataDo <= dataDo) ||
-                (r.DataDo >= dataOd && r.DataDo <= dataDo)).ToListAsync();
+                (r.DateFrom <= dataOd && r.DateTo >= dataOd) ||
+                (r.DateFrom <= dataDo && r.DateTo >= dataDo) ||
+                (r.DateTo >= dataOd && r.DateTo <= dataDo && r.DateTo >= dataDo) ||
+                (r.DateTo <= dataOd && r.DateTo >= dataOd && r.DateTo <= dataDo) ||
+                (r.DateTo >= dataOd && r.DateTo <= dataDo)).ToListAsync();
 
             return rezerwacje;
         }
@@ -94,17 +94,17 @@ namespace Hotel.Infrastructure.Repositories
         public async Task<List<int>>? WyszukajPokojIdWTermminie(DateTime dataOd, DateTime dataDo)
         {
             var rezerwacje = await _dbContext.Rezerwacje.Where(r =>
-                (r.DataOd <= dataOd && r.DataDo >= dataOd) ||
-                (r.DataOd <= dataDo && r.DataDo >= dataDo) ||
-                (r.DataDo >= dataOd && r.DataDo <= dataDo && r.DataDo >= dataDo) ||
-                (r.DataDo <= dataOd && r.DataDo >= dataOd && r.DataDo <= dataDo) ||
-                (r.DataDo >= dataOd && r.DataDo <= dataDo)).ToListAsync();
+                (r.DateFrom <= dataOd && r.DateTo >= dataOd) ||
+                (r.DateFrom <= dataDo && r.DateTo >= dataDo) ||
+                (r.DateTo >= dataOd && r.DateTo <= dataDo && r.DateTo >= dataDo) ||
+                (r.DateTo <= dataOd && r.DateTo >= dataOd && r.DateTo <= dataDo) ||
+                (r.DateTo >= dataOd && r.DateTo <= dataDo)).ToListAsync();
 
             List<int> pokojeId = new List<int>();
 
             if (!rezerwacje.IsNullOrEmpty())
             {
-                pokojeId = rezerwacje.Select(p => p.PokojId).ToList();
+                pokojeId = rezerwacje.Select(p => p.RoomId).ToList();
             }
 
             return pokojeId;

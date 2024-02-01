@@ -10,21 +10,11 @@ using System.Diagnostics;
 namespace Hotel.Presentation.Controllers
 {
     public class HomeController : Controller
-    {//TODO ujednolicić nazwy wszystkich funkcji
-
+    {
         private readonly ILogger<HomeController> _logger;
-        private readonly HotelDbContext _dbContext;
-        private readonly IRezerwacjaService _rezerwacjaService;
-        private readonly IPokojService _pokojService;
 
-        public HomeController(ILogger<HomeController> logger,
-            HotelDbContext dbContext,
-            IRezerwacjaService rezerwacjaService,
-            IPokojService pokojService)
+        public HomeController(ILogger<HomeController> logger)
         {
-            _dbContext = dbContext;
-            _rezerwacjaService = rezerwacjaService;
-            _pokojService = pokojService;
             _logger = logger;
         }
 
@@ -38,6 +28,5 @@ namespace Hotel.Presentation.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
     }
 }

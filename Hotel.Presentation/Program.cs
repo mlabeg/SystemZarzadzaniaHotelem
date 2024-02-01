@@ -39,6 +39,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Reservation}/{action=PulpitRezerwacji}/{id?}");
+    pattern: "{controller=Reservation}/{action=ReservationManagementBoard}/{id?}");
 
 app.Run();

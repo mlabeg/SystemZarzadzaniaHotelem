@@ -25,19 +25,19 @@ namespace Hotel.Presentation.Controllers
             _logger = logger;
         }
 
-        public IActionResult Sukces(int id)
+        public IActionResult SuccessCreateReservation(int id)
         {
             return View(id);
         }
 
         [HttpGet]
-        public IActionResult SprawdzDostepnosc()
+        public IActionResult CheckRoomsAvailability()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> SprawdzDostepnosc(SprawdzDostepnoscModel zapytanie)
+        public async Task<IActionResult> CheckRoomsAvailability(SprawdzDostepnoscModel zapytanie)
         {
             if (zapytanie.DataOd >= zapytanie.DataDo)
             {
@@ -70,7 +70,7 @@ namespace Hotel.Presentation.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> UtworzRezerwacje(int id, DateTime DataOd, DateTime DataDo, int IleOsob)
+        public async Task<IActionResult> CreateReservation(int id, DateTime DataOd, DateTime DataDo, int IleOsob)
         {
             var Pokoj = await _pokojService.WyszukajPoId(id);
             var CenaZaNoc = Pokoj.CenaZaNoc;
@@ -89,7 +89,7 @@ namespace Hotel.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UtworzRezerwacje(Rezerwacja rezerwacja)
+        public async Task<IActionResult> CreateReservation(Rezerwacja rezerwacja)
         {
             if (ModelState.IsValid)
             {
@@ -121,7 +121,7 @@ namespace Hotel.Presentation.Controllers
             }
         }
 
-        public async Task<IActionResult> SzczegolyPokoju(int id)
+        public async Task<IActionResult> RoomDetails(int id)
         {
             var room = await _pokojService.WyszukajPoId(id);
 
@@ -134,7 +134,7 @@ namespace Hotel.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SzczegolyRezerwacji(ZapytanieOSzczegolyRezerwacjiModel zapytanie)
+        public async Task<IActionResult> ReservationDetails(ZapytanieOSzczegolyRezerwacjiModel zapytanie)
         {
             var rezerwacja = await _rezerwacjaService.GetById(zapytanie.NumerRezerwacji);
 
@@ -151,19 +151,19 @@ namespace Hotel.Presentation.Controllers
         }
 
         [HttpGet]
-        public IActionResult SzczegolyRezerwacji()
+        public IActionResult ReservationDetails()
         {
             return View();
         }
 
         [HttpGet]
-        public IActionResult AnulujRezerwacje(int id)
+        public IActionResult CancelReservation(int id)
         {
             return View(id);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AnulujRezerwacje(bool potwierdzenie, int rezerwacjaId)
+        public async Task<IActionResult> CancelReservation(bool potwierdzenie, int rezerwacjaId)
         {
             if (potwierdzenie)
             {
@@ -173,11 +173,11 @@ namespace Hotel.Presentation.Controllers
                 }
             }
 
-            return RedirectToAction(nameof(SzczegolyRezerwacji));
+            return RedirectToAction(nameof(ReservationDetails));
         }
 
         [HttpGet]
-        public async Task<IActionResult> PulpitRezerwacji()
+        public async Task<IActionResult> ReservationManagementBoard()
         {
             var rezerwacje = await _rezerwacjaService.GetAll("DataOd");
 
@@ -185,14 +185,14 @@ namespace Hotel.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PulpitRezerwacji(string sortowanie)
+        public async Task<IActionResult> ReservationManagementBoard(string sortowanie)
         {
             var rezerwacje = await _rezerwacjaService.GetAll(sortowanie);
 
             return View(rezerwacje);
         }
 
-        public IActionResult SukcesAnulujRezerwacje(int id)
+        public IActionResult SuccessCancelReservation(int id)
         {
             return View(id);
         }

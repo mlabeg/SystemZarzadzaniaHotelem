@@ -21,5 +21,40 @@ namespace Hotel.Application.Services
         {
             await _osobyRepository.DodajOsobe(osoba);
         }
+
+        public void Logowanie()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UsunKonto()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ZmianaEmail()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ZmianaHasla()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ZmianaImienia()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ZmianaNazwiskoa()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ZmianaTel()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

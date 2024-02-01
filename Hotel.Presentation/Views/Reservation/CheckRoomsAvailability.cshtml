@@ -13,7 +13,7 @@
 
     <div class="jumbotron text-center" style="padding-left:15%; padding-right: 15%; padding-top: 20px;">
 
-        <form asp-action="SprawdzDostepnosc" method="post">
+        <form asp-action="CheckRoomsAvailability" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label class="control-label">Data początkowa</label>
@@ -63,7 +63,6 @@
                         
                         <div class="col-md-4">
                             <div class="card mb-4 shadow-sm">
-                                <!-- <img src="~/Images/@@item.RoomImage" class="card-img-top" height="225"> -->
                                 <div class="card-body">
                                     <h5 class="card-title">@Html.DisplayFor(modelItem => pokoj.PokojTyp.NazwaTypuPokoju) </h5>
                                     <h4 class="card-subtitle"> @Html.DisplayFor(modelItem => pokoj.CenaZaNoc) zł/noc</h4>
@@ -72,8 +71,8 @@
 
                                     <div class="d-flex justify-content-between align-items-center">
 
-                                        <a type="button" class="btn btn-sm btn-outline-secondary" asp-action="SzczegolyPokoju" asp-route-id="@pokoj.Id">Szczegóły</a>
-                                        <input type="submit" value="Zarezerwuj" asp-action="UtworzRezerwacje" asp-controller="Home" class="btn btn-primary" asp-route-id="@pokoj.Id" />
+                                        <a type="button" class="btn btn-sm btn-outline-secondary" asp-action="RoomDetails" asp-route-id="@pokoj.Id">Szczegóły</a>
+                                        <input type="submit" value="Zarezerwuj" asp-action="CreateReservation" asp-controller="Reservation" class="btn btn-primary" asp-route-id="@pokoj.Id" />
 
 
                                     </div>

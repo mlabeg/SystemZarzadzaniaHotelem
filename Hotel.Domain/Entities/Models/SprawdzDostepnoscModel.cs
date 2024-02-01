@@ -1,7 +1,6 @@
-﻿using Hotel.Domain.Entities;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Hotel.Domain.Entities.Models.Rezerwacja
+namespace Hotel.Domain.Entities.Models
 {
     public class SprawdzDostepnoscModel
     {

@@ -50,7 +50,7 @@ namespace Hotel.Presentation.Controllers
             }
 
             //TODO sprawzić czy nie wyrzuci błędu przy pustej bazie rezerwacji
-            var rezerwacjeWTerminie = await _rezerwacjaService.ZwrocRezerwacjeWTermminie(zapytanie.DataOd, zapytanie.DataDo);
+            var rezerwacjeWTerminie = await _rezerwacjaService.GetByDate(zapytanie.DataOd, zapytanie.DataDo);
 
             IEnumerable<Pokoj> dostepnePokoje = new List<Pokoj>();
 
@@ -111,7 +111,7 @@ namespace Hotel.Presentation.Controllers
                     Pokoj = rezerwacja.Pokoj
                 };
 
-                await _rezerwacjaService.DodajRezerwacje(_rezerwacja);
+                await _rezerwacjaService.AddReservation(_rezerwacja);
 
                 return RedirectToAction("Sukces", new { id = _rezerwacja.Id });
             }
@@ -136,7 +136,7 @@ namespace Hotel.Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> SzczegolyRezerwacji(ZapytanieOSzczegolyRezerwacjiModel zapytanie)
         {
-            var rezerwacja = await _rezerwacjaService.WyszukajPoId(zapytanie.NumerRezerwacji);
+            var rezerwacja = await _rezerwacjaService.GetById(zapytanie.NumerRezerwacji);
 
             if (rezerwacja != null)
             {
@@ -179,7 +179,7 @@ namespace Hotel.Presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> PulpitRezerwacji()
         {
-            var rezerwacje = await _rezerwacjaService.ZwrocWszystkie("DataOd");
+            var rezerwacje = await _rezerwacjaService.GetAll("DataOd");
 
             return View(rezerwacje);
         }
@@ -187,7 +187,7 @@ namespace Hotel.Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> PulpitRezerwacji(string sortowanie)
         {
-            var rezerwacje = await _rezerwacjaService.ZwrocWszystkie(sortowanie);
+            var rezerwacje = await _rezerwacjaService.GetAll(sortowanie);
 
             return View(rezerwacje);
         }

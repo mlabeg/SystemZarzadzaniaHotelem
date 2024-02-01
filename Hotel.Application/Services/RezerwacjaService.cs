@@ -1,5 +1,4 @@
-﻿using Hotel.Application.Services.Rezerwacja;
-using Hotel.Domain.Entities;
+﻿using Hotel.Domain.Entities;
 using Hotel.Domain.Interfaces;
 using System;
 using System.Collections;
@@ -20,7 +19,7 @@ namespace Hotel.Application.Services
             _anulujRezerwacje = anulujRezerwacje;
         }
 
-        public async Task DodajRezerwacje(Domain.Entities.Rezerwacja rezerwacja)
+        public async Task AddReservation(Rezerwacja rezerwacja)
         {
             await _rezerwacjeRepository.DodajRezerwacje(rezerwacja);
         }
@@ -30,24 +29,24 @@ namespace Hotel.Application.Services
             return await _rezerwacjeRepository.UsunRezerwacje(id);
         }
 
-        public async Task<IEnumerable<Domain.Entities.Rezerwacja>> ZwrocWszystkie(string? wybor)
+        public async Task<IEnumerable<Rezerwacja>> GetAll(string? wybor)
         {
             var rezerwacje = await _rezerwacjeRepository.ZwrocWszystkie(wybor);
 
             return rezerwacje;
         }
 
-        public async Task<Domain.Entities.Rezerwacja?> WyszukajPoId(int id)
+        public async Task<Rezerwacja?> GetById(int id)
         {
             return await _rezerwacjeRepository.WyszukajPoId(id);
         }
 
-        public async Task<IEnumerable<Domain.Entities.Rezerwacja>> ZwrocRezerwacjeWTermminie(DateTime dataOd, DateTime dataDo)
+        public async Task<IEnumerable<Rezerwacja>> GetByDate(DateTime dataOd, DateTime dataDo)
         {
             return await _rezerwacjeRepository.WyszukajWTermminie(dataOd, dataDo);
         }
 
-        public async Task<List<int>>? WyszukajPokojIdWTermminie(DateTime dataOd, DateTime dataDo)
+        public async Task<List<int>>? GetPokojIdByDate(DateTime dataOd, DateTime dataDo)
         {
             return await _rezerwacjeRepository.WyszukajPokojIdWTermminie(dataOd, dataDo);
         }

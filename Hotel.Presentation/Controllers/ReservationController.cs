@@ -113,7 +113,7 @@ namespace Hotel.Presentation.Controllers
 
                 await _rezerwacjaService.AddReservation(_rezerwacja);
 
-                return RedirectToAction("Sukces", new { id = _rezerwacja.Id });
+                return RedirectToAction("SuccessCreateReservation", new { id = _rezerwacja.Id });
             }
             else
             {
@@ -169,7 +169,7 @@ namespace Hotel.Presentation.Controllers
             {
                 if (await _rezerwacjaService.DeleteReservation(rezerwacjaId))
                 {
-                    return RedirectToAction("SukcesAnulujRezerwacje", new { id = rezerwacjaId });
+                    return RedirectToAction("SuccessCancelReservation", new { id = rezerwacjaId });
                 }
             }
 
@@ -185,9 +185,9 @@ namespace Hotel.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ReservationManagementBoard(string sortowanie)
+        public async Task<IActionResult> ReservationManagementBoard(string sort)
         {
-            var rezerwacje = await _rezerwacjaService.GetAll(sortowanie);
+            var rezerwacje = await _rezerwacjaService.GetAll(sort);
 
             return View(rezerwacje);
         }

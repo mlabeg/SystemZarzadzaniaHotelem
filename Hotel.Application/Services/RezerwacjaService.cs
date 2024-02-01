@@ -16,7 +16,6 @@ namespace Hotel.Application.Services
         public RezerwacjaService(IRezerwacjeRepository rezerwacjeRepository)
         {
             _rezerwacjeRepository = rezerwacjeRepository;
-            _anulujRezerwacje = anulujRezerwacje;
         }
 
         public async Task AddReservation(Rezerwacja rezerwacja)

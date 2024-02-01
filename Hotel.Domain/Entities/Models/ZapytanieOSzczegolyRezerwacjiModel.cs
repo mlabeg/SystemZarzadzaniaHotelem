@@ -1,4 +1,4 @@
-﻿namespace Hotel.Domain.Entities.Models.Rezerwacja
+﻿namespace Hotel.Domain.Entities.Models
 {
     public class ZapytanieOSzczegolyRezerwacjiModel
     {

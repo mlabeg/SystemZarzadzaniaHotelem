@@ -14,7 +14,7 @@ namespace Hotel.Infrastructure.Presistence
 		{
 		}
 
-		public DbSet<Domain.Entities.Pokoj> Pokoje { get; set; }
+		public DbSet<Domain.Entities.Room> Pokoje { get; set; }
 		public DbSet<Domain.Entities.Osoba> Osoby { get; set; }
 		public DbSet<Domain.Entities.Rezerwacja> Rezerwacje { get; set; }
 
@@ -29,7 +29,7 @@ namespace Hotel.Infrastructure.Presistence
 				.HasValue<UzytkownikNiezarejestrowany>("uzytkowanikNiezarejestrowny")
 				.HasValue<UzytkownikZarejestrowany>("uzytkownikZarejestrowany");
 
-			modelBuilder.Entity<PokojTyp>().HasKey(k => k.IdPokojTyp);
+			modelBuilder.Entity<RoomType>().HasKey(k => k.IdRoomType);
 		}
 	}
 }

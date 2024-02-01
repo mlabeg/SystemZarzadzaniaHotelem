@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Hotel.Domain.Entities
 {
-	public class PokojTyp
+	public class RoomType
 	{
-		public string NazwaTypuPokoju { get; set; }
-		public int IdPokojTyp { get; set; }
+		public string NameRoomType { get; set; }
+		public int IdRoomType { get; set; }
+		public int Price { get; set; }
 	}
 }

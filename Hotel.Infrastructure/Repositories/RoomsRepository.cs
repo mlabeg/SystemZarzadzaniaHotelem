@@ -10,51 +10,51 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hotel.Infrastructure.Repositories
 {
-	public class PokojeRepository : Domain.Interfaces.IPokojeRepository
+	public class RoomsRepository : Domain.Interfaces.IRoomsRepository
 	{
 		private readonly HotelDbContext _dbContext;
 
-		public PokojeRepository(HotelDbContext dbContext)
+		public RoomsRepository(HotelDbContext dbContext)
 		{
 			_dbContext = dbContext;
 		}
 
-		public async Task DodajPokoj(Pokoj pokoj)
+		public async Task AddRoom(Room pokoj)
 		{
 			_dbContext.Add(pokoj);
 			await _dbContext.SaveChangesAsync();
 		}
 
-		public async Task<bool> PokojeAny()
+		public async Task<bool> AnyRoom()
 		{
 			return await _dbContext.Pokoje.AnyAsync();
 		}
 
-		public async Task<Pokoj?> WyszukajPoId(int id)
+		public async Task<Room?> GetById(int id)
 		{
 			return await _dbContext.Pokoje
-				.Include(t => t.PokojTyp)
+				.Include(t => t.Type)
 				.FirstOrDefaultAsync(p => p.Id == id);
 		}
 
-		public async Task<IEnumerable<Pokoj>> ZwrocWszystkie()
+		public async Task<IEnumerable<Room>> GetAll()
 		{
 			return await _dbContext.Pokoje.ToListAsync();
 		}
 
-		public async Task<IEnumerable<Pokoj>> ZwrocDostepne(IEnumerable<Rezerwacja> rezerwacje, int iloscOsob)
+		public async Task<IEnumerable<Room>> GetAvailable(IEnumerable<Rezerwacja> rezerwacje, int iloscOsob)
 		{
-			var pokojePoIlosc = _dbContext.Pokoje.Where(p => p.LiczbaMiejsc >= iloscOsob).AsAsyncEnumerable();
+			var pokojePoIlosc = _dbContext.Pokoje.Where(p => p.Capacity >= iloscOsob).AsAsyncEnumerable();
 
 			var dostepnePokoje = await pokojePoIlosc.Where(p => !rezerwacje.Any(r => r.PokojId == p.Id)).ToListAsync();
 
 			return dostepnePokoje;
 		}
 
-		public async Task<IEnumerable<Pokoj>> ZwrocDostepne(List<int> zarezerwowanePokojId, int iloscOsob)
+		public async Task<IEnumerable<Room>> GetAvailable(List<int> zarezerwowanePokojId, int iloscOsob)
 		{
 			return await _dbContext.Pokoje
-				.Where(p => p.LiczbaMiejsc >= iloscOsob)
+				.Where(p => p.Capacity >= iloscOsob)
 				.Where(p => !zarezerwowanePokojId.Any(r => r.Equals(p.Id)))
 				.ToListAsync();
 		}

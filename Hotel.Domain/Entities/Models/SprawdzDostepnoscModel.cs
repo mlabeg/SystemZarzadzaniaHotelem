@@ -18,6 +18,6 @@ namespace Hotel.Domain.Entities.Models
         [Range(1, 8, ErrorMessage = "Podaj wartość między 1 a 8")]
         public int IleOsob { get; set; }
 
-        public IList<Pokoj> ListaPokoi { get; set; } = new List<Pokoj>();
+        public IList<Room> ListaPokoi { get; set; } = new List<Room>();
     }
 }

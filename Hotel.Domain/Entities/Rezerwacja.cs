@@ -24,7 +24,7 @@ namespace Hotel.Domain.Entities
         public int CenaCalkowita { get; set; }
 
         public int PokojId { get; set; }
-        public Pokoj? Pokoj { get; set; }
+        public Room? Pokoj { get; set; }
 
         public Osoba? Osoba { get; set; }
 

@@ -24,12 +24,11 @@ namespace Hotel.Infrastructure.Seeders
 			{
 				if (!_dbContext.Pokoje.Any())
 				{
-					var pokojSeed = new Pokoj()
+					var pokojSeed = new Room()
 					{
-						Numer = 100,
-						LiczbaMiejsc = 2,
-						//CzyWolny = true,
-						CenaZaNoc = 200
+						Number = 100,
+						Capacity = 2,
+						TypeRoomId = 1
 					};
 
 					_dbContext.Pokoje.Add(pokojSeed);

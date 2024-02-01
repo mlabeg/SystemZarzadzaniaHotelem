@@ -30,7 +30,7 @@ namespace Hotel.Infrastructure.Repositories
         {
             IQueryable<Rezerwacja> rezerwacje = _dbContext.Rezerwacje
                 .Include(p => p.Pokoj)
-                .Include(p => p.Pokoj.PokojTyp)
+                .Include(p => p.Pokoj.Type)
                 .Include(o => o.Osoba);
 
             switch (sortowanie)

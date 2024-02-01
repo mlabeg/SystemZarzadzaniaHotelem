@@ -7,194 +7,193 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Hotel.Presentation.Controllers
 {
-    public class ReservationController : Controller
-    {
-        private readonly ILogger<HomeController> _logger;
-        private readonly HotelDbContext _dbContext;
-        private readonly IRezerwacjaService _rezerwacjaService;
-        private readonly IPokojService _pokojService;
+	public class ReservationController : Controller
+	{
+		private readonly ILogger<HomeController> _logger;
+		private readonly HotelDbContext _dbContext;
+		private readonly IRezerwacjaService _rezerwacjaService;
+		private readonly IPokojService _pokojService;
 
-        public ReservationController(ILogger<HomeController> logger,
-            HotelDbContext dbContext,
-            IRezerwacjaService rezerwacjaService,
-            IPokojService pokojService)
-        {
-            _dbContext = dbContext;
-            _rezerwacjaService = rezerwacjaService;
-            _pokojService = pokojService;
-            _logger = logger;
-        }
+		public ReservationController(ILogger<HomeController> logger,
+			HotelDbContext dbContext,
+			IRezerwacjaService rezerwacjaService,
+			IPokojService pokojService)
+		{
+			_dbContext = dbContext;
+			_rezerwacjaService = rezerwacjaService;
+			_pokojService = pokojService;
+			_logger = logger;
+		}
 
-        public IActionResult SuccessCreateReservation(int id)
-        {
-            return View(id);
-        }
+		public IActionResult SuccessCreateReservation(int id)
+		{
+			return View(id);
+		}
 
-        [HttpGet]
-        public IActionResult CheckRoomsAvailability()
-        {
-            return View();
-        }
+		[HttpGet]
+		public IActionResult CheckRoomsAvailability()
+		{
+			return View();
+		}
 
-        [HttpPost]
-        public async Task<IActionResult> CheckRoomsAvailability(SprawdzDostepnoscModel zapytanie)
-        {
-            if (zapytanie.DataOd >= zapytanie.DataDo)
-            {
-                return View();//TODO wysłać komunikat o błędzie
-            }
+		[HttpPost]
+		public async Task<IActionResult> CheckRoomsAvailability(SprawdzDostepnoscModel zapytanie)
+		{//TODO wg jednego z postów na Stackoverflow CAŁA logika powinna być w module Application - należy stworzyć nowy serwis łączący oba serwisy i nic tutaj nie zostawiać
+			if (zapytanie.DataOd >= zapytanie.DataDo)
+			{
+				return View();//TODO wysłać komunikat o błędzie
+			}
 
-            if (!await _pokojService.PokojeAny())
-            {
-                return View(zapytanie);//TODO wysłać komunikat o błędzie
-            }
+			if (!await _pokojService.PokojeAny())
+			{
+				return View(zapytanie);//TODO wysłać komunikat o błędzie
+			}
 
-            //TODO sprawzić czy nie wyrzuci błędu przy pustej bazie rezerwacji
-            var rezerwacjeWTerminie = await _rezerwacjaService.GetByDate(zapytanie.DataOd, zapytanie.DataDo);
+			var rezerwacjeWTerminie = await _rezerwacjaService.GetByDate(zapytanie.DataOd, zapytanie.DataDo);
 
-            IEnumerable<Pokoj> dostepnePokoje = new List<Pokoj>();
+			IEnumerable<Room> dostepnePokoje = new List<Room>();
 
-            if (rezerwacjeWTerminie.IsNullOrEmpty())
-            {
-                dostepnePokoje = await _pokojService.ZwwrocWszystkie();
-            }
-            else
-            {
-                var zajetePokoje = rezerwacjeWTerminie.Select(r => r.PokojId).ToList();
-                dostepnePokoje = await _pokojService.ZwrocDostepne(zajetePokoje, zapytanie.IleOsob);
-            }
+			if (rezerwacjeWTerminie.IsNullOrEmpty())
+			{
+				dostepnePokoje = await _pokojService.ZwwrocWszystkie();
+			}
+			else
+			{
+				var zajetePokoje = rezerwacjeWTerminie.Select(r => r.PokojId).ToList();
+				dostepnePokoje = await _pokojService.ZwrocDostepne(zajetePokoje, zapytanie.IleOsob);
+			}
 
-            zapytanie.ListaPokoi = dostepnePokoje.ToList();
+			zapytanie.ListaPokoi = dostepnePokoje.ToList();
 
-            return View(zapytanie);
-        }
+			return View(zapytanie);
+		}
 
-        [HttpGet]
-        public async Task<IActionResult> CreateReservation(int id, DateTime DataOd, DateTime DataDo, int IleOsob)
-        {
-            var Pokoj = await _pokojService.WyszukajPoId(id);
-            var CenaZaNoc = Pokoj.CenaZaNoc;
-            int IloscDni = (int)DataDo.Subtract(DataOd).TotalDays;
+		[HttpGet]
+		public async Task<IActionResult> CreateReservation(int id, DateTime DataOd, DateTime DataDo, int IleOsob)
+		{
+			var Pokoj = await _pokojService.WyszukajPoId(id);
+			var CenaZaNoc = Pokoj.Type.Price;
+			int IloscDni = (int)DataDo.Subtract(DataOd).TotalDays;
 
-            Rezerwacja rezerwacja = new Rezerwacja()
-            {
-                DataOd = DataOd,
-                DataDo = DataDo,
-                IloscOsob = IleOsob,
-                PokojId = id,
-                CenaCalkowita = IloscDni * CenaZaNoc
-            };
+			Rezerwacja rezerwacja = new Rezerwacja()
+			{
+				DataOd = DataOd,
+				DataDo = DataDo,
+				IloscOsob = IleOsob,
+				PokojId = id,
+				CenaCalkowita = IloscDni * CenaZaNoc
+			};
 
-            return View(rezerwacja);
-        }
+			return View(rezerwacja);
+		}
 
-        [HttpPost]
-        public async Task<IActionResult> CreateReservation(Rezerwacja rezerwacja)
-        {
-            if (ModelState.IsValid)
-            {
-                var _rezerwacja = new Rezerwacja
-                {
-                    DataOd = rezerwacja.DataOd,
-                    DataDo = rezerwacja.DataDo,
+		[HttpPost]
+		public async Task<IActionResult> CreateReservation(Rezerwacja rezerwacja)
+		{
+			if (ModelState.IsValid)
+			{
+				var _rezerwacja = new Rezerwacja
+				{
+					DataOd = rezerwacja.DataOd,
+					DataDo = rezerwacja.DataDo,
 
-                    Osoba = new UzytkownikNiezarejestrowany
-                    {
-                        Imie = rezerwacja.Osoba.Imie,
-                        Nazwisko = rezerwacja.Osoba.Nazwisko,
-                        NumerTelefonu = rezerwacja.Osoba.NumerTelefonu,
-                        AdresEmail = rezerwacja.Osoba.AdresEmail
-                    },
-                    IloscOsob = rezerwacja.IloscOsob,
-                    CenaCalkowita = rezerwacja.CenaCalkowita,
-                    PokojId = rezerwacja.PokojId,
-                    Pokoj = rezerwacja.Pokoj
-                };
+					Osoba = new UzytkownikNiezarejestrowany
+					{
+						Imie = rezerwacja.Osoba.Imie,
+						Nazwisko = rezerwacja.Osoba.Nazwisko,
+						NumerTelefonu = rezerwacja.Osoba.NumerTelefonu,
+						AdresEmail = rezerwacja.Osoba.AdresEmail
+					},
+					IloscOsob = rezerwacja.IloscOsob,
+					CenaCalkowita = rezerwacja.CenaCalkowita,
+					PokojId = rezerwacja.PokojId,
+					Pokoj = rezerwacja.Pokoj
+				};
 
-                await _rezerwacjaService.AddReservation(_rezerwacja);
+				await _rezerwacjaService.AddReservation(_rezerwacja);
 
-                return RedirectToAction("SuccessCreateReservation", new { id = _rezerwacja.Id });
-            }
-            else
-            {
-                return View(rezerwacja);
-            }
-        }
+				return RedirectToAction("SuccessCreateReservation", new { id = _rezerwacja.Id });
+			}
+			else
+			{
+				return View(rezerwacja);
+			}
+		}
 
-        public async Task<IActionResult> RoomDetails(int id)
-        {
-            var room = await _pokojService.WyszukajPoId(id);
+		public async Task<IActionResult> RoomDetails(int id)
+		{
+			var room = await _pokojService.WyszukajPoId(id);
 
-            if (room == null)
-            {
-                return NotFound();
-            }
+			if (room == null)
+			{
+				return NotFound();
+			}
 
-            return View(room);
-        }
+			return View(room);
+		}
 
-        [HttpPost]
-        public async Task<IActionResult> ReservationDetails(ZapytanieOSzczegolyRezerwacjiModel zapytanie)
-        {
-            var rezerwacja = await _rezerwacjaService.GetById(zapytanie.NumerRezerwacji);
+		[HttpPost]
+		public async Task<IActionResult> ReservationDetails(ZapytanieOSzczegolyRezerwacjiModel zapytanie)
+		{
+			var rezerwacja = await _rezerwacjaService.GetById(zapytanie.NumerRezerwacji);
 
-            if (rezerwacja != null)
-            {
-                if (string.Compare(zapytanie.AdresEmail, rezerwacja.Osoba.AdresEmail, true) == 0)
-                {
-                    return View(rezerwacja);
-                }
-            }
+			if (rezerwacja != null)
+			{
+				if (string.Compare(zapytanie.AdresEmail, rezerwacja.Osoba.AdresEmail, true) == 0)
+				{
+					return View(rezerwacja);
+				}
+			}
 
-            return View();//TODO wysłać komunikat o błędzie
-                          //w projekcie CarWorkshop jest dodana klasa ControllerExtensions, sprawdzić
-        }
+			return View();//TODO wysłać komunikat o błędzie
+						  //w projekcie CarWorkshop jest dodana klasa ControllerExtensions, sprawdzić
+		}
 
-        [HttpGet]
-        public IActionResult ReservationDetails()
-        {
-            return View();
-        }
+		[HttpGet]
+		public IActionResult ReservationDetails()
+		{
+			return View();
+		}
 
-        [HttpGet]
-        public IActionResult CancelReservation(int id)
-        {
-            return View(id);
-        }
+		[HttpGet]
+		public IActionResult CancelReservation(int id)
+		{
+			return View(id);
+		}
 
-        [HttpPost]
-        public async Task<IActionResult> CancelReservation(bool potwierdzenie, int rezerwacjaId)
-        {
-            if (potwierdzenie)
-            {
-                if (await _rezerwacjaService.DeleteReservation(rezerwacjaId))
-                {
-                    return RedirectToAction("SuccessCancelReservation", new { id = rezerwacjaId });
-                }
-            }
+		[HttpPost]
+		public async Task<IActionResult> CancelReservation(bool potwierdzenie, int rezerwacjaId)
+		{
+			if (potwierdzenie)
+			{
+				if (await _rezerwacjaService.DeleteReservation(rezerwacjaId))
+				{
+					return RedirectToAction("SuccessCancelReservation", new { id = rezerwacjaId });
+				}
+			}
 
-            return RedirectToAction(nameof(ReservationDetails));
-        }
+			return RedirectToAction(nameof(ReservationDetails));
+		}
 
-        [HttpGet]
-        public async Task<IActionResult> ReservationManagementBoard()
-        {
-            var rezerwacje = await _rezerwacjaService.GetAll("DataOd");
+		[HttpGet]
+		public async Task<IActionResult> ReservationManagementBoard()
+		{
+			var rezerwacje = await _rezerwacjaService.GetAll("DataOd");
 
-            return View(rezerwacje);
-        }
+			return View(rezerwacje);
+		}
 
-        [HttpPost]
-        public async Task<IActionResult> ReservationManagementBoard(string sort)
-        {
-            var rezerwacje = await _rezerwacjaService.GetAll(sort);
+		[HttpPost]
+		public async Task<IActionResult> ReservationManagementBoard(string sort)
+		{
+			var rezerwacje = await _rezerwacjaService.GetAll(sort);
 
-            return View(rezerwacje);
-        }
+			return View(rezerwacje);
+		}
 
-        public IActionResult SuccessCancelReservation(int id)
-        {
-            return View(id);
-        }
-    }
+		public IActionResult SuccessCancelReservation(int id)
+		{
+			return View(id);
+		}
+	}
 }

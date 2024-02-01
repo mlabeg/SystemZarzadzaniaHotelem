@@ -18,13 +18,13 @@ namespace Hotel.Infrastructure.Extensions
 		public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
 		{
 			services.AddDbContext<HotelDbContext>(options => options.UseSqlServer(
-				configuration.GetConnectionString("Hotel")));
+				configuration.GetConnectionString("HotelTest")));
 
 			services.AddScoped<HotelSeeder>();
 
 			services.AddScoped<IRezerwacjeRepository, RezerwacjeRepository>();
 			services.AddScoped<IOsobyRepository, OsobyRepository>();
-			services.AddScoped<IPokojeRepository, PokojeRepository>();
+			services.AddScoped<IRoomsRepository, RoomsRepository>();
 		}
 	}
 }

@@ -10,6 +10,6 @@ namespace Hotel.Domain.Entities
     {
         //to chyba nie tak, tutaj cała baza danych będzie hotelem, czyli nie będzie takiej klasy jak "Hotel"
 
-        public List<Pokoj> pokojList = new List<Pokoj>();
+        public List<Room> pokojList = new List<Room>();
     }
 }

@@ -3,28 +3,23 @@ using Hotel.Infrastructure.Seeders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Hotel.Domain.Interfaces;
 using Hotel.Infrastructure.Repositories;
 
 namespace Hotel.Infrastructure.Extensions
 {
-	public static class ServiceCollectionExtencion
-	{
-		public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
-		{
-			services.AddDbContext<HotelDbContext>(options => options.UseSqlServer(
-				configuration.GetConnectionString("HotelTest")));
+    public static class ServiceCollectionExtencion
+    {
+        public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDbContext<HotelDbContext>(options => options.UseSqlServer(
+                configuration.GetConnectionString("Hotel")));
 
-			services.AddScoped<HotelSeeder>();
+            services.AddScoped<HotelSeeder>();
 
-			services.AddScoped<IRezerwacjeRepository, RezerwacjeRepository>();
-			services.AddScoped<IOsobyRepository, OsobyRepository>();
-			services.AddScoped<IRoomsRepository, RoomsRepository>();
-		}
-	}
+            services.AddScoped<IRezerwacjeRepository, RezerwacjeRepository>();
+            services.AddScoped<IOsobyRepository, OsobyRepository>();
+            services.AddScoped<IRoomsRepository, RoomsRepository>();
+        }
+    }
 }

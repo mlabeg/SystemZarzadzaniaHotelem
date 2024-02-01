@@ -27,24 +27,24 @@ namespace Hotel.Infrastructure.Repositories
 
 		public async Task<bool> AnyRoom()
 		{
-			return await _dbContext.Pokoje.AnyAsync();
+			return await _dbContext.Rooms.AnyAsync();
 		}
 
 		public async Task<Room?> GetById(int id)
 		{
-			return await _dbContext.Pokoje
+			return await _dbContext.Rooms
 				.Include(t => t.Type)
 				.FirstOrDefaultAsync(p => p.Id == id);
 		}
 
 		public async Task<IEnumerable<Room>> GetAll()
 		{
-			return await _dbContext.Pokoje.ToListAsync();
+			return await _dbContext.Rooms.ToListAsync();
 		}
 
 		public async Task<IEnumerable<Room>> GetAvailable(IEnumerable<Reservation> rezerwacje, int iloscOsob)
 		{
-			var pokojePoIlosc = _dbContext.Pokoje.Where(p => p.Capacity >= iloscOsob).AsAsyncEnumerable();
+			var pokojePoIlosc = _dbContext.Rooms.Where(p => p.Capacity >= iloscOsob).AsAsyncEnumerable();
 
 			var dostepnePokoje = await pokojePoIlosc.Where(p => !rezerwacje.Any(r => r.RoomId == p.Id)).ToListAsync();
 
@@ -53,7 +53,7 @@ namespace Hotel.Infrastructure.Repositories
 
 		public async Task<IEnumerable<Room>> GetAvailable(List<int> zarezerwowanePokojId, int iloscOsob)
 		{
-			return await _dbContext.Pokoje
+			return await _dbContext.Rooms
 				.Where(p => p.Capacity >= iloscOsob)
 				.Where(p => !zarezerwowanePokojId.Any(r => r.Equals(p.Id)))
 				.ToListAsync();

@@ -28,7 +28,7 @@ namespace Hotel.Infrastructure.Repositories
 
         public async Task<IEnumerable<Reservation>> ZwrocWszystkie(string? sortowanie)
         {
-            IQueryable<Reservation> rezerwacje = _dbContext.Rezerwacje
+            IQueryable<Reservation> rezerwacje = _dbContext.Reservations
                 .Include(p => p.Room)
                 .Include(p => p.Room.Type)
                 .Include(o => o.Person);
@@ -60,28 +60,28 @@ namespace Hotel.Infrastructure.Repositories
 
         public async Task<bool> UsunRezerwacje(int id)
         {
-            var rezerwacja = await _dbContext.Rezerwacje.FirstOrDefaultAsync(x => x.Id == id);
+            var rezerwacja = await _dbContext.Reservations.FirstOrDefaultAsync(x => x.Id == id);
 
             if (rezerwacja == null)
             {
                 return false;
             }
 
-            _dbContext.Rezerwacje.Remove(rezerwacja);
+            _dbContext.Reservations.Remove(rezerwacja);
             await _dbContext.SaveChangesAsync();
             return true;
         }
 
         public async Task<Reservation?> WyszukajPoId(int id)
         {
-            return await _dbContext.Rezerwacje
+            return await _dbContext.Reservations
                 .Include(o => o.Person)
                 .FirstOrDefaultAsync(r => r.Id == id);
         }
 
         public async Task<IEnumerable<Reservation>> WyszukajWTermminie(DateTime dataOd, DateTime dataDo)
         {
-            var rezerwacje = await _dbContext.Rezerwacje.Where(r =>
+            var rezerwacje = await _dbContext.Reservations.Where(r =>
                 (r.DateFrom <= dataOd && r.DateTo >= dataOd) ||
                 (r.DateFrom <= dataDo && r.DateTo >= dataDo) ||
                 (r.DateTo >= dataOd && r.DateTo <= dataDo && r.DateTo >= dataDo) ||
@@ -93,7 +93,7 @@ namespace Hotel.Infrastructure.Repositories
 
         public async Task<List<int>>? WyszukajPokojIdWTermminie(DateTime dataOd, DateTime dataDo)
         {
-            var rezerwacje = await _dbContext.Rezerwacje.Where(r =>
+            var rezerwacje = await _dbContext.Reservations.Where(r =>
                 (r.DateFrom <= dataOd && r.DateTo >= dataOd) ||
                 (r.DateFrom <= dataDo && r.DateTo >= dataDo) ||
                 (r.DateTo >= dataOd && r.DateTo <= dataDo && r.DateTo >= dataDo) ||

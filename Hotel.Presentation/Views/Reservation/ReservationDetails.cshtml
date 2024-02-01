@@ -1,4 +1,4 @@
-﻿@model Hotel.Domain.Entities.Rezerwacja
+﻿@model Hotel.Domain.Entities.Reservation
 
 <!DOCTYPE html>
 <html>
@@ -30,16 +30,16 @@
         {
             <div class="border p-3 mt-4">
                 <p>Numer rezerwacji: @Model.Id</p>
-                <p>Data rezerwacji od: @Model.DataOd.ToShortDateString()</p>
-                <p>Data rezerwacji do: @Model.DataDo.ToShortDateString()</p>
-                <p>Ilość Osób: @Model.IloscOsob</p>
-                <p>Czy zameldowano: @(Model.CzyZameldowano ? "Tak" : "Nie")</p>
-                <p>Cena całkowita: @Model.CenaCalkowita</p>
-                <p>Imię i nazwisko gościa: @Model.Osoba.Imie @Model.Osoba.Nazwisko</p>
+                <p>Data rezerwacji od: @Model.DateFrom.ToShortDateString()</p>
+                <p>Data rezerwacji do: @Model.DateTo.ToShortDateString()</p>
+                <p>Ilość Osób: @Model.NumberOfGuests</p>
+                <p>Czy zameldowano: @(Model.CheckedIn ? "Tak" : "Nie")</p>
+                <p>Cena całkowita: @Model.PriceTotal</p>
+                <p>Imię i nazwisko gościa: @Model.Person.Name @Model.Person.Surname</p>
             </div>
 
             <div class="mt-3">
-                <a class="btn btn-sm btn-outline-secondary" asp-action="AnulujRezerwacje" asp-route-id="@Model.Id">Anuluj rezerwację</a>
+                <a class="btn btn-sm btn-outline-secondary" asp-action="CancelReservation" asp-route-id="@Model.Id">Anuluj rezerwację</a>
             </div>
         }
     </div>

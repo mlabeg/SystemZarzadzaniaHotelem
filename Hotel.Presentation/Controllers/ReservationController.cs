@@ -37,9 +37,9 @@ namespace Hotel.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CheckRoomsAvailability(SprawdzDostepnoscModel zapytanie)
-        {
-            if (zapytanie.DataOd >= zapytanie.DataDo)
+        public async Task<IActionResult> CheckRoomsAvailability(CheckAvailabilityModel zapytanie)
+        {//TODO wg jednego z postów na Stackoverflow CAŁA logika powinna być w module Application - należy stworzyć nowy serwis łączący oba serwisy i nic tutaj nie zostawiać
+            if (zapytanie.DateFrom >= zapytanie.DateTo)
             {
                 return View();//TODO wysłać komunikat o błędzie
             }
@@ -49,10 +49,9 @@ namespace Hotel.Presentation.Controllers
                 return View(zapytanie);//TODO wysłać komunikat o błędzie
             }
 
-            //TODO sprawzić czy nie wyrzuci błędu przy pustej bazie rezerwacji
-            var rezerwacjeWTerminie = await _rezerwacjaService.GetByDate(zapytanie.DataOd, zapytanie.DataDo);
+            var rezerwacjeWTerminie = await _rezerwacjaService.GetByDate(zapytanie.DateFrom, zapytanie.DateTo);
 
-            IEnumerable<Pokoj> dostepnePokoje = new List<Pokoj>();
+            IEnumerable<Room> dostepnePokoje = new List<Room>();
 
             if (rezerwacjeWTerminie.IsNullOrEmpty())
             {
@@ -60,11 +59,11 @@ namespace Hotel.Presentation.Controllers
             }
             else
             {
-                var zajetePokoje = rezerwacjeWTerminie.Select(r => r.PokojId).ToList();
-                dostepnePokoje = await _pokojService.ZwrocDostepne(zajetePokoje, zapytanie.IleOsob);
+                var zajetePokoje = rezerwacjeWTerminie.Select(r => r.RoomId).ToList();
+                dostepnePokoje = await _pokojService.ZwrocDostepne(zajetePokoje, zapytanie.NumberOfGuests);
             }
 
-            zapytanie.ListaPokoi = dostepnePokoje.ToList();
+            zapytanie.ListOfRooms = dostepnePokoje.ToList();
 
             return View(zapytanie);
         }
@@ -73,42 +72,42 @@ namespace Hotel.Presentation.Controllers
         public async Task<IActionResult> CreateReservation(int id, DateTime DataOd, DateTime DataDo, int IleOsob)
         {
             var Pokoj = await _pokojService.WyszukajPoId(id);
-            var CenaZaNoc = Pokoj.CenaZaNoc;
+            var CenaZaNoc = Pokoj.Type.Price;
             int IloscDni = (int)DataDo.Subtract(DataOd).TotalDays;
 
-            Rezerwacja rezerwacja = new Rezerwacja()
+            Reservation rezerwacja = new Reservation()
             {
-                DataOd = DataOd,
-                DataDo = DataDo,
-                IloscOsob = IleOsob,
-                PokojId = id,
-                CenaCalkowita = IloscDni * CenaZaNoc
+                DateFrom = DataOd,
+                DateTo = DataDo,
+                NumberOfGuests = IleOsob,
+                RoomId = id,
+                PriceTotal = IloscDni * CenaZaNoc
             };
 
             return View(rezerwacja);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateReservation(Rezerwacja rezerwacja)
+        public async Task<IActionResult> CreateReservation(Reservation rezerwacja)
         {
             if (ModelState.IsValid)
             {
-                var _rezerwacja = new Rezerwacja
+                var _rezerwacja = new Reservation
                 {
-                    DataOd = rezerwacja.DataOd,
-                    DataDo = rezerwacja.DataDo,
+                    DateFrom = rezerwacja.DateFrom,
+                    DateTo = rezerwacja.DateTo,
 
-                    Osoba = new UzytkownikNiezarejestrowany
+                    Person = new UserUnregistered
                     {
-                        Imie = rezerwacja.Osoba.Imie,
-                        Nazwisko = rezerwacja.Osoba.Nazwisko,
-                        NumerTelefonu = rezerwacja.Osoba.NumerTelefonu,
-                        AdresEmail = rezerwacja.Osoba.AdresEmail
+                        Name = rezerwacja.Person.Name,
+                        Surname = rezerwacja.Person.Surname,
+                        PhoneNumber = rezerwacja.Person.PhoneNumber,
+                        EmailAddress = rezerwacja.Person.EmailAddress
                     },
-                    IloscOsob = rezerwacja.IloscOsob,
-                    CenaCalkowita = rezerwacja.CenaCalkowita,
-                    PokojId = rezerwacja.PokojId,
-                    Pokoj = rezerwacja.Pokoj
+                    NumberOfGuests = rezerwacja.NumberOfGuests,
+                    PriceTotal = rezerwacja.PriceTotal,
+                    RoomId = rezerwacja.RoomId,
+                    Room = rezerwacja.Room
                 };
 
                 await _rezerwacjaService.AddReservation(_rezerwacja);
@@ -134,13 +133,13 @@ namespace Hotel.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ReservationDetails(ZapytanieOSzczegolyRezerwacjiModel zapytanie)
+        public async Task<IActionResult> ReservationDetails(QueryReservationDetailsModel zapytanie)
         {
-            var rezerwacja = await _rezerwacjaService.GetById(zapytanie.NumerRezerwacji);
+            var rezerwacja = await _rezerwacjaService.GetById(zapytanie.NumberOfReservation);
 
             if (rezerwacja != null)
             {
-                if (string.Compare(zapytanie.AdresEmail, rezerwacja.Osoba.AdresEmail, true) == 0)
+                if (string.Compare(zapytanie.EmailAddress, rezerwacja.Person.EmailAddress, true) == 0)
                 {
                     return View(rezerwacja);
                 }

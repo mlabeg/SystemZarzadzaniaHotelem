@@ -17,7 +17,7 @@ namespace Hotel.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task DodajOsobe(Osoba osoba)
+        public async Task DodajOsobe(Person osoba)
         {
             _dbContext.Add(osoba);
             await _dbContext.SaveChangesAsync();

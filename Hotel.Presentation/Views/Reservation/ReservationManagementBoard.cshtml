@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Hotel.Domain.Entities.Rezerwacja>
+﻿@model IEnumerable<Hotel.Domain.Entities.Reservation>
 
 
 <!DOCTYPE html>
@@ -48,11 +48,11 @@
 					{
 						<tr>
 							<td>@rezerwacja.Id</td>
-							<td>@rezerwacja.DataOd.ToShortDateString()</td>
-							<td>@rezerwacja.DataDo.ToShortDateString()</td>
-							<td>@rezerwacja.Pokoj.PokojTyp.NazwaTypuPokoju</td>
-							<td>@rezerwacja.Pokoj.Numer</td>
-							<td>@rezerwacja.Osoba.Imie @rezerwacja.Osoba.Nazwisko</td>
+							<td>@rezerwacja.DateFrom.ToShortDateString()</td>
+							<td>@rezerwacja.DateTo.ToShortDateString()</td>
+							<td>@rezerwacja.Room.Type.NameRoomType</td>
+							<td>@rezerwacja.Room.Number</td>
+							<td>@rezerwacja.Person.Name @rezerwacja.Person.Surname</td>
 							<td>@rezerwacja.Status</td>
 						</tr>
 					}

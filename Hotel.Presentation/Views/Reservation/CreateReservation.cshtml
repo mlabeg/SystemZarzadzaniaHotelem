@@ -1,4 +1,4 @@
-﻿@model Hotel.Domain.Entities.Rezerwacja
+﻿@model Hotel.Domain.Entities.Reservation
 
 @{
     ViewData["Title"] = "UtworzRezerwacje";
@@ -13,55 +13,55 @@
             <form asp-action="CreateReservation">
                 <div class="form-group">
                     <label class="control-label">Imię:</label>
-                    <input asp-for="Osoba.Imie" class="form-control" />
-                    <span asp-validation-for="Osoba.Imie" class="text-danger"></span>
+                    <input asp-for="Person.Name" class="form-control" />
+                    <span asp-validation-for="Person.Name" class="text-danger"></span>
                 </div>
                 <p></p>
                 <div class="form-group">
                     <label class="control-label">Nazwisko:</label>
-                    <input asp-for="Osoba.Nazwisko" class="form-control" />
-                    <span asp-validation-for="Osoba.Nazwisko" class="text-danger"></span>
+                    <input asp-for="Person.Surname" class="form-control" />
+                    <span asp-validation-for="Person.Surname" class="text-danger"></span>
                 </div>
                 <p></p>
                 <div class="form-group">
                     <label class="control-label">Telefon: </label>
-                    <input asp-for="Osoba.NumerTelefonu" type="tel" placeholder="+11-111-111-111" class="form-control" />
-                    <span asp-validation-for="Osoba.NumerTelefonu" class="text-danger"></span>
+                    <input asp-for="Person.PhoneNumber" type="tel" placeholder="+11-111-111-111" class="form-control" />
+                    <span asp-validation-for="Person.PhoneNumber" class="text-danger"></span>
                 </div>
                 <p></p>
                 <div class="form-group">
                     <label class="control-label">E-mail:</label>
-                    <input asp-for="Osoba.AdresEmail" placeholder="example@email.com" class="form-control" />
-                    <span asp-validation-for="Osoba.AdresEmail" class="text-danger"></span>
+                    <input asp-for="Person.EmailAddress" placeholder="example@email.com" class="form-control" />
+                    <span asp-validation-for="Person.EmailAddress" class="text-danger"></span>
                 </div>
                 <p></p>
                 <hr />
 
                <div class="form-group">
                     <label class="control-label">Rozpoczęcie pobytu:</label>
-                    <h3>@Model.DataOd.ToShortDateString()</h3>
-                    <input type="hidden" asp-for="DataOd" class="form-control" />
-                    <span asp-validation-for="DataOd" class="text-danger"></span>
+                    <h3>@Model.DateFrom.ToShortDateString()</h3>
+                    <input type="hidden" asp-for="DateFrom" class="form-control" />
+                    <span asp-validation-for="DateFrom" class="text-danger"></span>
                 </div>
                 <p></p>
                 <div class="form-group">
                     <label class="control-label">Zakończenie pobytu:</label>
-                    <h3>@Model.DataDo.ToShortDateString()</h3>
-                    <input type="hidden" asp-for="DataDo" class="form-control" />
-                    <span asp-validation-for="DataDo" class="text-danger"></span>
+                    <h3>@Model.DateTo.ToShortDateString()</h3>
+                    <input type="hidden" asp-for="DateTo" class="form-control" />
+                    <span asp-validation-for="DateTo" class="text-danger"></span>
                 </div>
 
                 <hr />
 
                 <div class="form-group">
-                    <h3>Suma: @Model.CenaCalkowita.ToString("C")</h3>
-                    <input type="hidden" asp-for="CenaCalkowita" class="form-control" />
-                    <span asp-validation-for="CenaCalkowita" class="text-danger"></span>
+                    <h3>Suma: @Model.PriceTotal.ToString("C")</h3>
+                    <input type="hidden" asp-for="PriceTotal" class="form-control" />
+                    <span asp-validation-for="PriceTotal" class="text-danger"></span>
                 </div>
 
-                <input type="hidden" asp-for="@Model.PokojId" value="@Model.PokojId" />
-                <input type="hidden" asp-for="@Model.IloscOsob" value="@Model.IloscOsob" />
-                <input type="hidden" asp-for="@Model.Pokoj" value="@Model.Pokoj" />
+                <input type="hidden" asp-for="@Model.RoomId" value="@Model.RoomId" />
+                <input type="hidden" asp-for="@Model.NumberOfGuests" value="@Model.NumberOfGuests" />
+                <input type="hidden" asp-for="@Model.Room" value="@Model.Room" />
 
                 <div class="form-group">
                     <input type="submit" value="Zarezerwuj" class="btn btn-primary" />

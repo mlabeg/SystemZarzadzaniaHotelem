@@ -9,15 +9,15 @@ namespace Hotel.Domain.Interfaces
 {
 	public interface IRezerwacjeRepository
 	{
-		Task DodajRezerwacje(Rezerwacja rezerwacja);
+		Task DodajRezerwacje(Reservation rezerwacja);
 
 		public Task<bool> UsunRezerwacje(int id);
 
-		Task<IEnumerable<Rezerwacja>> ZwrocWszystkie(string? wybor);
+		Task<IEnumerable<Reservation>> ZwrocWszystkie(string? wybor);
 
-		Task<Rezerwacja?> WyszukajPoId(int id);
+		Task<Reservation?> WyszukajPoId(int id);
 
-		public Task<IEnumerable<Rezerwacja>> WyszukajWTermminie(DateTime dataOd, DateTime dataDo);
+		public Task<IEnumerable<Reservation>> WyszukajWTermminie(DateTime dataOd, DateTime dataDo);
 
 		public Task<List<int>>? WyszukajPokojIdWTermminie(DateTime dataOd, DateTime dataDo);
 	}

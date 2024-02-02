@@ -20,6 +20,7 @@ namespace Hotel.Infrastructure.Extensions
             services.AddScoped<IRezerwacjeRepository, RezerwacjeRepository>();
             services.AddScoped<IOsobyRepository, OsobyRepository>();
             services.AddScoped<IRoomsRepository, RoomsRepository>();
+            services.AddScoped<IRoomTypeRepository, RoomTypeRepository>();
         }
     }
 }

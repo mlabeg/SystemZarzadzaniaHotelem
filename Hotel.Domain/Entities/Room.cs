@@ -6,17 +6,31 @@ using System.Threading.Tasks;
 
 namespace Hotel.Domain.Entities
 {
-	public class Room
-	{
-		public int Id { get; set; }
-		public int Number { get; set; }
-		public int Capacity { get; set; }
-		public string? Description { get; set; }
-		public RoomType Type { get; set; }
-		public int TypeRoomId { get; set; }
+    public class Room
+    {
+        public int Id { get; set; }
+        public int Number { get; set; }
+        public int Capacity { get; set; }
+        public string? Description { get; set; }
+        public RoomType Type { get; set; }
+        public int TypeRoomId { get; set; }
 
-		public Room()
-		{
-		}
-	}
+        public Room()
+        {
+        }
+
+        public Room(int idRoomType)
+        {
+            Type =
+        }
+
+        public RoomType GetRoomType(int idRoomType)
+        {
+            RoomType roomType = new RoomType();
+            roomType.Get
+            var Room = new Room()
+            {
+            }
+        }
+    }
 }

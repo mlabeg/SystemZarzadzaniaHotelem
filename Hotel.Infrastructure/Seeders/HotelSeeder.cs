@@ -11,7 +11,6 @@ namespace Hotel.Infrastructure.Seeders
 {
     public class HotelSeeder
     {
-        //TODO SEEDER dodać seedy klas Rezerwacja i Osoba
         private readonly HotelDbContext _dbContext;
 
         public HotelSeeder(HotelDbContext dbContext)
@@ -21,19 +20,20 @@ namespace Hotel.Infrastructure.Seeders
 
         public async Task Seed()
         {
-            await SeedRoomTypes();
-            await SeedRooms();
-            await SeedPerson();
-            //await SeedReservation();
+            if (await _dbContext.Database.CanConnectAsync())
+            {
+                await SeedRoomTypes();
+                await SeedRooms();
+                await SeedPerson();
+                //await SeedReservation();
+            }
         }
 
         public async Task SeedRooms()
         {
-            if (await _dbContext.Database.CanConnectAsync())
+            if (!_dbContext.Rooms.Any())
             {
-                if (!_dbContext.Rooms.Any())
-                {
-                    var roomSeedList = new List<Room>(){
+                var roomSeedList = new List<Room>(){
                         new Room()
                         {
                             Number = 100,
@@ -84,19 +84,16 @@ namespace Hotel.Infrastructure.Seeders
                         }
                     };
 
-                    _dbContext.Rooms.AddRange(roomSeedList);
-                    await _dbContext.SaveChangesAsync();
-                }
+                _dbContext.Rooms.AddRange(roomSeedList);
+                await _dbContext.SaveChangesAsync();
             }
         }
 
         public async Task SeedRoomTypes()
         {
-            if (await _dbContext.Database.CanConnectAsync())
+            if (!_dbContext.RoomTypes.Any())
             {
-                if (!_dbContext.RoomTypes.Any())
-                {
-                    var roomTypeSeedList = new List<RoomType>(){
+                var roomTypeSeedList = new List<RoomType>(){
                         new RoomType()
                         {
                             NameRoomType="Twin Business",
@@ -124,19 +121,16 @@ namespace Hotel.Infrastructure.Seeders
                         }
                     };
 
-                    _dbContext.RoomTypes.AddRange(roomTypeSeedList);
-                    await _dbContext.SaveChangesAsync();
-                }
+                _dbContext.RoomTypes.AddRange(roomTypeSeedList);
+                await _dbContext.SaveChangesAsync();
             }
         }
 
         public async Task SeedPerson()
         {
-            if (await _dbContext.Database.CanConnectAsync())
+            if (!_dbContext.People.Any())
             {
-                if (!_dbContext.People.Any())
-                {
-                    var personSeedList = new List<Person>()
+                var personSeedList = new List<Person>()
                     {
                         new UserUnregistered()
                         {
@@ -154,19 +148,16 @@ namespace Hotel.Infrastructure.Seeders
                         }
                     };
 
-                    _dbContext.People.AddRange(personSeedList);
-                    await _dbContext.SaveChangesAsync();
-                }
+                _dbContext.People.AddRange(personSeedList);
+                await _dbContext.SaveChangesAsync();
             }
         }
 
         public async Task SeedReservation()
         {
-            if (await _dbContext.Database.CanConnectAsync())
+            if (!_dbContext.Reservations.Any())
             {
-                if (!_dbContext.Reservations.Any())
-                {
-                    var reservationSeedList = new List<Reservation>()
+                var reservationSeedList = new List<Reservation>()
                     {
                         new Reservation()
                         {
@@ -206,9 +197,8 @@ namespace Hotel.Infrastructure.Seeders
                         }
                     };
 
-                    _dbContext.Reservations.AddRange(reservationSeedList);
-                    await _dbContext.SaveChangesAsync();
-                }
+                _dbContext.Reservations.AddRange(reservationSeedList);
+                await _dbContext.SaveChangesAsync();
             }
         }
     }

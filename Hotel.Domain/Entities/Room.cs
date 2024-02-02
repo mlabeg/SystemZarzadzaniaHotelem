@@ -18,19 +18,5 @@ namespace Hotel.Domain.Entities
         public Room()
         {
         }
-
-        public Room(int idRoomType)
-        {
-            Type =
-        }
-
-        public RoomType GetRoomType(int idRoomType)
-        {
-            RoomType roomType = new RoomType();
-            roomType.Get
-            var Room = new Room()
-            {
-            }
-        }
     }
 }

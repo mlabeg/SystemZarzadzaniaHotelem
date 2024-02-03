@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Hotel.Application.Services
 {
-	internal class PokojService : IPokojService
+	internal class PokojService : IRoomService
 	{
 		private readonly IRoomsRepository _pokojeRepository;
 
@@ -17,32 +17,32 @@ namespace Hotel.Application.Services
 			_pokojeRepository = pokojeRepository;
 		}
 
-		public async Task DodajPokoj(Room pokoj)
+		public async Task AddRoom(Room pokoj)
 		{
 			await _pokojeRepository.AddRoom(pokoj);
 		}
 
-		public async Task<bool> PokojeAny()
+		public async Task<bool> AnyRooms()
 		{
 			return await _pokojeRepository.AnyRoom();
 		}
 
-		public async Task<Room?> WyszukajPoId(int id)
+		public async Task<Room?> GetById(int id)
 		{
 			return await _pokojeRepository.GetById(id);
 		}
 
-		public async Task<IEnumerable<Room>> ZwwrocWszystkie()
+		public async Task<IEnumerable<Room>> GetAll()
 		{
 			return await _pokojeRepository.GetAll();
 		}
 
-		public async Task<IEnumerable<Room>> ZwrocDostepne(IEnumerable<Hotel.Domain.Entities.Reservation> rezerwacje, int iloscOsob)
+		public async Task<IEnumerable<Room>> GetAvailable(IEnumerable<Hotel.Domain.Entities.Reservation> rezerwacje, int iloscOsob)
 		{
 			return await _pokojeRepository.GetAvailable(rezerwacje, iloscOsob);
 		}
 
-		public async Task<IEnumerable<Room>> ZwrocDostepne(List<int> zarezerwowanePokojId, int iloscOsob)
+		public async Task<IEnumerable<Room>> GetAvailable(List<int> zarezerwowanePokojId, int iloscOsob)
 		{
 			return await _pokojeRepository.GetAvailable(zarezerwowanePokojId, iloscOsob);
 		}

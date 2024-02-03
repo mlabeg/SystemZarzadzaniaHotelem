@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Hotel.Domain.Interfaces
 {
-    public interface IOsobyRepository
+    public interface IPeopleRepository
     {
-        Task DodajOsobe(Person osoba);
+        Task AddPerson(Person osoba);
+        public Task<Person> GetByPhoneNumber(string phoneNumber);
     }
 }

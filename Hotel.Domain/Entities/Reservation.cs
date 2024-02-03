@@ -10,7 +10,7 @@ namespace Hotel.Domain.Entities
     {
         public Reservation()
         {
-            Person = new UserUnregistered();
+            //Person = new UserUnregistered();
             Status = "Oczekująca";
         }
 

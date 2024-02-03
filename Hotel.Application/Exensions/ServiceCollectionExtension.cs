@@ -13,9 +13,9 @@ namespace Hotel.Application.Exensions
     {
         public static void AddApplication(this IServiceCollection services)
         {
-            services.AddScoped<IRezerwacjaService, RezerwacjaService>();
+            services.AddScoped<IReservationService, RezerwacjaService>();
             services.AddScoped<IOsobaService, OsobaService>();
-            services.AddScoped<IPokojService, PokojService>();
+            services.AddScoped<IRoomService, RoomService>();
         }
     }
 }

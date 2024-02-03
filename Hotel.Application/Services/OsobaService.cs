@@ -10,16 +10,16 @@ namespace Hotel.Application.Services
 {
     internal class OsobaService : IOsobaService
     {
-        private readonly IOsobyRepository _osobyRepository;
+        private readonly IPeopleRepository _osobyRepository;
 
-        public OsobaService(IOsobyRepository osobyRepository)
+        public OsobaService(IPeopleRepository osobyRepository)
         {
             _osobyRepository = osobyRepository;
         }
 
         public async Task DodajOsobe(Person osoba)
         {
-            await _osobyRepository.DodajOsobe(osoba);
+            await _osobyRepository.AddPerson(osoba);
         }
 
         public void Logowanie()

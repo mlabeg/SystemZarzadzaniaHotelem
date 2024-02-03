@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Hotel.Application.Services
 {
-	public interface IRezerwacjaService
+	public interface IReservationService
 	{
 		public Task AddReservation(Domain.Entities.Reservation rezerwacja);
 

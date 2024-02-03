@@ -17,8 +17,8 @@ namespace Hotel.Infrastructure.Extensions
 
             services.AddScoped<HotelSeeder>();
 
-            services.AddScoped<IRezerwacjeRepository, RezerwacjeRepository>();
-            services.AddScoped<IOsobyRepository, OsobyRepository>();
+            services.AddScoped<IReservationRepository, ReservationsRepository>();
+            services.AddScoped<IPeopleRepository, PeopleRepository>();
             services.AddScoped<IRoomsRepository, RoomsRepository>();
             services.AddScoped<IRoomTypeRepository, RoomTypeRepository>();
         }

@@ -11,75 +11,75 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Hotel.Infrastructure.Repositories
 {
-    internal class RezerwacjeRepository : Domain.Interfaces.IRezerwacjeRepository
+    internal class ReservationsRepository : Domain.Interfaces.IReservationRepository
     {
         private readonly HotelDbContext _dbContext;
 
-        public RezerwacjeRepository(HotelDbContext dbContext)
+        public ReservationsRepository(HotelDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task DodajRezerwacje(Reservation rezerwacja)
+        public async Task AddReservation(Reservation reservation)
         {
-            _dbContext.Add(rezerwacja);
+            _dbContext.Add(reservation);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Reservation>> ZwrocWszystkie(string? sortowanie)
+        public async Task<IEnumerable<Reservation>> GetAll(string? sort)
         {
-            IQueryable<Reservation> rezerwacje = _dbContext.Reservations
+            IQueryable<Reservation> reservations = _dbContext.Reservations
                 .Include(p => p.Room)
                 .Include(p => p.Room.Type)
                 .Include(o => o.Person);
 
-            switch (sortowanie)
+            switch (sort)
             {
                 case "DataOd":
-                    rezerwacje = rezerwacje.OrderBy(r => r.DateFrom);
+                    reservations = reservations.OrderBy(r => r.DateFrom);
                     break;
 
                 case "DataDo":
-                    rezerwacje = rezerwacje.OrderBy(r => r.DateTo);
+                    reservations = reservations.OrderBy(r => r.DateTo);
                     break;
 
                 case "Id":
-                    rezerwacje = rezerwacje.OrderBy(r => r.Id);
+                    reservations = reservations.OrderBy(r => r.Id);
                     break;
 
                 case "Ststus":
-                    rezerwacje = rezerwacje.OrderBy(r => r.Status);
+                    reservations = reservations.OrderBy(r => r.Status);
                     break;
 
                 default:
-                    rezerwacje = rezerwacje.OrderBy(r => r.DateFrom);
+                    reservations = reservations.OrderBy(r => r.DateFrom);
                     break;
             }
-            return await rezerwacje.ToListAsync();
+            return await reservations.ToListAsync();
         }
 
-        public async Task<bool> UsunRezerwacje(int id)
+        public async Task<bool> DeleteReservation(int id)
         {
-            var rezerwacja = await _dbContext.Reservations.FirstOrDefaultAsync(x => x.Id == id);
+            var reservation = await _dbContext.Reservations.FirstOrDefaultAsync(x => x.Id == id);
 
-            if (rezerwacja == null)
+            if (reservation == null)
             {
                 return false;
             }
 
-            _dbContext.Reservations.Remove(rezerwacja);
+            _dbContext.Reservations.Remove(reservation);
             await _dbContext.SaveChangesAsync();
             return true;
         }
 
-        public async Task<Reservation?> WyszukajPoId(int id)
+        public async Task<Reservation?> GetById(int id)
         {
             return await _dbContext.Reservations
                 .Include(o => o.Person)
                 .FirstOrDefaultAsync(r => r.Id == id);
         }
 
-        public async Task<IEnumerable<Reservation>> WyszukajWTermminie(DateTime dataOd, DateTime dataDo)
+        public async Task<IEnumerable<Reservation>> GetByDate(DateTime dataOd, DateTime dataDo)
         {
             var rezerwacje = await _dbContext.Reservations.Where(r =>
                 (r.DateFrom <= dataOd && r.DateTo >= dataOd) ||
@@ -91,9 +91,9 @@ namespace Hotel.Infrastructure.Repositories
             return rezerwacje;
         }
 
-        public async Task<List<int>>? WyszukajPokojIdWTermminie(DateTime dataOd, DateTime dataDo)
+        public async Task<List<int>>? GetRoomIdByDate(DateTime dataOd, DateTime dataDo)
         {
-            var rezerwacje = await _dbContext.Reservations.Where(r =>
+            var reservations = await _dbContext.Reservations.Where(r =>
                 (r.DateFrom <= dataOd && r.DateTo >= dataOd) ||
                 (r.DateFrom <= dataDo && r.DateTo >= dataDo) ||
                 (r.DateTo >= dataOd && r.DateTo <= dataDo && r.DateTo >= dataDo) ||
@@ -102,9 +102,9 @@ namespace Hotel.Infrastructure.Repositories
 
             List<int> pokojeId = new List<int>();
 
-            if (!rezerwacje.IsNullOrEmpty())
+            if (!reservations.IsNullOrEmpty())
             {
-                pokojeId = rezerwacje.Select(p => p.RoomId).ToList();
+                pokojeId = reservations.Select(p => p.RoomId).ToList();
             }
 
             return pokojeId;

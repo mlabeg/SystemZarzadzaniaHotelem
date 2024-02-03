@@ -39,14 +39,19 @@ namespace Hotel.Infrastructure.Repositories
 
         public async Task<IEnumerable<Room>> GetAll()
         {
-            return await _dbContext.Rooms.ToListAsync();
+            return await _dbContext.Rooms
+                .Include(t => t.Type)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Room>> GetAvailable(IEnumerable<Reservation> rezerwacje, int iloscOsob)
         {
-            var pokojePoIlosc = _dbContext.Rooms.Where(p => p.Capacity >= iloscOsob).AsAsyncEnumerable();
+            var pokojePoIlosc = _dbContext.Rooms
+                .Where(p => p.Capacity >= iloscOsob);
 
-            var dostepnePokoje = await pokojePoIlosc.Where(p => !rezerwacje.Any(r => r.RoomId == p.Id)).ToListAsync();
+            var dostepnePokoje = await pokojePoIlosc
+                .Where(p => !rezerwacje.Any(r => r.RoomId == p.Id))
+                .ToListAsync();
 
             return dostepnePokoje;
         }
@@ -56,6 +61,7 @@ namespace Hotel.Infrastructure.Repositories
             return await _dbContext.Rooms
                 .Where(p => p.Capacity >= iloscOsob)
                 .Where(p => !zarezerwowanePokojId.Any(r => r.Equals(p.Id)))
+                .Include(t => t.Type)
                 .ToListAsync();
         }
     }

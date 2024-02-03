@@ -9,45 +9,45 @@ using System.Threading.Tasks;
 
 namespace Hotel.Application.Services
 {
-    internal class RezerwacjaService : IRezerwacjaService
+    internal class RezerwacjaService : IReservationService
     {
-        private readonly IRezerwacjeRepository _rezerwacjeRepository;
+        private readonly IReservationRepository _rezerwacjeRepository;
 
-        public RezerwacjaService(IRezerwacjeRepository rezerwacjeRepository)
+        public RezerwacjaService(IReservationRepository rezerwacjeRepository)
         {
             _rezerwacjeRepository = rezerwacjeRepository;
         }
 
         public async Task AddReservation(Reservation rezerwacja)
         {
-            await _rezerwacjeRepository.DodajRezerwacje(rezerwacja);
+            await _rezerwacjeRepository.AddReservation(rezerwacja);
         }
 
         public async Task<bool> DeleteReservation(int id)
         {
-            return await _rezerwacjeRepository.UsunRezerwacje(id);
+            return await _rezerwacjeRepository.DeleteReservation(id);
         }
 
         public async Task<IEnumerable<Reservation>> GetAll(string? wybor)
         {
-            var rezerwacje = await _rezerwacjeRepository.ZwrocWszystkie(wybor);
+            var rezerwacje = await _rezerwacjeRepository.GetAll(wybor);
 
             return rezerwacje;
         }
 
         public async Task<Reservation?> GetById(int id)
         {
-            return await _rezerwacjeRepository.WyszukajPoId(id);
+            return await _rezerwacjeRepository.GetById(id);
         }
 
         public async Task<IEnumerable<Reservation>> GetByDate(DateTime dataOd, DateTime dataDo)
         {
-            return await _rezerwacjeRepository.WyszukajWTermminie(dataOd, dataDo);
+            return await _rezerwacjeRepository.GetByDate(dataOd, dataDo);
         }
 
         public async Task<List<int>>? GetPokojIdByDate(DateTime dataOd, DateTime dataDo)
         {
-            return await _rezerwacjeRepository.WyszukajPokojIdWTermminie(dataOd, dataDo);
+            return await _rezerwacjeRepository.GetRoomIdByDate(dataOd, dataDo);
         }
     }
 }

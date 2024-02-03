@@ -38,49 +38,49 @@ namespace Hotel.Infrastructure.Seeders
                         {
                             Number = 100,
                             Capacity = 2,
-                            TypeRoomId = 1
+                            TypeRoomId = _dbContext.RoomTypes.First(t=>t.NameRoomType=="Twin Business").IdRoomType
                         },
                         new Room()
                         {
                             Number = 101,
                             Capacity = 2,
-                            TypeRoomId = 1
+                            TypeRoomId = _dbContext.RoomTypes.First(t=>t.NameRoomType=="Twin Business").IdRoomType
                         },
                         new Room()
                         {
                             Number = 102,
                             Capacity = 2,
-                            TypeRoomId = 1
+                            TypeRoomId = _dbContext.RoomTypes.First(t=>t.NameRoomType=="Premium Prestige").IdRoomType
                         },
                         new Room()
                         {
                             Number = 200,
                             Capacity = 3,
-                            TypeRoomId = 2
+                            TypeRoomId = _dbContext.RoomTypes.First(t=>t.NameRoomType=="Premium Business").IdRoomType
                         },
                         new Room()
                         {
                             Number = 300,
                             Capacity = 4,
-                            TypeRoomId = 3
+                            TypeRoomId = _dbContext.RoomTypes.First(t=>t.NameRoomType=="Double/Twin Prestige").IdRoomType
                         },
                         new Room()
                         {
                             Number = 400,
                             Capacity = 5,
-                            TypeRoomId = 4
+                            TypeRoomId = _dbContext.RoomTypes.First(t=>t.NameRoomType=="Premium Prestige").IdRoomType
                         },
                          new Room()
                         {
                             Number = 401,
                             Capacity = 5,
-                            TypeRoomId = 4
+                            TypeRoomId = _dbContext.RoomTypes.First(t=>t.NameRoomType=="Premium Prestige").IdRoomType
                         },
                         new Room()
                         {
                             Number = 500,
                             Capacity = 6,
-                            TypeRoomId = 5
+                            TypeRoomId = _dbContext.RoomTypes.First(t=>t.NameRoomType=="Apartament Prezydencki").IdRoomType
                         }
                     };
 

@@ -11,12 +11,12 @@ namespace Hotel.Presentation.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly HotelDbContext _dbContext;
-        private readonly IRezerwacjaService _rezerwacjaService;
+        private readonly IReservationService _rezerwacjaService;
         private readonly IRoomService _pokojService;
 
         public ReservationController(ILogger<HomeController> logger,
             HotelDbContext dbContext,
-            IRezerwacjaService rezerwacjaService,
+            IReservationService rezerwacjaService,
             IRoomService pokojService)
         {
             _dbContext = dbContext;
@@ -37,7 +37,7 @@ namespace Hotel.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CheckRoomsAvailability(CheckAvailabilityModel query)
+        public async Task<IActionResult> GetAvailableRooms(CheckAvailabilityModel query)
         {//TODO wg jednego z postów na Stackoverflow CAŁA logika powinna być w module Application - należy stworzyć nowy serwis łączący oba serwisy i nic tutaj nie zostawiać
             if (query.DateFrom >= query.DateTo)
             {
@@ -133,15 +133,15 @@ namespace Hotel.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ReservationDetails(QueryReservationDetailsModel zapytanie)
+        public async Task<IActionResult> ReservationDetails(QueryReservationDetailsModel query)
         {
-            var rezerwacja = await _rezerwacjaService.GetById(zapytanie.NumberOfReservation);
+            var reservation = await _rezerwacjaService.GetById(query.NumberOfReservation);
 
-            if (rezerwacja != null)
+            if (reservation != null)
             {
-                if (string.Compare(zapytanie.EmailAddress, rezerwacja.Person.EmailAddress, true) == 0)
+                if (string.Compare(query.EmailAddress, reservation.Person.EmailAddress, true) == 0)
                 {
-                    return View(rezerwacja);
+                    return View(reservation);
                 }
             }
 

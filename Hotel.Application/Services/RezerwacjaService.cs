@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Hotel.Application.Services
 {
-    internal class RezerwacjaService : IRezerwacjaService
+    internal class RezerwacjaService : IReservationService
     {
         private readonly IRezerwacjeRepository _rezerwacjeRepository;
 

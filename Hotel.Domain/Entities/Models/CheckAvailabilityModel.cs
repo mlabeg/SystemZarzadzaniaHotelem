@@ -19,5 +19,7 @@ namespace Hotel.Domain.Entities.Models
         public int NumberOfGuests { get; set; }
 
         public IList<Room> ListOfRooms { get; set; } = new List<Room>();
+
+        public IDictionary<Room, int> DictionayRooms { get; set; } = new Dictionary<Room, int>();
     }
 }

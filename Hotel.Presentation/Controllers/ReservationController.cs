@@ -4,6 +4,7 @@ using Hotel.Application.Services;
 using Hotel.Domain.Entities.Models;
 using Hotel.Infrastructure.Presistence;
 using Microsoft.IdentityModel.Tokens;
+using System.Linq;
 
 namespace Hotel.Presentation.Controllers
 {
@@ -37,7 +38,7 @@ namespace Hotel.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetAvailableRooms(CheckAvailabilityModel query)
+        public async Task<IActionResult> CheckRoomsAvailability(CheckAvailabilityModel query)
         {//TODO wg jednego z postów na Stackoverflow CAŁA logika powinna być w module Application - należy stworzyć nowy serwis łączący oba serwisy i nic tutaj nie zostawiać
             if (query.DateFrom >= query.DateTo)
             {

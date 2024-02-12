@@ -7,19 +7,22 @@ using System.Threading.Tasks;
 
 namespace Hotel.Application.Services
 {
-    public interface IRoomService
-    {
-        Task AddRoom(Room pokoj);
+	public interface IRoomService
+	{
+		Task AddRoomAsync(Room room);
 
-        public Task<Room?> GetById(int number);
+		public Task<Room?> GetByIdAsync(int number);
 
-        //TODO zmień nazwę tej metody:
-        public Task<bool> AnyRooms();
+		public Task<bool> AnyRoomsAsync();
 
-        public Task<IEnumerable<Room>> GetAll();
+		public Task<IEnumerable<Room>> GetAllAsync();
 
-        public Task<IEnumerable<Room>> GetAvailable(IEnumerable<Domain.Entities.Reservation> rezerwacje, int iloscOsob);
+		public Task<IDictionary<Room, int>> GetAllDictAsync();
 
-        public Task<IEnumerable<Room>> GetAvailable(List<int> zarezerwowanePokojId, int iloscOsob);
-    }
+		public Task<IEnumerable<Room>> GetAvailableAsync(IEnumerable<Reservation> rezerwacje, int iloscOsob);
+
+		public Task<IEnumerable<Room>> GetAvailableAsync(List<int> zarezerwowanePokojId, int iloscOsob);
+
+		public Task<IDictionary<Room, int>> GetAvailableDictAsync(List<int> zarezerwowanePokojId, int iloscOsob);
+	}
 }

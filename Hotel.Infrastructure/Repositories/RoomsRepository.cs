@@ -10,59 +10,67 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hotel.Infrastructure.Repositories
 {
-    public class RoomsRepository : Domain.Interfaces.IRoomsRepository
-    {
-        private readonly HotelDbContext _dbContext;
+	public class RoomsRepository : Domain.Interfaces.IRoomsRepository
+	{
+		private readonly HotelDbContext _dbContext;
 
-        public RoomsRepository(HotelDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+		public RoomsRepository(HotelDbContext dbContext)
+		{
+			_dbContext = dbContext;
+		}
 
-        public async Task AddRoom(Room pokoj)
-        {
-            _dbContext.Rooms.Add(pokoj);
-            await _dbContext.SaveChangesAsync();
-        }
+		public async Task AddRoom(Room pokoj)
+		{
+			_dbContext.Rooms.Add(pokoj);
+			await _dbContext.SaveChangesAsync();
+		}
 
-        public async Task<bool> AnyRoom()
-        {
-            return await _dbContext.Rooms.AnyAsync();
-        }
+		public async Task<bool> AnyRoom()
+		{
+			return await _dbContext.Rooms.AnyAsync();
+		}
 
-        public async Task<Room?> GetById(int id)
-        {
-            return await _dbContext.Rooms
-                .Include(t => t.Type)
-                .FirstOrDefaultAsync(p => p.Id == id);
-        }
+		public async Task<Room?> GetById(int id)
+		{
+			return await _dbContext.Rooms
+				.Include(t => t.Type)
+				.FirstOrDefaultAsync(p => p.Id == id);
+		}
 
-        public async Task<IEnumerable<Room>> GetAll()
-        {
-            return await _dbContext.Rooms
-                .Include(t => t.Type)
-                .ToListAsync();
-        }
+		public async Task<IEnumerable<Room>> GetAllAsync()
+		{
+			return await _dbContext.Rooms
+				.Include(t => t.Type)
+				.ToListAsync();
+		}
 
-        public async Task<IEnumerable<Room>> GetAvailable(IEnumerable<Reservation> rezerwacje, int iloscOsob)
-        {
-            var pokojePoIlosc = _dbContext.Rooms
-                .Where(p => p.Capacity >= iloscOsob);
+		public async Task<IEnumerable<Room>> GetByCapacityAsync(int capacity)
+		{
+			return await _dbContext.Rooms
+				.Where(r => r.Capacity >= capacity)
+				.Include(t => t.Type)
+				.ToListAsync();
+		}
 
-            var dostepnePokoje = await pokojePoIlosc
-                .Where(p => !rezerwacje.Any(r => r.RoomId == p.Id))
-                .ToListAsync();
+		public async Task<IEnumerable<Room>> GetAvailable(IEnumerable<Reservation> rezerwacje, int iloscOsob)
+		{
+			var pokojePoIlosc = _dbContext.Rooms
+				.Where(p => p.Capacity >= iloscOsob);
 
-            return dostepnePokoje;
-        }
+			var dostepnePokoje = await pokojePoIlosc
+				.Where(p => !rezerwacje.Any(r => r.RoomId == p.Id))
+				.ToListAsync();
 
-        public async Task<IEnumerable<Room>> GetAvailable(List<int> reservedRoomId, int guestCount)
-        {
-            return await _dbContext.Rooms
-                .Where(p => p.Capacity >= guestCount)
-                .Where(p => !reservedRoomId.Any(r => r.Equals(p.Id)))
-                .Include(t => t.Type)
-                .ToListAsync();
-        }
-    }
+			return dostepnePokoje;
+		}
+
+		public async Task<IEnumerable<Room>> GetAvailable(List<int> reservedRoomId, int guestCount)
+		{
+			return await _dbContext.Rooms
+				.Where(p => p.Capacity >= guestCount)
+				.Where(p => !reservedRoomId.Any(r => r.Equals(p.Id)))
+				.Include(t => t.Type)
+				.ToListAsync();
+		}
+	}
 }

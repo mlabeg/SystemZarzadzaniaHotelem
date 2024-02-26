@@ -56,11 +56,11 @@ namespace Hotel.Infrastructure.Repositories
             return dostepnePokoje;
         }
 
-        public async Task<IEnumerable<Room>> GetAvailable(List<int> zarezerwowanePokojId, int iloscOsob)
+        public async Task<IEnumerable<Room>> GetAvailable(List<int> reservedRoomId, int guestCount)
         {
             return await _dbContext.Rooms
-                .Where(p => p.Capacity >= iloscOsob)
-                .Where(p => !zarezerwowanePokojId.Any(r => r.Equals(p.Id)))
+                .Where(p => p.Capacity >= guestCount)
+                .Where(p => !reservedRoomId.Any(r => r.Equals(p.Id)))
                 .Include(t => t.Type)
                 .ToListAsync();
         }

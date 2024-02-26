@@ -59,7 +59,6 @@ namespace Hotel.Application.Services
 		{
 			var roomsDict = new Dictionary<Room, int>();
 
-			//TODO TESTY sprawdzić czy nie wysypie się przy pustym repozytorium pokoi
 			if (!rooms.Any())
 			{
 				return roomsDict;
@@ -74,7 +73,7 @@ namespace Hotel.Application.Services
 				}
 				else
 				{
-					roomsDict.Add(room, 0);
+					roomsDict.Add(room, 1);
 				}
 			}
 

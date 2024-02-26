@@ -52,18 +52,15 @@ namespace Hotel.Presentation.Controllers
 
 			var rezerwacjeWTerminie = await _rezerwacjaService.GetByDate(query.DateFrom, query.DateTo);
 
-			//IEnumerable<Room> avaliableRooms = new List<Room>();
 			IDictionary<Room, int> availableRooms = new Dictionary<Room, int>();
 
 			if (rezerwacjeWTerminie.IsNullOrEmpty())
 			{
-				//avaliableRooms = await _pokojService.GetAllAsync();
 				availableRooms = await _pokojService.GetAllDictAsync();
 			}
 			else
 			{
 				var zajetePokoje = rezerwacjeWTerminie.Select(r => r.RoomId).ToList();
-				// avaliableRooms = await _pokojService.GetAvailable(zajetePokoje, query.NumberOfGuests);
 				availableRooms = await _pokojService.GetAvailableDictAsync(zajetePokoje, query.NumberOfGuests);
 			}
 
@@ -79,17 +76,17 @@ namespace Hotel.Presentation.Controllers
 			var room = await _pokojService.GetByIdAsync(id);
 			int days = (int)DateTo.Subtract(DateFrom).TotalDays;
 
-			Reservation rezerwacja = new Reservation()
+			Reservation reservation = new Reservation()
 			{
 				DateFrom = DateFrom,
 				DateTo = DateTo,
 				NumberOfGuests = GuestsCount,
 				RoomId = id,
 				PriceTotal = days * room.Type.Price,
-				Person = new UserUnregistered()
+				//Person = new UserUnregistered()
 			};
 
-			return View(rezerwacja);
+			return View(reservation);
 		}
 
 		[HttpPost]
@@ -97,6 +94,7 @@ namespace Hotel.Presentation.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+				/*
 				var _rezerwacja = new Reservation
 				{
 					DateFrom = reservation.DateFrom,
@@ -113,11 +111,11 @@ namespace Hotel.Presentation.Controllers
 					PriceTotal = reservation.PriceTotal,
 					RoomId = reservation.RoomId,
 					Room = reservation.Room
-				};
+				};*/
 
-				await _rezerwacjaService.AddReservation(_rezerwacja);
+				await _rezerwacjaService.AddReservation(reservation);
 
-				return RedirectToAction("SuccessCreateReservation", new { id = _rezerwacja.Id });
+				return RedirectToAction("SuccessCreateReservation", new { id = reservation.Id });
 			}
 			else
 			{

@@ -12,8 +12,8 @@ namespace Hotel.Presentation.Controllers
 	{
 		private readonly ILogger<HomeController> _logger;
 		private readonly HotelDbContext _dbContext;
-		private readonly IReservationService _rezerwacjaService;
-		private readonly IRoomService _pokojService;
+		private readonly IReservationService _reservationService;
+		private readonly IRoomService _roomService;
 
 		public ReservationController(ILogger<HomeController> logger,
 			HotelDbContext dbContext,
@@ -21,8 +21,8 @@ namespace Hotel.Presentation.Controllers
 			IRoomService pokojService)
 		{
 			_dbContext = dbContext;
-			_rezerwacjaService = rezerwacjaService;
-			_pokojService = pokojService;
+			_reservationService = rezerwacjaService;
+			_roomService = pokojService;
 			_logger = logger;
 		}
 
@@ -45,26 +45,24 @@ namespace Hotel.Presentation.Controllers
 				return View();//TODO wysłać komunikat o błędzie
 			}
 
-			if (!await _pokojService.AnyRoomsAsync())
+			if (!await _roomService.AnyRoomsAsync())
 			{
 				return View(query);//TODO wysłać komunikat o błędzie
 			}
 
-			var rezerwacjeWTerminie = await _rezerwacjaService.GetByDate(query.DateFrom, query.DateTo);
+			var rezerwacjeWTerminie = await _reservationService.GetByDate(query.DateFrom, query.DateTo);
 
-			//IEnumerable<Room> avaliableRooms = new List<Room>();
 			IDictionary<Room, int> availableRooms = new Dictionary<Room, int>();
 
 			if (rezerwacjeWTerminie.IsNullOrEmpty())
 			{
-				//avaliableRooms = await _pokojService.GetAllAsync();
-				availableRooms = await _pokojService.GetAllDictAsync();
+				//availableRooms1 = await _roomService.GetAllDictAsync();
+				availableRooms = await _roomService.GetByCapacityDictAsync(query.NumberOfGuests);
 			}
 			else
 			{
 				var zajetePokoje = rezerwacjeWTerminie.Select(r => r.RoomId).ToList();
-				// avaliableRooms = await _pokojService.GetAvailable(zajetePokoje, query.NumberOfGuests);
-				availableRooms = await _pokojService.GetAvailableDictAsync(zajetePokoje, query.NumberOfGuests);
+				availableRooms = await _roomService.GetAvailableDictAsync(zajetePokoje, query.NumberOfGuests);
 			}
 
 			//query.ListOfRooms = avaliableRooms.ToList();
@@ -76,20 +74,20 @@ namespace Hotel.Presentation.Controllers
 		[HttpGet]
 		public async Task<IActionResult> CreateReservation(int id, DateTime DateFrom, DateTime DateTo, int GuestsCount)
 		{
-			var room = await _pokojService.GetByIdAsync(id);
+			var room = await _roomService.GetByIdAsync(id);
 			int days = (int)DateTo.Subtract(DateFrom).TotalDays;
 
-			Reservation rezerwacja = new Reservation()
+			Reservation reservation = new Reservation()
 			{
 				DateFrom = DateFrom,
 				DateTo = DateTo,
 				NumberOfGuests = GuestsCount,
 				RoomId = id,
 				PriceTotal = days * room.Type.Price,
-				Person = new UserUnregistered()
+				//Person = new UserUnregistered()
 			};
 
-			return View(rezerwacja);
+			return View(reservation);
 		}
 
 		[HttpPost]
@@ -97,6 +95,7 @@ namespace Hotel.Presentation.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+				/*
 				var _rezerwacja = new Reservation
 				{
 					DateFrom = reservation.DateFrom,
@@ -113,11 +112,11 @@ namespace Hotel.Presentation.Controllers
 					PriceTotal = reservation.PriceTotal,
 					RoomId = reservation.RoomId,
 					Room = reservation.Room
-				};
+				};*/
 
-				await _rezerwacjaService.AddReservation(_rezerwacja);
+				await _reservationService.AddReservation(reservation);
 
-				return RedirectToAction("SuccessCreateReservation", new { id = _rezerwacja.Id });
+				return RedirectToAction("SuccessCreateReservation", new { id = reservation.Id });
 			}
 			else
 			{
@@ -127,7 +126,7 @@ namespace Hotel.Presentation.Controllers
 
 		public async Task<IActionResult> RoomDetails(int id)
 		{
-			var room = await _pokojService.GetByIdAsync(id);
+			var room = await _roomService.GetByIdAsync(id);
 
 			if (room == null)
 			{
@@ -140,7 +139,7 @@ namespace Hotel.Presentation.Controllers
 		[HttpPost]
 		public async Task<IActionResult> ReservationDetails(QueryReservationDetailsModel query)
 		{
-			var reservation = await _rezerwacjaService.GetById(query.NumberOfReservation);
+			var reservation = await _reservationService.GetById(query.NumberOfReservation);
 
 			if (reservation != null)
 			{
@@ -171,7 +170,7 @@ namespace Hotel.Presentation.Controllers
 		{
 			if (potwierdzenie)
 			{
-				if (await _rezerwacjaService.DeleteReservation(rezerwacjaId))
+				if (await _reservationService.DeleteReservation(rezerwacjaId))
 				{
 					return RedirectToAction("SuccessCancelReservation", new { id = rezerwacjaId });
 				}
@@ -183,7 +182,7 @@ namespace Hotel.Presentation.Controllers
 		[HttpGet]
 		public async Task<IActionResult> ReservationManagementBoard()
 		{
-			var rezerwacje = await _rezerwacjaService.GetAll("DataOd");
+			var rezerwacje = await _reservationService.GetAll("DataOd");
 
 			return View(rezerwacje);
 		}
@@ -191,7 +190,7 @@ namespace Hotel.Presentation.Controllers
 		[HttpPost]
 		public async Task<IActionResult> ReservationManagementBoard(string sort)
 		{
-			var rezerwacje = await _rezerwacjaService.GetAll(sort);
+			var rezerwacje = await _reservationService.GetAll(sort);
 
 			return View(rezerwacje);
 		}

@@ -30,12 +30,17 @@ namespace Hotel.Application.Services
 
 		public async Task<IEnumerable<Room>> GetAllAsync()
 		{
-			return await _pokojeRepository.GetAll();
+			return await _pokojeRepository.GetAllAsync();
 		}
 
 		public async Task<IDictionary<Room, int>> GetAllDictAsync()
 		{
 			return ListToDictionary(await GetAllAsync());
+		}
+
+		public async Task<IDictionary<Room, int>> GetByCapacityDictAsync(int capacity)
+		{
+			return ListToDictionary(await _pokojeRepository.GetByCapacityAsync(capacity));
 		}
 
 		public async Task<IEnumerable<Room>> GetAvailableAsync(IEnumerable<Hotel.Domain.Entities.Reservation> rezerwacje, int iloscOsob)
@@ -59,7 +64,6 @@ namespace Hotel.Application.Services
 		{
 			var roomsDict = new Dictionary<Room, int>();
 
-			//TODO TESTY sprawdzić czy nie wysypie się przy pustym repozytorium pokoi
 			if (!rooms.Any())
 			{
 				return roomsDict;
@@ -74,7 +78,7 @@ namespace Hotel.Application.Services
 				}
 				else
 				{
-					roomsDict.Add(room, 0);
+					roomsDict.Add(room, 1);
 				}
 			}
 

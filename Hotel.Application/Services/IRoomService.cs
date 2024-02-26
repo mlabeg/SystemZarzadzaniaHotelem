@@ -19,6 +19,8 @@ namespace Hotel.Application.Services
 
 		public Task<IDictionary<Room, int>> GetAllDictAsync();
 
+		public Task<IDictionary<Room, int>> GetByCapacityDictAsync(int capacity);
+
 		public Task<IEnumerable<Room>> GetAvailableAsync(IEnumerable<Reservation> rezerwacje, int iloscOsob);
 
 		public Task<IEnumerable<Room>> GetAvailableAsync(List<int> zarezerwowanePokojId, int iloscOsob);

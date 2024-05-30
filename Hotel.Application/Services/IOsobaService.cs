@@ -7,22 +7,22 @@ using System.Threading.Tasks;
 
 namespace Hotel.Application.Services
 {
-    internal interface IOsobaService
-    {
-        Task DodajOsobe(Person osoba);
+	internal interface IOsobaService
+	{
+		Task AddPerson(Person osoba);
 
-        public void ZmianaImienia();
+		public void ZmianaImienia();
 
-        public void ZmianaNazwiskoa();
+		public void ZmianaNazwiskoa();
 
-        public void ZmianaEmail();
+		public void ZmianaEmail();
 
-        public void ZmianaTel();
+		public void ZmianaTel();
 
-        public void ZmianaHasla();
+		public void ZmianaHasla();
 
-        public void UsunKonto();
+		public void UsunKonto();
 
-        public void Logowanie();
-    }
+		public void Logowanie();
+	}
 }

@@ -25,7 +25,7 @@ namespace Hotel.Application.Services
 
 		public async Task<Room?> GetByIdAsync(int id)
 		{
-			return await _pokojeRepository.GetById(id);
+			return await _pokojeRepository.GetByIdAsync(id);
 		}
 
 		public async Task<IEnumerable<Room>> GetAllAsync()

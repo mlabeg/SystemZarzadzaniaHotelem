@@ -43,34 +43,34 @@ namespace Hotel.Presentation.Controllers
 
         [HttpPost]
         public async Task<IActionResult> CheckRoomsAvailability(CheckAvailabilityModel query)
-        {//TODO wg jednego z postów na Stackoverflow CAŁA logika powinna być w module Application - należy stworzyć nowy serwis łączący oba serwisy i nic tutaj nie zostawiać
+        {
             if (query.DateFrom >= query.DateTo)
             {
                 return View();//TODO wysłać komunikat o błędzie
             }
 
-            if (!await _roomService.AnyRoomsAsync())
-            {
-                return View(query);//TODO wysłać komunikat o błędzie
-            }
-
-            var roomsAvailability = _roomReservationService.CheckRoomsAvailability(query);
+            var roomsAvailability = await _roomReservationService.CheckRoomsAvailability(query);
 
             return View(roomsAvailability);
         }
 
         [HttpGet]
-        public async Task<IActionResult> CreateReservation(int id, DateTime DateFrom, DateTime DateTo, int GuestsCount)
+        public async Task<IActionResult> CreateReservation(int roomId, DateTime DateFrom, DateTime DateTo, int GuestsCount)
         {
-            var room = await _roomService.GetByIdAsync(id);
+            var room = await _roomService.GetByIdAsync(roomId);
+            if (room == null)
+            {
+                return View();//TODO dodać wyświetlenie błędu
+            }
             int days = (int)DateTo.Subtract(DateFrom).TotalDays;
 
             Reservation reservation = new Reservation()
             {
+                //Id = null,
                 DateFrom = DateFrom,
                 DateTo = DateTo,
                 NumberOfGuests = GuestsCount,
-                RoomId = id,
+                RoomId = roomId,
                 PriceTotal = days * room.Type.Price,
                 Person = new UserUnregistered()
             };
@@ -130,10 +130,12 @@ namespace Hotel.Presentation.Controllers
 
             if (reservation != null)
             {
-                if (string.Compare(query.EmailAddress, reservation.Person.EmailAddress, true) == 0)
-                {
-                    return View(reservation);
-                }
+                return View();
+            }
+
+            if (string.Compare(query.EmailAddress, reservation.Person.EmailAddress, true) == 0)
+            {
+                return View(reservation);
             }
 
             return View();//TODO wysłać komunikat o błędzie

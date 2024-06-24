@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Hotel.Application.Services
 {
-    internal class RezerwacjaService : IReservationService
+    internal class ReservationService : IReservationService
     {
         private readonly IReservationRepository _rezerwacjeRepository;
 
-        public RezerwacjaService(IReservationRepository rezerwacjeRepository)
+        public ReservationService(IReservationRepository rezerwacjeRepository)
         {
             _rezerwacjeRepository = rezerwacjeRepository;
         }

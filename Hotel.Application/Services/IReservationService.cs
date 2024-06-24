@@ -20,9 +20,5 @@ namespace Hotel.Application.Services
 		public Task<IEnumerable<Domain.Entities.Reservation>> GetByDate(DateTime dataOd, DateTime dataDo);
 
 		public Task<List<int>>? GetPokojIdByDate(DateTime dataOd, DateTime dataDo);
-
-		//TODO dodać poniższe
-		//public List<Hotel.Domain.Entities.Rezerwacja> PokazHistorieRezerwacji();
-		//public List<Hotel.Domain.Entities.Rezerwacja> PokazAktualneRezerwacje();
 	}
 }

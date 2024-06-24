@@ -11,7 +11,7 @@ namespace Hotel.Domain.Interfaces
 	{
 		Task AddRoom(Room pokoj);
 
-		Task<Room?> GetById(int id);
+		Task<Room?> GetByIdAsync(int id);
 
 		Task<bool> AnyRoom();
 

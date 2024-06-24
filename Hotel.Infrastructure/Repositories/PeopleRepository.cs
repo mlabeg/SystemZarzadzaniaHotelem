@@ -26,7 +26,8 @@ namespace Hotel.Infrastructure.Repositories
 
         public async Task<Person> GetByPhoneNumber(string phoneNumber)
         {
-            return await _dbContext.People.FirstOrDefaultAsync(p => p.PhoneNumber == phoneNumber);
+            return await _dbContext.People
+                .FirstOrDefaultAsync(p => p.PhoneNumber == phoneNumber);
         }
     }
 }

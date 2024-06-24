@@ -8,196 +8,183 @@ using System.Linq;
 
 namespace Hotel.Presentation.Controllers
 {
-	public class ReservationController : Controller
-	{
-		private readonly ILogger<HomeController> _logger;
-		private readonly HotelDbContext _dbContext;
-		private readonly IReservationService _reservationService;
-		private readonly IRoomService _roomService;
+    public class ReservationController : Controller
+    {
+        private readonly ILogger<HomeController> _logger;
+        private readonly HotelDbContext _dbContext;
+        private readonly IReservationService _reservationService;
+        private readonly IRoomService _roomService;
+        private readonly IRoomReservationService _roomReservationService;
 
-		public ReservationController(ILogger<HomeController> logger,
-			HotelDbContext dbContext,
-			IReservationService rezerwacjaService,
-			IRoomService pokojService)
-		{
-			_dbContext = dbContext;
-			_reservationService = rezerwacjaService;
-			_roomService = pokojService;
-			_logger = logger;
-		}
+        public ReservationController(ILogger<HomeController> logger,
+            HotelDbContext dbContext,
+            IReservationService rezerwacjaService,
+            IRoomService pokojService,
+            IRoomReservationService roomReservationService)
+        {
+            _dbContext = dbContext;
+            _logger = logger;
 
-		public IActionResult SuccessCreateReservation(int id)
-		{
-			return View(id);
-		}
+            _reservationService = rezerwacjaService;
+            _roomService = pokojService;
+            _roomReservationService = roomReservationService;
+        }
 
-		[HttpGet]
-		public IActionResult CheckRoomsAvailability()
-		{
-			return View();
-		}
+        public IActionResult SuccessCreateReservation(int id)
+        {
+            return View(id);
+        }
 
-		[HttpPost]
-		public async Task<IActionResult> CheckRoomsAvailability(CheckAvailabilityModel query)
-		{//TODO wg jednego z postów na Stackoverflow CAŁA logika powinna być w module Application - należy stworzyć nowy serwis łączący oba serwisy i nic tutaj nie zostawiać
-			if (query.DateFrom >= query.DateTo)
-			{
-				return View();//TODO wysłać komunikat o błędzie
-			}
+        [HttpGet]
+        public IActionResult CheckRoomsAvailability()
+        {
+            return View();
+        }
 
-			if (!await _roomService.AnyRoomsAsync())
-			{
-				return View(query);//TODO wysłać komunikat o błędzie
-			}
+        [HttpPost]
+        public async Task<IActionResult> CheckRoomsAvailability(CheckAvailabilityModel query)
+        {//TODO wg jednego z postów na Stackoverflow CAŁA logika powinna być w module Application - należy stworzyć nowy serwis łączący oba serwisy i nic tutaj nie zostawiać
+            if (query.DateFrom >= query.DateTo)
+            {
+                return View();//TODO wysłać komunikat o błędzie
+            }
 
-			var rezerwacjeWTerminie = await _reservationService.GetByDate(query.DateFrom, query.DateTo);
+            if (!await _roomService.AnyRoomsAsync())
+            {
+                return View(query);//TODO wysłać komunikat o błędzie
+            }
 
-			IDictionary<Room, int> availableRooms = new Dictionary<Room, int>();
+            var roomsAvailability = _roomReservationService.CheckRoomsAvailability(query);
 
-			if (rezerwacjeWTerminie.IsNullOrEmpty())
-			{
-				//availableRooms1 = await _roomService.GetAllDictAsync();
-				availableRooms = await _roomService.GetByCapacityDictAsync(query.NumberOfGuests);
-			}
-			else
-			{
-				var zajetePokoje = rezerwacjeWTerminie.Select(r => r.RoomId).ToList();
-				availableRooms = await _roomService.GetAvailableDictAsync(zajetePokoje, query.NumberOfGuests);
-			}
+            return View(roomsAvailability);
+        }
 
-			//query.ListOfRooms = avaliableRooms.ToList();
-			query.DictionayRooms = availableRooms;
+        [HttpGet]
+        public async Task<IActionResult> CreateReservation(int id, DateTime DateFrom, DateTime DateTo, int GuestsCount)
+        {
+            var room = await _roomService.GetByIdAsync(id);
+            int days = (int)DateTo.Subtract(DateFrom).TotalDays;
 
-			return View(query);
-		}
+            Reservation reservation = new Reservation()
+            {
+                DateFrom = DateFrom,
+                DateTo = DateTo,
+                NumberOfGuests = GuestsCount,
+                RoomId = id,
+                PriceTotal = days * room.Type.Price,
+                Person = new UserUnregistered()
+            };
 
-		[HttpGet]
-		public async Task<IActionResult> CreateReservation(int id, DateTime DateFrom, DateTime DateTo, int GuestsCount)
-		{
-			var room = await _roomService.GetByIdAsync(id);
-			int days = (int)DateTo.Subtract(DateFrom).TotalDays;
+            return View(reservation);
+        }
 
-			Reservation reservation = new Reservation()
-			{
-				DateFrom = DateFrom,
-				DateTo = DateTo,
-				NumberOfGuests = GuestsCount,
-				RoomId = id,
-				PriceTotal = days * room.Type.Price,
-				//Person = new UserUnregistered()
-			};
+        [HttpPost]
+        public async Task<IActionResult> CreateReservation(Reservation reservation)
+        {
+            if (ModelState.IsValid)
+            {
+                var _rezerwacja = new Reservation
+                {
+                    DateFrom = reservation.DateFrom,
+                    DateTo = reservation.DateTo,
 
-			return View(reservation);
-		}
+                    Person = new UserUnregistered
+                    {
+                        Name = reservation.Person.Name,
+                        Surname = reservation.Person.Surname,
+                        PhoneNumber = reservation.Person.PhoneNumber,
+                        EmailAddress = reservation.Person.EmailAddress
+                    },
+                    NumberOfGuests = reservation.NumberOfGuests,
+                    PriceTotal = reservation.PriceTotal,
+                    RoomId = reservation.RoomId,
+                    Room = reservation.Room
+                };
 
-		[HttpPost]
-		public async Task<IActionResult> CreateReservation(Reservation reservation)
-		{
-			if (ModelState.IsValid)
-			{
-				/*
-				var _rezerwacja = new Reservation
-				{
-					DateFrom = reservation.DateFrom,
-					DateTo = reservation.DateTo,
+                await _reservationService.AddReservationAsync(reservation);
 
-					Person = new UserUnregistered
-					{
-						Name = reservation.Person.Name,
-						Surname = reservation.Person.Surname,
-						PhoneNumber = reservation.Person.PhoneNumber,
-						EmailAddress = reservation.Person.EmailAddress
-					},
-					NumberOfGuests = reservation.NumberOfGuests,
-					PriceTotal = reservation.PriceTotal,
-					RoomId = reservation.RoomId,
-					Room = reservation.Room
-				};*/
+                return RedirectToAction("SuccessCreateReservation", new { id = reservation.Id });
+            }
+            else
+            {
+                return View(reservation);
+            }
+        }
 
-				await _reservationService.AddReservation(reservation);
+        public async Task<IActionResult> RoomDetails(int id)
+        {
+            var room = await _roomService.GetByIdAsync(id);
 
-				return RedirectToAction("SuccessCreateReservation", new { id = reservation.Id });
-			}
-			else
-			{
-				return View(reservation);
-			}
-		}
+            if (room == null)
+            {
+                return NotFound();
+            }
 
-		public async Task<IActionResult> RoomDetails(int id)
-		{
-			var room = await _roomService.GetByIdAsync(id);
+            return View(room);
+        }
 
-			if (room == null)
-			{
-				return NotFound();
-			}
+        [HttpPost]
+        public async Task<IActionResult> ReservationDetails(QueryReservationDetailsModel query)
+        {
+            var reservation = await _reservationService.GetByIdAsync(query.NumberOfReservation);
 
-			return View(room);
-		}
+            if (reservation != null)
+            {
+                if (string.Compare(query.EmailAddress, reservation.Person.EmailAddress, true) == 0)
+                {
+                    return View(reservation);
+                }
+            }
 
-		[HttpPost]
-		public async Task<IActionResult> ReservationDetails(QueryReservationDetailsModel query)
-		{
-			var reservation = await _reservationService.GetById(query.NumberOfReservation);
+            return View();//TODO wysłać komunikat o błędzie
+                          //w projekcie CarWorkshop jest dodana klasa ControllerExtensions, sprawdzić
+        }
 
-			if (reservation != null)
-			{
-				if (string.Compare(query.EmailAddress, reservation.Person.EmailAddress, true) == 0)
-				{
-					return View(reservation);
-				}
-			}
+        [HttpGet]
+        public IActionResult ReservationDetails()
+        {
+            return View();
+        }
 
-			return View();//TODO wysłać komunikat o błędzie
-						  //w projekcie CarWorkshop jest dodana klasa ControllerExtensions, sprawdzić
-		}
+        [HttpGet]
+        public IActionResult CancelReservation(int id)
+        {
+            return View(id);
+        }
 
-		[HttpGet]
-		public IActionResult ReservationDetails()
-		{
-			return View();
-		}
+        [HttpPost]
+        public async Task<IActionResult> CancelReservation(bool potwierdzenie, int rezerwacjaId)
+        {
+            if (potwierdzenie)
+            {
+                if (await _reservationService.DeleteReservationAsync(rezerwacjaId))
+                {
+                    return RedirectToAction("SuccessCancelReservation", new { id = rezerwacjaId });
+                }
+            }
 
-		[HttpGet]
-		public IActionResult CancelReservation(int id)
-		{
-			return View(id);
-		}
+            return RedirectToAction(nameof(ReservationDetails));
+        }
 
-		[HttpPost]
-		public async Task<IActionResult> CancelReservation(bool potwierdzenie, int rezerwacjaId)
-		{
-			if (potwierdzenie)
-			{
-				if (await _reservationService.DeleteReservation(rezerwacjaId))
-				{
-					return RedirectToAction("SuccessCancelReservation", new { id = rezerwacjaId });
-				}
-			}
+        [HttpGet]
+        public async Task<IActionResult> ReservationManagementBoard()
+        {
+            var rezerwacje = await _reservationService.GetAllAsync("DataOd");
 
-			return RedirectToAction(nameof(ReservationDetails));
-		}
+            return View(rezerwacje);
+        }
 
-		[HttpGet]
-		public async Task<IActionResult> ReservationManagementBoard()
-		{
-			var rezerwacje = await _reservationService.GetAll("DataOd");
+        [HttpPost]
+        public async Task<IActionResult> ReservationManagementBoard(string sort)
+        {
+            var rezerwacje = await _reservationService.GetAllAsync(sort);
 
-			return View(rezerwacje);
-		}
+            return View(rezerwacje);
+        }
 
-		[HttpPost]
-		public async Task<IActionResult> ReservationManagementBoard(string sort)
-		{
-			var rezerwacje = await _reservationService.GetAll(sort);
-
-			return View(rezerwacje);
-		}
-
-		public IActionResult SuccessCancelReservation(int id)
-		{
-			return View(id);
-		}
-	}
+        public IActionResult SuccessCancelReservation(int id)
+        {
+            return View(id);
+        }
+    }
 }

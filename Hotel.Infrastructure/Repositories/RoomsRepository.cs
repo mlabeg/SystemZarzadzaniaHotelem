@@ -30,7 +30,7 @@ namespace Hotel.Infrastructure.Repositories
 			return await _dbContext.Rooms.AnyAsync();
 		}
 
-		public async Task<Room?> GetById(int id)
+		public async Task<Room?> GetByIdAsync(int id)
 		{
 			return await _dbContext.Rooms
 				.Include(t => t.Type)

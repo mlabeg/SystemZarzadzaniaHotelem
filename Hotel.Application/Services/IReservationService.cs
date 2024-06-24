@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace Hotel.Application.Services
 {
-	public interface IReservationService
-	{
-		public Task AddReservation(Domain.Entities.Reservation rezerwacja);
+    public interface IReservationService
+    {
+        public Task AddReservationAsync(Domain.Entities.Reservation rezerwacja);
 
-		public Task<bool> DeleteReservation(int id);
+        public Task<bool> DeleteReservationAsync(int id);
 
-		public Task<IEnumerable<Domain.Entities.Reservation>> GetAll(string? wybor);
+        public Task<IEnumerable<Domain.Entities.Reservation>> GetAllAsync(string? wybor);
 
-		public Task<Domain.Entities.Reservation?> GetById(int id);
+        public Task<Domain.Entities.Reservation?> GetByIdAsync(int id);
 
-		public Task<IEnumerable<Domain.Entities.Reservation>> GetByDate(DateTime dataOd, DateTime dataDo);
+        public Task<IEnumerable<Domain.Entities.Reservation>> GetByDateAsync(DateTime dataOd, DateTime dataDo);
 
-		public Task<List<int>>? GetPokojIdByDate(DateTime dataOd, DateTime dataDo);
-	}
+        public Task<List<int>>? GetPokojIdByDateAsync(DateTime dataOd, DateTime dataDo);
+    }
 }

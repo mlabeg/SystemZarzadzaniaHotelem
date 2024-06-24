@@ -14,17 +14,20 @@ namespace Hotel.Presentation.Controllers
         private readonly HotelDbContext _dbContext;
         private readonly IReservationService _reservationService;
         private readonly IRoomService _roomService;
+        private readonly IRoomReservationService _roomReservationService;
 
         public ReservationController(ILogger<HomeController> logger,
             HotelDbContext dbContext,
             IReservationService rezerwacjaService,
-            IRoomService pokojService)
+            IRoomService pokojService,
+            IRoomReservationService roomReservationService)
         {
             _dbContext = dbContext;
             _logger = logger;
 
             _reservationService = rezerwacjaService;
             _roomService = pokojService;
+            _roomReservationService = roomReservationService;
         }
 
         public IActionResult SuccessCreateReservation(int id)
@@ -51,23 +54,9 @@ namespace Hotel.Presentation.Controllers
                 return View(query);//TODO wysłać komunikat o błędzie
             }
 
-            var rezerwacjeWTerminie = await _reservationService.GetByDate(query.DateFrom, query.DateTo);
+            var roomsAvailability = _roomReservationService.CheckRoomsAvailability(query);
 
-            IDictionary<Room, int> availableRooms = new Dictionary<Room, int>();
-
-            if (rezerwacjeWTerminie.IsNullOrEmpty())
-            {
-                availableRooms = await _roomService.GetByCapacityDictAsync(query.NumberOfGuests);
-            }
-            else
-            {
-                var zajetePokoje = rezerwacjeWTerminie.Select(r => r.RoomId).ToList();
-                availableRooms = await _roomService.GetAvailableDictAsync(zajetePokoje, query.NumberOfGuests);
-            }
-
-            query.DictionayRooms = availableRooms;
-
-            return View(query);
+            return View(roomsAvailability);
         }
 
         [HttpGet]
@@ -112,7 +101,7 @@ namespace Hotel.Presentation.Controllers
                     Room = reservation.Room
                 };
 
-                await _reservationService.AddReservation(reservation);
+                await _reservationService.AddReservationAsync(reservation);
 
                 return RedirectToAction("SuccessCreateReservation", new { id = reservation.Id });
             }
@@ -137,7 +126,7 @@ namespace Hotel.Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> ReservationDetails(QueryReservationDetailsModel query)
         {
-            var reservation = await _reservationService.GetById(query.NumberOfReservation);
+            var reservation = await _reservationService.GetByIdAsync(query.NumberOfReservation);
 
             if (reservation != null)
             {
@@ -168,7 +157,7 @@ namespace Hotel.Presentation.Controllers
         {
             if (potwierdzenie)
             {
-                if (await _reservationService.DeleteReservation(rezerwacjaId))
+                if (await _reservationService.DeleteReservationAsync(rezerwacjaId))
                 {
                     return RedirectToAction("SuccessCancelReservation", new { id = rezerwacjaId });
                 }
@@ -180,7 +169,7 @@ namespace Hotel.Presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> ReservationManagementBoard()
         {
-            var rezerwacje = await _reservationService.GetAll("DataOd");
+            var rezerwacje = await _reservationService.GetAllAsync("DataOd");
 
             return View(rezerwacje);
         }
@@ -188,7 +177,7 @@ namespace Hotel.Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> ReservationManagementBoard(string sort)
         {
-            var rezerwacje = await _reservationService.GetAll(sort);
+            var rezerwacje = await _reservationService.GetAllAsync(sort);
 
             return View(rezerwacje);
         }

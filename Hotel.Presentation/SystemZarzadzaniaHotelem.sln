@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotel.Application", "..\Hot
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotel.Infrastructure", "..\Hotel.Infrastructure\Hotel.Infrastructure.csproj", "{888169A2-EF2B-417F-A4BA-43268E7B68DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel.Authentication", "..\Hotel.Authentication\Hotel.Authentication.csproj", "{5B939DE7-3A89-4C24-8C37-8ADA04C6CE22}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel.IdAuthentication", "..\Hotel.Authentication\Hotel.IdAuthentication.csproj", "{5B939DE7-3A89-4C24-8C37-8ADA04C6CE22}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

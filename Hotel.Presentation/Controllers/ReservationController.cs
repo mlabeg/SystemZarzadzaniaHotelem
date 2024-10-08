@@ -49,18 +49,19 @@ namespace Hotel.Presentation.Controllers
                 return View();//TODO wysłać komunikat o błędzie
             }
 
-            var roomsAvailability = await _roomReservationService.CheckRoomsAvailability(query);
+            query.DictionayRooms = await _roomReservationService.CheckRoomsAvailabilityAsync(query);
 
-            return View(roomsAvailability);
+            return View(query);
         }
 
         [HttpGet]
-        public async Task<IActionResult> CreateReservation(int roomId, DateTime DateFrom, DateTime DateTo, int GuestsCount)
+        public async Task<IActionResult> CreateReservation(int Id, DateTime DateFrom, DateTime DateTo, int NumberOfGuests)
         {
-            var room = await _roomService.GetByIdAsync(roomId);
+            var room = await _roomService.GetByIdAsync(Id);
             if (room == null)
             {
-                return View();//TODO dodać wyświetlenie błędu
+                //return View();//TODO dodać wyświetlenie błędu
+                return RedirectToAction(nameof(CheckRoomsAvailability));
             }
             int days = (int)DateTo.Subtract(DateFrom).TotalDays;
 
@@ -69,8 +70,8 @@ namespace Hotel.Presentation.Controllers
                 //Id = null,
                 DateFrom = DateFrom,
                 DateTo = DateTo,
-                NumberOfGuests = GuestsCount,
-                RoomId = roomId,
+                NumberOfGuests = NumberOfGuests,
+                RoomId = Id,
                 PriceTotal = days * room.Type.Price,
                 Person = new UserUnregistered()
             };

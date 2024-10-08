@@ -1,4 +1,5 @@
-﻿using Hotel.Domain.Entities.Models;
+﻿using Hotel.Domain.Entities;
+using Hotel.Domain.Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Hotel.Application.Services
 {
     public interface IRoomReservationService
     {
-        public Task<CheckAvailabilityModel> CheckRoomsAvailability(CheckAvailabilityModel query);
+        public Task<IDictionary<Room, int>> CheckRoomsAvailabilityAsync(CheckAvailabilityModel query);
     }
 }

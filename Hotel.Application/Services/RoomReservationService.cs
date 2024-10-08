@@ -19,8 +19,12 @@ namespace Hotel.Application.Services
             _roomService = roomService;
         }
 
-        public async Task<CheckAvailabilityModel> CheckRoomsAvailability(CheckAvailabilityModel query)
+        public async Task<IDictionary<Room, int>> CheckRoomsAvailabilityAsync(CheckAvailabilityModel query)
         {
+            if (!await _roomService.AnyRoomsAsync())
+            {
+                return new Dictionary<Room, int>();
+            }
             var resrvationsByDate = await _reservationService.GetByDateAsync(query.DateFrom, query.DateTo);
 
             IDictionary<Room, int> availableRooms = new Dictionary<Room, int>();
@@ -31,13 +35,11 @@ namespace Hotel.Application.Services
             }
             else
             {
-                var zajetePokoje = resrvationsByDate.Select(r => r.RoomId).ToList();
-                availableRooms = await _roomService.GetAvailableDictAsync(zajetePokoje, query.NumberOfGuests);
+                var occupiedRooms = resrvationsByDate.Select(r => r.RoomId).ToList();
+                availableRooms = await _roomService.GetAvailableDictAsync(occupiedRooms, query.NumberOfGuests);
             }
 
-            query.DictionayRooms = availableRooms;
-
-            return query;
+            return availableRooms;
         }
     }
 }

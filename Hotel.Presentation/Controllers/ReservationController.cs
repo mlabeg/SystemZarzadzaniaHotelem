@@ -55,9 +55,9 @@ namespace Hotel.Presentation.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> CreateReservation(int Id, DateTime DateFrom, DateTime DateTo, int NumberOfGuests)
+        public async Task<IActionResult> CreateReservation(int roomId, DateTime DateFrom, DateTime DateTo, int NumberOfGuests)
         {
-            var room = await _roomService.GetByIdAsync(Id);
+            var room = await _roomService.GetByIdAsync(roomId);
             if (room == null)
             {
                 //return View();//TODO dodać wyświetlenie błędu

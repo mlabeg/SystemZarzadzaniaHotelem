@@ -8,12 +8,13 @@ using Hotel.Infrastructure.Repositories;
 
 namespace Hotel.Infrastructure.Extensions
 {
-    public static class ServiceCollectionExtencion
+    public static class ServiceCollectionExtension
     {
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<HotelDbContext>(options => options.UseSqlServer(
                 configuration.GetConnectionString("Hotel")));
+
 
             services.AddScoped<HotelSeeder>();
 

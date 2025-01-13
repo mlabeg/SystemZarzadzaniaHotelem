@@ -3,7 +3,7 @@
 @model LoginViewModel
 
 
-@if (HttpContext.User.Identity?.IsAuthenticated == false)
+
 {
 	<form method="post">
 		<div>
@@ -29,7 +29,7 @@
 
 	</form>
 }
-else
+
 {
 	<div>
 		Witaj @HttpContext.User.FindFirst(x=>x.Type==ClaimTypes.Name)?.Value

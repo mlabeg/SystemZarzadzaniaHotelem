@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Hotel.Domain.Entities.Reservation>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Lista Rezerwacji</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+	<div class="container mt-5">
+		<div class="d-flex justify-content-between align-items-center mb-3">
+			<h1>Pulpit rezerwacji</h1>
+
+			<form method="post" action="/Reservation/ReservationManagementBoard" class="d-flex">
+				<div class="mb-3 me-2">
+					<label for="sortowanie" class="form-label">Sortuj według:</label>
+					<select class="form-select" name="sortowanie" id="sortowanie">
+						<option value="Id">Numer rezerwacji</option>
+						<option value="DataOd">Data od</option>
+						<option value="DataDo">Data do</option>
+						<option value="Status">Status</option>
+					</select>
+				</div>
+				<button type="submit" class="btn btn-primary">Sortuj</button>
+			</form>
+		</div>
+
+
+		@if (Model != null && Model.Any())
+		{
+
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">Numer rezerwacji</th>
+						<th scope="col">Data od</th>
+						<th scope="col">Data do</th>
+						<th scope="col">Typ pokoju</th>
+						<th scope="col">Numer pokoju</th>
+						<th scope="col">Imię i nazwisko gościa</th>
+						<th scope="col">Status rezerwacji</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var rezerwacja in Model)
+					{
+						<tr>
+							<td>@rezerwacja.Id</td>
+							<td>@rezerwacja.DateFrom.ToShortDateString()</td>
+							<td>@rezerwacja.DateTo.ToShortDateString()</td>
+							<td>@rezerwacja.Room.Type.NameRoomType</td>
+							<td>@rezerwacja.Room.Number</td>
+							<td>@rezerwacja.Person.Name @rezerwacja.Person.Surname</td>
+							<td>@rezerwacja.Status</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		}
+		else
+		{
+			<p>Brak rezerwacji w bazie danych.</p>
+		}
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

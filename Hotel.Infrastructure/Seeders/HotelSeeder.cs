@@ -1,5 +1,6 @@
 ﻿using Hotel.Domain.Entities;
 using Hotel.Infrastructure.Presistence;
+using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,6 @@ namespace Hotel.Infrastructure.Seeders
 {
     public class HotelSeeder
     {
-        //TODO dodać seedy klas Rezerwacja i Osoba
         private readonly HotelDbContext _dbContext;
 
         public HotelSeeder(HotelDbContext dbContext)
@@ -22,34 +22,184 @@ namespace Hotel.Infrastructure.Seeders
         {
             if (await _dbContext.Database.CanConnectAsync())
             {
-                if (!_dbContext.Pokoje.Any())
-                {
-                    var pokojSeed = new Pokoj()
-                    {
-                        Numer = 100,
-                        LiczbaMiejsc = 2,
-                        //CzyWolny = true,
-                        CenaZaNoc = 200
+                await SeedRoomTypes();
+                await SeedRooms();
+                await SeedPerson();
+                //await SeedReservation();
+            }
+        }
+
+        public async Task SeedRooms()
+        {
+            if (!_dbContext.Rooms.Any())
+            {
+                var roomSeedList = new List<Room>(){
+                        new Room()
+                        {
+                            Number = 100,
+                            Capacity = 2,
+                            TypeRoomId = _dbContext.RoomTypes.First(t=>t.NameRoomType=="Twin Business").IdRoomType
+                        },
+                        new Room()
+                        {
+                            Number = 101,
+                            Capacity = 2,
+                            TypeRoomId = _dbContext.RoomTypes.First(t=>t.NameRoomType=="Twin Business").IdRoomType
+                        },
+                        new Room()
+                        {
+                            Number = 102,
+                            Capacity = 2,
+                            TypeRoomId = _dbContext.RoomTypes.First(t=>t.NameRoomType=="Premium Prestige").IdRoomType
+                        },
+                        new Room()
+                        {
+                            Number = 200,
+                            Capacity = 3,
+                            TypeRoomId = _dbContext.RoomTypes.First(t=>t.NameRoomType=="Premium Business").IdRoomType
+                        },
+                        new Room()
+                        {
+                            Number = 300,
+                            Capacity = 4,
+                            TypeRoomId = _dbContext.RoomTypes.First(t=>t.NameRoomType=="Double/Twin Prestige").IdRoomType
+                        },
+                        new Room()
+                        {
+                            Number = 400,
+                            Capacity = 5,
+                            TypeRoomId = _dbContext.RoomTypes.First(t=>t.NameRoomType=="Premium Prestige").IdRoomType
+                        },
+                         new Room()
+                        {
+                            Number = 401,
+                            Capacity = 5,
+                            TypeRoomId = _dbContext.RoomTypes.First(t=>t.NameRoomType=="Premium Prestige").IdRoomType
+                        },
+                        new Room()
+                        {
+                            Number = 500,
+                            Capacity = 6,
+                            TypeRoomId = _dbContext.RoomTypes.First(t=>t.NameRoomType=="Apartament Prezydencki").IdRoomType
+                        }
                     };
 
-                    _dbContext.Pokoje.Add(pokojSeed);
-                    await _dbContext.SaveChangesAsync();
-                }
+                _dbContext.Rooms.AddRange(roomSeedList);
+                await _dbContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task SeedRoomTypes()
+        {
+            if (!_dbContext.RoomTypes.Any())
+            {
+                var roomTypeSeedList = new List<RoomType>(){
+                        new RoomType()
+                        {
+                            NameRoomType="Twin Business",
+                            Price=250
+                        },
+                        new RoomType()
+                        {
+                            NameRoomType="Premium Business",
+                            Price=350
+                        },
+                        new RoomType()
+                        {
+                            NameRoomType="Double/Twin Prestige",
+                            Price=350
+                        },
+                        new RoomType()
+                        {
+                            NameRoomType="Premium Prestige",
+                            Price=500
+                        },
+                          new RoomType()
+                        {
+                            NameRoomType="Apartament Prezydencki",
+                            Price=750
+                        }
+                    };
+
+                _dbContext.RoomTypes.AddRange(roomTypeSeedList);
+                await _dbContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task SeedPerson()
+        {
+            if (!_dbContext.People.Any())
+            {
+                var personSeedList = new List<Person>()
+                    {
+                        new UserUnregistered()
+                        {
+                            Name="Seeder1",
+                            Surname="Seeder1",
+                            PhoneNumber="Seeder1",
+                            EmailAddress="Seeder1",
+                        },
+                        new UserUnregistered()
+                        {
+                            Name="Seeder2",
+                            Surname="Seeder2",
+                            PhoneNumber="Seeder2",
+                            EmailAddress="Seeder2",
+                        }
+                    };
+
+                _dbContext.People.AddRange(personSeedList);
+                await _dbContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task SeedReservation()
+        {
+            if (!_dbContext.Reservations.Any())
+            {
+                var reservationSeedList = new List<Reservation>()
+                    {
+                        new Reservation()
+                        {
+                            DateFrom=new DateTime(2024,7,1),
+                            DateTo=new DateTime(2024,7,7),
+                            NumberOfGuests=1,
+                            CheckedIn=false,
+                            CheckedOut=false,
+                            PriceTotal=1500,
+                            RoomId=1,
+                            PersonId=1,
+                            Status="Oczekujaca"
+                        },
+                        new Reservation()
+                        {
+                            DateFrom=new DateTime(2024,6,15),
+                            DateTo=new DateTime(2024,6,17),
+                            NumberOfGuests=3,
+                            CheckedIn=false,
+                            CheckedOut=false,
+                            PriceTotal=700,
+                            RoomId=4,
+                            PersonId=2,
+                            Status="Oczekujaca"
+                        },
+                        new Reservation()
+                        {
+                            DateFrom=new DateTime(2024,9,15),
+                            DateTo=new DateTime(2024,9,22),
+                            NumberOfGuests=5,
+                            CheckedIn=false,
+                            CheckedOut=false,
+                            PriceTotal=3500,
+                            RoomId=6,
+                            PersonId=1,
+                            Status="Oczekujaca"
+                        }
+                    };
+
+                _dbContext.Reservations.AddRange(reservationSeedList);
+                await _dbContext.SaveChangesAsync();
             }
         }
     }
 }
-
-//TODO Przenieść poniższe do seederay
-
-/*
-
-SET IDENTITY_INSERT dbo.pokoje ON;
-  insert into dbo.Pokoje(Id,Numer,LiczbaMiejsc,CenaZaNoc,CzyWolny)
-  VALUEs(2,105,5,500,1),
-  (3,106,1,150, 1),
-  (4,107,3,250, 1),
-  (5,108,4,500, 1),
-  (6,109,5,550, 1)
-SET IDENTITY_INSERT dbo.pokoje OFF
-*/

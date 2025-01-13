@@ -14,20 +14,28 @@ namespace Hotel.Infrastructure.Presistence
         {
         }
 
-        public DbSet<Domain.Entities.Pokoj> Pokoje { get; set; }
-        public DbSet<Domain.Entities.Osoba> Osoby { get; set; }
-        public DbSet<Domain.Entities.Rezerwacja> Rezerwacje { get; set; }
+        public DbSet<Domain.Entities.Room> Rooms { get; set; }
+        public DbSet<Domain.Entities.Person> People { get; set; }
+        public DbSet<Domain.Entities.Reservation> Reservations { get; set; }
+        public DbSet<RoomType> RoomTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Osoba>().HasKey(o => o.Id);
+            modelBuilder.Entity<Person>().HasKey(o => o.Id);
 
-            modelBuilder.Entity<Osoba>()
+            modelBuilder.Entity<Person>()
                 .HasDiscriminator<string>("osoba_type")
-                .HasValue<Pracownik>("pracownik")
-                .HasValue<Kierownik>("kierownik")
-                .HasValue<UzytkownikNiezarejestrowany>("uzytkowanikNiezarejestrowny")
-                .HasValue<UzytkownikZarejestrowany>("uzytkownikZarejestrowany");
+                .HasValue<Employee>("pracownik")
+                .HasValue<Manager>("kierownik")
+                .HasValue<UserUnregistered>("uzytkowanikNiezarejestrowny")
+                .HasValue<UserRegistered>("uzytkownikZarejestrowany");
+
+            modelBuilder.Entity<RoomType>().HasKey(k => k.IdRoomType);
+
+            modelBuilder.Entity<Room>()
+                .HasOne(r => r.Type)
+                .WithMany()
+                .HasForeignKey(t => t.TypeRoomId);
         }
     }
 }

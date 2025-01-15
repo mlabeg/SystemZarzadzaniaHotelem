@@ -14,8 +14,8 @@ namespace Hotel.Domain.Entities
 		public string Surname { get; set; }
 		public string PhoneNumber { get; set; }
 		public string EmailAddress { get; set; }
-        public string Preferences { get; set; }
-        public ICollection< Notification> Notification{ get; set; }
+        public string? Preferences { get; set; }
+        public ICollection< Notification>? Notification{ get; set; }
 
         public Client()
 		{

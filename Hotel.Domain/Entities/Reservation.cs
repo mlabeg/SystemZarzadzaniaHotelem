@@ -29,10 +29,10 @@ namespace Hotel.Domain.Entities
         public int ClientId { get; set; }
         public Client? Client { get; set; }
 
-        public string Status { get; set; }//Oczekująca/W trakcie/Zakończona/Anulowana
+        public string? Status { get; set; }//Oczekująca/W trakcie/Zakończona/Anulowana
     
         public int? HotelId { get; set; }
-        public Hotel Hotel { get; set; }
+        public Hotel? Hotel { get; set; }
 
     
     

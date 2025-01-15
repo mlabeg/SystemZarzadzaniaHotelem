@@ -10,7 +10,7 @@ namespace Hotel.Domain.Entities
     {
         public Reservation()
         {
-            Person = new UserUnregistered();
+            Client = new UserUnregistered();
             Status = "Oczekująca";
         }
 
@@ -26,9 +26,15 @@ namespace Hotel.Domain.Entities
         public int RoomId { get; set; }
         public Room? Room { get; set; }
 
-        public int PersonId { get; set; }
-        public Person? Person { get; set; }
+        public int ClientId { get; set; }
+        public Client? Client { get; set; }
 
         public string Status { get; set; }//Oczekująca/W trakcie/Zakończona/Anulowana
+    
+        public int? HotelId { get; set; }
+        public Hotel Hotel { get; set; }
+
+    
+    
     }
 }

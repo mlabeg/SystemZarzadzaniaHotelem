@@ -15,6 +15,13 @@ namespace Hotel.Domain.Entities
         public RoomType Type { get; set; }
         public int TypeRoomId { get; set; }
 
+        public int? HotelId { get; set; }
+        public Hotel Hotel { get; set; }
+
+        public string Status { get; set; }
+
+
+
         public Room()
         {
         }

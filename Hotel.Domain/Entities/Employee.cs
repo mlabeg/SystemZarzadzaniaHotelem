@@ -6,18 +6,13 @@ using System.Threading.Tasks;
 
 namespace Hotel.Domain.Entities
 {
-	public class Employee : Person
-	{
-		public string Position { get; set; }
-
-		public Employee() : base()
-		{
-		}
-
-		public Employee(int _id, string _imie, string _nazwisko, string _numerTelefonu, string _adresmail)
-			: base(_id, _imie, _nazwisko, _numerTelefonu, _adresmail)
-		{
-			Position = "Pracownik";
-		}
-	}
+    public class Employee
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Position { get; set; }
+        public int HotelId { get; set; }
+        public Hotel Hotel { get; set; }
+    }
 }

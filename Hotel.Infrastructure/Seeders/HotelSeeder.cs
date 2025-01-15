@@ -130,7 +130,7 @@ namespace Hotel.Infrastructure.Seeders
         {
             if (!_dbContext.People.Any())
             {
-                var personSeedList = new List<Person>()
+                var personSeedList = new List<Client>()
                     {
                         new UserUnregistered()
                         {
@@ -168,7 +168,7 @@ namespace Hotel.Infrastructure.Seeders
                             CheckedOut=false,
                             PriceTotal=1500,
                             RoomId=1,
-                            PersonId=1,
+                            ClientId=1,
                             Status="Oczekujaca"
                         },
                         new Reservation()
@@ -180,7 +180,7 @@ namespace Hotel.Infrastructure.Seeders
                             CheckedOut=false,
                             PriceTotal=700,
                             RoomId=4,
-                            PersonId=2,
+                            ClientId=2,
                             Status="Oczekujaca"
                         },
                         new Reservation()
@@ -192,7 +192,7 @@ namespace Hotel.Infrastructure.Seeders
                             CheckedOut=false,
                             PriceTotal=3500,
                             RoomId=6,
-                            PersonId=1,
+                            ClientId=1,
                             Status="Oczekujaca"
                         }
                     };

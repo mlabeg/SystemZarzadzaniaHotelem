@@ -31,7 +31,7 @@ namespace Hotel.Infrastructure.Repositories
             IQueryable<Reservation> reservations = _dbContext.Reservations
                 .Include(p => p.Room)
                 .Include(p => p.Room.Type)
-                .Include(o => o.Person);
+                .Include(o => o.Client);
 
             switch (sort)
             {
@@ -75,7 +75,7 @@ namespace Hotel.Infrastructure.Repositories
         public async Task<Reservation?> GetById(int id)
         {
             return await _dbContext.Reservations
-                .Include(o => o.Person)
+                .Include(o => o.Client)
                 .FirstOrDefaultAsync(r => r.Id == id);
         }
 

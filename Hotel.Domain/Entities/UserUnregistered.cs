@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hotel.Domain.Entities
 {
-    public class UserUnregistered : Person
+    public class UserUnregistered : Client
     {
         public UserUnregistered()
         {

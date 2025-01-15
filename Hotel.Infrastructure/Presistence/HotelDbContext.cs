@@ -15,18 +15,16 @@ namespace Hotel.Infrastructure.Presistence
         }
 
         public DbSet<Domain.Entities.Room> Rooms { get; set; }
-        public DbSet<Domain.Entities.Person> People { get; set; }
+        public DbSet<Domain.Entities.Client> People { get; set; }
         public DbSet<Domain.Entities.Reservation> Reservations { get; set; }
         public DbSet<RoomType> RoomTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Person>().HasKey(o => o.Id);
+            modelBuilder.Entity<Client>().HasKey(o => o.Id);
 
-            modelBuilder.Entity<Person>()
+            modelBuilder.Entity<Client>()
                 .HasDiscriminator<string>("osoba_type")
-                .HasValue<Employee>("pracownik")
-                .HasValue<Manager>("kierownik")
                 .HasValue<UserUnregistered>("uzytkowanikNiezarejestrowny")
                 .HasValue<UserRegistered>("uzytkownikZarejestrowany");
 

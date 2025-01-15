@@ -7,19 +7,21 @@ using System.Threading.Tasks;
 
 namespace Hotel.Domain.Entities
 {
-	public abstract class Person
+	public class Client
 	{
 		public int Id { get; }
 		public string Name { get; set; }
 		public string Surname { get; set; }
 		public string PhoneNumber { get; set; }
 		public string EmailAddress { get; set; }
+        public string Preferences { get; set; }
+        public ICollection< Notification> Notification{ get; set; }
 
-		public Person()
+        public Client()
 		{
 		}
 
-		public Person(int _id, string _name, string _surname, string _phone, string _email)
+		public Client(int _id, string _name, string _surname, string _phone, string _email)
 		{
 			Id = _id;
 			Name = _name;

@@ -73,7 +73,7 @@ namespace Hotel.Presentation.Controllers
                 NumberOfGuests = NumberOfGuests,
                 RoomId = roomId,
                 PriceTotal = days * room.Type.Price,
-                Person = new UserUnregistered()
+                Client = new UserUnregistered()
             };
 
             return View(reservation);
@@ -89,12 +89,12 @@ namespace Hotel.Presentation.Controllers
                     DateFrom = reservation.DateFrom,
                     DateTo = reservation.DateTo,
 
-                    Person = new UserUnregistered
+                    Client = new UserUnregistered
                     {
-                        Name = reservation.Person.Name,
-                        Surname = reservation.Person.Surname,
-                        PhoneNumber = reservation.Person.PhoneNumber,
-                        EmailAddress = reservation.Person.EmailAddress
+                        Name = reservation.Client.Name,
+                        Surname = reservation.Client.Surname,
+                        PhoneNumber = reservation.Client.PhoneNumber,
+                        EmailAddress = reservation.Client.EmailAddress
                     },
                     NumberOfGuests = reservation.NumberOfGuests,
                     PriceTotal = reservation.PriceTotal,
@@ -134,7 +134,7 @@ namespace Hotel.Presentation.Controllers
                 return View();
             }
 
-            if (string.Compare(query.EmailAddress, reservation.Person.EmailAddress, true) == 0)
+            if (string.Compare(query.EmailAddress, reservation.Client.EmailAddress, true) == 0)
             {
                 return View(reservation);
             }

@@ -61,8 +61,9 @@ namespace Hotel.Presentation.Controllers
 			var room = await _roomService.GetByIdAsync(Id);
 			if (room == null)
 			{
-				//return View();//TODO dodać wyświetlenie błędu
-				return RedirectToAction(nameof(CheckRoomsAvailability));
+                TempData["Message"] = $"Wewnętrzny błąd bazy danych!/n" +
+					$"_roomService error";
+                return RedirectToAction(nameof(CheckRoomsAvailability));
 			}
 			int days = (int)DateTo.Subtract(DateFrom).TotalDays;
 
@@ -108,7 +109,10 @@ namespace Hotel.Presentation.Controllers
 			}
 			else
 			{
-				return View(reservation);
+				TempData["Message"] = $"Wewnętrzny błąd !/n" +
+					$"RESERVATION ModelState.IsValid == false";
+
+                return View(reservation);
 			}
 		}
 
@@ -131,7 +135,8 @@ namespace Hotel.Presentation.Controllers
 
 			if (reservation == null)
 			{
-				return View();
+				TempData["Message"] = $"Brak rezerwacji w systemie";
+                return View();
 			}
 
 			if (string.Compare(query.EmailAddress, reservation.Client.EmailAddress, true) == 0)
@@ -139,8 +144,8 @@ namespace Hotel.Presentation.Controllers
 				return View(reservation);
 			}
 
-			return View();//TODO wysłać komunikat o błędzie
-						  //w projekcie CarWorkshop jest dodana klasa ControllerExtensions, sprawdzić
+            TempData["Message"] = $"Brak rezerwacji w systemie";
+            return View();
 		}
 
 		[HttpGet]

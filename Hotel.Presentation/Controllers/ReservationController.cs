@@ -102,7 +102,7 @@ namespace Hotel.Presentation.Controllers
                     Room = reservation.Room
                 };
 
-                await _reservationService.AddReservationAsync(reservation);
+                await _reservationService.AddReservationAsync(_rezerwacja);
 
                 return RedirectToAction("SuccessCreateReservation", new { id = reservation.Id });
             }

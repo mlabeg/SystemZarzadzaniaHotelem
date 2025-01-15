@@ -71,7 +71,7 @@ namespace Hotel.Presentation.Controllers
                 DateFrom = DateFrom,
                 DateTo = DateTo,
                 NumberOfGuests = NumberOfGuests,
-                RoomId = Id,
+                RoomId = roomId,
                 PriceTotal = days * room.Type.Price,
                 Person = new UserUnregistered()
             };

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hotel.Domain.Entities
 {
-    internal class Payment
+    public class Payment
     {
         public int Id { get; set; }
         public int RezerwacjaId { get; set; }

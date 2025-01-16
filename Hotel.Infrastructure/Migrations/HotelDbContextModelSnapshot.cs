@@ -55,7 +55,7 @@ namespace Hotel.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("People");
+                    b.ToTable("Clients");
 
                     b.HasDiscriminator<string>("osoba_type").HasValue("Client");
 
@@ -89,7 +89,7 @@ namespace Hotel.Infrastructure.Migrations
 
                     b.HasIndex("HotelId");
 
-                    b.ToTable("Employee");
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("Hotel.Domain.Entities.Hotel", b =>
@@ -117,7 +117,38 @@ namespace Hotel.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Hotel");
+                    b.ToTable("Hotels");
+                });
+
+            modelBuilder.Entity("Hotel.Domain.Entities.Invoice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DataWystawienia")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Kwota")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("MetodaPlatnosci")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ReservationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RezerwacjaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReservationId");
+
+                    b.ToTable("Invoices");
                 });
 
             modelBuilder.Entity("Hotel.Domain.Entities.JobTask", b =>
@@ -158,7 +189,7 @@ namespace Hotel.Infrastructure.Migrations
 
                     b.HasIndex("PersonelId");
 
-                    b.ToTable("JobTask");
+                    b.ToTable("JobTasks");
                 });
 
             modelBuilder.Entity("Hotel.Domain.Entities.Notification", b =>
@@ -190,7 +221,38 @@ namespace Hotel.Infrastructure.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("Notification");
+                    b.ToTable("Notifications");
+                });
+
+            modelBuilder.Entity("Hotel.Domain.Entities.Payment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DataPlatnosci")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Kwota")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("MetodaPlatnosci")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ReservationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RezerwacjaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReservationId");
+
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("Hotel.Domain.Entities.Reservation", b =>
@@ -323,6 +385,15 @@ namespace Hotel.Infrastructure.Migrations
                     b.Navigation("Hotel");
                 });
 
+            modelBuilder.Entity("Hotel.Domain.Entities.Invoice", b =>
+                {
+                    b.HasOne("Hotel.Domain.Entities.Reservation", "Reservation")
+                        .WithMany()
+                        .HasForeignKey("ReservationId");
+
+                    b.Navigation("Reservation");
+                });
+
             modelBuilder.Entity("Hotel.Domain.Entities.JobTask", b =>
                 {
                     b.HasOne("Hotel.Domain.Entities.Hotel", "Hotel")
@@ -347,6 +418,17 @@ namespace Hotel.Infrastructure.Migrations
                         .HasForeignKey("ClientId");
 
                     b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("Hotel.Domain.Entities.Payment", b =>
+                {
+                    b.HasOne("Hotel.Domain.Entities.Reservation", "Reservation")
+                        .WithMany()
+                        .HasForeignKey("ReservationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Reservation");
                 });
 
             modelBuilder.Entity("Hotel.Domain.Entities.Reservation", b =>

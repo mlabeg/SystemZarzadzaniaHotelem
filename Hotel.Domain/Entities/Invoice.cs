@@ -13,6 +13,7 @@ namespace Hotel.Domain.Entities
         public decimal Kwota { get; set; }
         public string MetodaPlatnosci { get; set; }
         public int RezerwacjaId { get; set; }
-        public Reservation Reservation{ get; set; }
+        public Reservation? Reservation{ get; set; }
+        public int? ReservationId { get; set; }
     }
 }

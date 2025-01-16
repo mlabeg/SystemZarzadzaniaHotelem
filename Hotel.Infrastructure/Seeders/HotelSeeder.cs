@@ -128,7 +128,7 @@ namespace Hotel.Infrastructure.Seeders
 
         public async Task SeedPerson()
         {
-            if (!_dbContext.People.Any())
+            if (!_dbContext.Clients.Any())
             {
                 var personSeedList = new List<Client>()
                     {
@@ -148,7 +148,7 @@ namespace Hotel.Infrastructure.Seeders
                         }
                     };
 
-                _dbContext.People.AddRange(personSeedList);
+                _dbContext.Clients.AddRange(personSeedList);
                 await _dbContext.SaveChangesAsync();
             }
         }

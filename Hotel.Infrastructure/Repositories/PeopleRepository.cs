@@ -18,15 +18,15 @@ namespace Hotel.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task AddPerson(Person osoba)
+        public async Task AddPerson(Client osoba)
         {
-            _dbContext.People.Add(osoba);
+            _dbContext.Clients.Add(osoba);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<Person> GetByPhoneNumber(string phoneNumber)
+        public async Task<Client> GetByPhoneNumber(string phoneNumber)
         {
-            return await _dbContext.People
+            return await _dbContext.Clients
                 .FirstOrDefaultAsync(p => p.PhoneNumber == phoneNumber);
         }
     }

@@ -9,7 +9,7 @@ namespace Hotel.Domain.Interfaces
 {
     public interface IPeopleRepository
     {
-        Task AddPerson(Person osoba);
-        public Task<Person> GetByPhoneNumber(string phoneNumber);
+        Task AddPerson(Client osoba);
+        public Task<Client> GetByPhoneNumber(string phoneNumber);
     }
 }

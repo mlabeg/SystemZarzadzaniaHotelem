@@ -4,6 +4,14 @@
     ViewData["Title"] = "UtworzRezerwacje";
 }
 
+
+@if (TempData["Message"] != null)
+{
+        <div class="alert alert-danger">
+            <div>@Html.Raw(TempData["Message"].ToString())</div>
+        </div>
+}
+
 <div class="container">
 
     <h4>Rezerwacja: </h4>
@@ -13,26 +21,26 @@
             <form asp-action="CreateReservation">
                 <div class="form-group">
                     <label class="control-label">Imię:</label>
-                    <input asp-for="Person.Name" class="form-control" />
-                    <span asp-validation-for="Person.Name" class="text-danger"></span>
+                    <input asp-for="Client.Name" class="form-control" />
+                    <span asp-validation-for="Client.Name" class="text-danger"></span>
                 </div>
                 <p></p>
                 <div class="form-group">
                     <label class="control-label">Nazwisko:</label>
-                    <input asp-for="Person.Surname" class="form-control" />
-                    <span asp-validation-for="Person.Surname" class="text-danger"></span>
+                    <input asp-for="Client.Surname" class="form-control" />
+                    <span asp-validation-for="Client.Surname" class="text-danger"></span>
                 </div>
                 <p></p>
                 <div class="form-group">
                     <label class="control-label">Telefon: </label>
-                    <input asp-for="Person.PhoneNumber" type="tel" placeholder="+11-111-111-111" class="form-control" />
-                    <span asp-validation-for="Person.PhoneNumber" class="text-danger"></span>
+                    <input asp-for="Client.PhoneNumber" type="tel" placeholder="+11-111-111-111" class="form-control" />
+                    <span asp-validation-for="Client.PhoneNumber" class="text-danger"></span>
                 </div>
                 <p></p>
                 <div class="form-group">
                     <label class="control-label">E-mail:</label>
-                    <input asp-for="Person.EmailAddress" placeholder="example@email.com" class="form-control" />
-                    <span asp-validation-for="Person.EmailAddress" class="text-danger"></span>
+                    <input asp-for="Client.EmailAddress" placeholder="example@email.com" class="form-control" />
+                    <span asp-validation-for="Client.EmailAddress" class="text-danger"></span>
                 </div>
                 <p></p>
                 <hr />

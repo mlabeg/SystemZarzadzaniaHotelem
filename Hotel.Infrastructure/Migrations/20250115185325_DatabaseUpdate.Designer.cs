@@ -4,6 +4,7 @@ using Hotel.Infrastructure.Presistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hotel.Infrastructure.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    partial class HotelDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250115185325_DatabaseUpdate")]
+    partial class DatabaseUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,6 +46,7 @@ namespace Hotel.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Preferences")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Surname")
@@ -55,7 +59,7 @@ namespace Hotel.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clients");
+                    b.ToTable("People");
 
                     b.HasDiscriminator<string>("osoba_type").HasValue("Client");
 
@@ -89,7 +93,7 @@ namespace Hotel.Infrastructure.Migrations
 
                     b.HasIndex("HotelId");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employee");
                 });
 
             modelBuilder.Entity("Hotel.Domain.Entities.Hotel", b =>
@@ -117,38 +121,7 @@ namespace Hotel.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Hotels");
-                });
-
-            modelBuilder.Entity("Hotel.Domain.Entities.Invoice", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DataWystawienia")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("Kwota")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("MetodaPlatnosci")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ReservationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RezerwacjaId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReservationId");
-
-                    b.ToTable("Invoices");
+                    b.ToTable("Hotel");
                 });
 
             modelBuilder.Entity("Hotel.Domain.Entities.JobTask", b =>
@@ -189,7 +162,7 @@ namespace Hotel.Infrastructure.Migrations
 
                     b.HasIndex("PersonelId");
 
-                    b.ToTable("JobTasks");
+                    b.ToTable("JobTask");
                 });
 
             modelBuilder.Entity("Hotel.Domain.Entities.Notification", b =>
@@ -221,38 +194,7 @@ namespace Hotel.Infrastructure.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("Notifications");
-                });
-
-            modelBuilder.Entity("Hotel.Domain.Entities.Payment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DataPlatnosci")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("Kwota")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("MetodaPlatnosci")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ReservationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RezerwacjaId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReservationId");
-
-                    b.ToTable("Payments");
+                    b.ToTable("Notification");
                 });
 
             modelBuilder.Entity("Hotel.Domain.Entities.Reservation", b =>
@@ -291,6 +233,7 @@ namespace Hotel.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -385,15 +328,6 @@ namespace Hotel.Infrastructure.Migrations
                     b.Navigation("Hotel");
                 });
 
-            modelBuilder.Entity("Hotel.Domain.Entities.Invoice", b =>
-                {
-                    b.HasOne("Hotel.Domain.Entities.Reservation", "Reservation")
-                        .WithMany()
-                        .HasForeignKey("ReservationId");
-
-                    b.Navigation("Reservation");
-                });
-
             modelBuilder.Entity("Hotel.Domain.Entities.JobTask", b =>
                 {
                     b.HasOne("Hotel.Domain.Entities.Hotel", "Hotel")
@@ -418,17 +352,6 @@ namespace Hotel.Infrastructure.Migrations
                         .HasForeignKey("ClientId");
 
                     b.Navigation("Client");
-                });
-
-            modelBuilder.Entity("Hotel.Domain.Entities.Payment", b =>
-                {
-                    b.HasOne("Hotel.Domain.Entities.Reservation", "Reservation")
-                        .WithMany()
-                        .HasForeignKey("ReservationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Reservation");
                 });
 
             modelBuilder.Entity("Hotel.Domain.Entities.Reservation", b =>
